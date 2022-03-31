@@ -1,30 +1,113 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.10)
 project(tdcr-crt)
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
+SET(CMAKE_CXX_FLAGS_DEBUG "-g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-SET( EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/../bin )
-SET( LIB_PATH ${PROJECT_BINARY_DIR}/../lib )
-SET( SOURCE_DIR ${PROJECT_BINARY_DIR}/../src )
+SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
+SET( LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib )
+SET( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
+SET( TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests )
+SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
+SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
+SET( acados_include "${CMAKE_CURRENT_SOURCE_DIR}/../acados/include" )
+SET( acados_lib "${CMAKE_CURRENT_SOURCE_DIR}/../acados/lib")
+SET( c_functions "${SOURCE_DIR}/tendon_robots" )
+
+MACRO(SUBDIRLIST result curdir)
+  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+  SET(dirlist "")
+  FOREACH(child ${children})
+    IF(IS_DIRECTORY ${curdir}/${child})
+      LIST(APPEND dirlist ${child})
+    ENDIF()
+  ENDFOREACH()
+  SET(${result} ${dirlist})
+ENDMACRO()
 
 find_package(Eigen3 CONFIG REQUIRED)
 find_package(PythonLibs REQUIRED)
-include_directories(${PYTHON_INCLUDE_DIRS})
-include_directories(${LIB_PATH})
-FILE( GLOB SOURCES ${SOURCE_DIR}/*.cpp )
 
+## System dependencies are found with CMake's conventions
+find_package(Boost REQUIRED COMPONENTS system)
+
+include_directories(
+
+	${SOURCE_DIR}/tendon_robots
+	${acados_include}
+	${acados_include}/blasfeo/include/
+	${acados_include}/hpipm/include/
+	${acados_include}/acados/
+	${acados_include}/qpOASES_e/
+	${PROJECT_SOURCE_DIR}/utils
+	${LIB_PATH}
+	${PYTHON_INCLUDE_DIRS}
+
+)
+
+
+FILE( GLOB SOURCES ${SOURCE_DIR}/tendon_robots/*.cpp )
+FILE( GLOB TEST_FILES ${TEST_DIR}/*.cpp)
+SUBDIRLIST(SUBDIRS ${c_functions})
+
+FOREACH(SUBDIR ${SUBDIRS})
+
+	SUBDIRLIST(SUBSUBDIRS ${c_functions}/${SUBDIR})
+	
+	FOREACH(SUBSUBDIR ${SUBSUBDIRS})
+
+		SUBDIRLIST(SUBSUBSUBDIRS ${c_functions}/${SUBDIR}/${SUBSUBDIR})
+	
+		include_directories(${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR})		
+
+		FOREACH(SUBSUBSUBDIR ${SUBSUBSUBDIRS})
+
+			include_directories(${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR})
+			message(STATUS ${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR})
+
+		ENDFOREACH()
+
+	ENDFOREACH()
+
+ENDFOREACH(SUBDIR ${c_functions})
 
 FOREACH(SRC ${SOURCES})
 
+	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
 	GET_FILENAME_COMPONENT( EXEC_NAME ${SRC} NAME_WE )
-	ADD_EXECUTABLE(${EXEC_NAME} ${SRC})
-	TARGET_LINK_LIBRARIES(${EXEC_NAME} PRIVATE Eigen3::Eigen ${PYTHON_LIBRARIES})
+	ADD_LIBRARY(${EXEC_NAME} ${SRC})	
+	TARGET_LINK_LIBRARIES(	${EXEC_NAME} 
+	PRIVATE Eigen3::Eigen 
+	${PYTHON_LIBRARIES} 
+	${acados_lib}/libacados.so
+	${LIBFILES}
+
+)
 
 ENDFOREACH(SRC ${SOURCES})
+
+FOREACH(TEST_FILE ${TEST_FILES})
+
+	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
+	FILE( GLOB LIBS ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/*.a )
+	GET_FILENAME_COMPONENT( EXEC_NAME ${TEST_FILE} NAME_WE)
+	ADD_EXECUTABLE(${EXEC_NAME} ${TEST_FILE})
+	TARGET_LINK_LIBRARIES(${EXEC_NAME} 
+	PRIVATE Eigen3::Eigen 
+	${PYTHON_LIBRARIES} 
+	MultistageTDCR_Solver
+	${acados_lib}/libacados.so
+	${LIBFILES}
+	${LIBS}
+	
+ 
+)
+
+
+ENDFOREACH()
 
