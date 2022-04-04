@@ -30,6 +30,17 @@ int main() {
     MultistageTDCR_Solver b(4, 2, i, is);
 
     b.getRobotStates(true, true);
+    Eigen::MatrixXd tau;
+    tau.resize(4, 1); 
+    tau << 5, 0, 0, 0;
+    b.setTau(tau);
+    b.getRobotStates(true, true);
+
+    Eigen::MatrixXd stage_tendons;
+    stage_tendons.resize(3, 4);
+    stage_tendons << 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0;
+    std::cout << stage_tendons.row(0).sum() << "\n";
+
 
 
     return 0; 

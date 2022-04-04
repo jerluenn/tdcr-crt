@@ -9,6 +9,8 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
     integratorsStep = integratorsStep_;
     setNumTendons(numTendons);
     setNumStages(numStages);
+    initialiseJacobianMatrices();
+
 
     Eigen::Matrix<double, 6, 1> ic; 
     ic << 5.91802264e-01, -2.76353034e-29, -5.00264992e+00,  8.99753480e-29,
@@ -17,6 +19,81 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
 
     robotStates[0] = integrateStates(0);
 
+
+}
+
+void MultistageTDCR_Solver::convertStageTendonsIndex() 
+
+{}
+
+void MultistageTDCR_Solver::initialiseJacobianMatrices() {
+
+    Eigen::MatrixXd tmp; 
+    unsigned int tmp_int = num_tendons;
+
+    for(int i = 0; i < num_stages; ++i) {
+
+        tmp.resize(6,tmp_int);
+        J_q.push_back(tmp);
+        tmp.resize(6,tmp_int);
+        E_q.push_back(tmp);
+        tmp.resize(6,tmp_int);
+        B_q.push_back(tmp);
+        tmp.resize(6,6);
+        B_yu.push_back(tmp);
+        tmp.resize(6,6);
+        E_yu.push_back(tmp);
+
+        tmp_int -= stage_tendons.row(i).sum();
+
+    }
+
+
+
+}
+
+void MultistageTDCR_Solver::forwardFiniteDifferences(unsigned int stage_num) {
+
+
+
+}
+
+Eigen::MatrixXd MultistageTDCR_Solver::integrateWithIncrement(unsigned int index, unsigned int stage_num) {
+
+    x = initialConditions[stage_num];
+    x(index) += EPS;
+    return integrators[stage_num].integrate(x);
+
+}
+
+Eigen::MatrixXd MultistageTDCR_Solver::getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd integrated_states) 
+
+{
+
+
+
+} 
+
+Eigen::MatrixXd MultistageTDCR_Solver::getPointForceMoment(unsigned int stage_num, Eigen::MatrixXd integrated_states) 
+
+{
+
+
+
+} 
+
+
+void MultistageTDCR_Solver::setTau(Eigen::MatrixXd tau) 
+
+{
+
+    assertm(num_tendons == tau.rows(), "tau must be the same size as the number of stages!");
+
+    for (unsigned int i = 0; i < num_stages; ++i) {
+
+        initialConditions[i].block(num_p + num_R + num_m + num_n, 0, num_tendons, 1) = tau;
+
+    }
 
 }
 
@@ -96,7 +173,6 @@ Eigen::MatrixXd MultistageTDCR_Solver::integrateStep(unsigned int stage_num)
 void MultistageTDCR_Solver::solveForwardKinematics()
 {
 
-    std::cout << " test " << std::endl;
 
 }
 
