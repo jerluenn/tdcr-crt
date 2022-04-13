@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o"
-  "../lib/static/libIntegratorInterface.pdb"
   "../lib/static/libIntegratorInterface.a"
+  "../lib/static/libIntegratorInterface.pdb"
+  "CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.

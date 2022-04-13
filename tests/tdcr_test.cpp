@@ -1,3 +1,4 @@
+#define BOOST_LOG_DYN_LINK 1
 #include <MultistageTDCR_Solver.hpp>
 #include <IntegratorInterface.hpp>
 #include "acados_sim_solver_multistage_straight_integrator1.h"
@@ -5,6 +6,8 @@
 #include "acados_sim_solver_multistage_straight_step_integrator1.h"
 #include "acados_sim_solver_multistage_straight_step_integrator2.h"
 
+
+#define PI 3.14159 
 
 
 int main() {
@@ -27,21 +30,36 @@ int main() {
     is.push_back(ii1);
     is.push_back(ii2);
 
-    MultistageTDCR_Solver b(4, 2, i, is);
-
-    b.getRobotStates(true, true);
-    Eigen::MatrixXd tau;
-    tau.resize(4, 1); 
-    tau << 5, 0, 0, 0;
-    b.setTau(tau);
-    b.getRobotStates(true, true);
-
     Eigen::MatrixXd stage_tendons;
-    stage_tendons.resize(3, 4);
-    stage_tendons << 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0;
-    std::cout << stage_tendons.row(0).sum() << "\n";
+    stage_tendons.resize(2, 6);
+    stage_tendons << 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1;
 
+    Eigen::MatrixXd routing; 
+    routing.resize(3, 6);
+    routing.row(2).setZero(); 
+    double angle = 0.0; 
+    double angle2 = PI;
+    double radius = 0.015;
 
+    for (int i = 0; i < 3; ++i) {
+
+        routing(0, i) = radius*cos(angle); 
+        routing(1, i) = radius*sin(angle);
+        routing(0, i + 3) = radius*cos(angle2);
+        routing(1, i + 3) = radius*sin(angle2);
+        angle += PI/3;
+        angle2 += PI/3;
+
+    } 
+
+    MultistageTDCR_Solver b(6, 2, i, is, stage_tendons, routing);
+
+    b.getRobotStates(true, true);
+
+    free(capsule1);
+    free(capsule1step);
+    free(capsule2);
+    free(capsule2step);
 
     return 0; 
 

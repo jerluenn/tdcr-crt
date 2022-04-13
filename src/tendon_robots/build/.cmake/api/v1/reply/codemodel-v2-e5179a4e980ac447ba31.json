@@ -1,0 +1,86 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "tdcr-crt",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "IntegratorInterface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IntegratorInterface-Debug-59ee93973c1a48047fd5.json",
+					"name" : "IntegratorInterface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "LevenbergMarquardt::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-LevenbergMarquardt-Debug-1ec977bd05f701d7fe97.json",
+					"name" : "LevenbergMarquardt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MultistageTDCR_Solver::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MultistageTDCR_Solver-Debug-0fb1be11c75052a18884.json",
+					"name" : "MultistageTDCR_Solver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tdcr_test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tdcr_test-Debug-7507a26512f1e559ca39.json",
+					"name" : "tdcr_test",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jerluen/tdcr-crt/src/tendon_robots/build",
+		"source" : "/home/jerluen/tdcr-crt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}

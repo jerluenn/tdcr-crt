@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 3.10)
 project(tdcr-crt)
 
+set (CMAKE_CXX_STANDARD 11)
+
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
 
-SET(CMAKE_CXX_FLAGS "-Wall -Wextra")
+SET(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
@@ -19,6 +21,7 @@ SET( acados_include "${CMAKE_CURRENT_SOURCE_DIR}/../acados/include" )
 SET( acados_lib "${CMAKE_CURRENT_SOURCE_DIR}/../acados/lib")
 SET( c_functions "${SOURCE_DIR}/tendon_robots" )
 
+
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
   SET(dirlist "")
@@ -30,11 +33,19 @@ MACRO(SUBDIRLIST result curdir)
   SET(${result} ${dirlist})
 ENDMACRO()
 
-find_package(Eigen3 CONFIG REQUIRED)
+# find_package(Eigen3 CONFIG REQUIRED)
+find_package(Eigen3)
+if(NOT EIGEN3_FOUND)
+  # Fallback to cmake_modules
+  find_package(cmake_modules REQUIRED)
+  find_package(Eigen REQUIRED)
+  set(EIGEN3_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS})
+  set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
+endif()
 find_package(PythonLibs REQUIRED)
 
 ## System dependencies are found with CMake's conventions
-find_package(Boost REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system log_setup log REQUIRED)
 
 include_directories(
 
@@ -104,7 +115,8 @@ FOREACH(TEST_FILE ${TEST_FILES})
 	${acados_lib}/libacados.so
 	${LIBFILES}
 	${LIBS}
-	
+	Boost::log 
+	Boost::log_setup
  
 )
 

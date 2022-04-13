@@ -18,7 +18,16 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../acados/include/qpOASES_e"
   "../utils"
   "../lib"
-  "/usr/include/python3.7m"
+  "/usr/local/include/python3.8"
+  "../src/tendon_robots/build/.cmake"
+  "../src/tendon_robots/build/.cmake/api"
+  "../src/tendon_robots/build/CMakeFiles"
+  "../src/tendon_robots/build/CMakeFiles/3.18.0"
+  "../src/tendon_robots/build/CMakeFiles/CMakeTmp"
+  "../src/tendon_robots/build/CMakeFiles/IntegratorInterface.dir"
+  "../src/tendon_robots/build/CMakeFiles/LevenbergMarquardt.dir"
+  "../src/tendon_robots/build/CMakeFiles/MultistageTDCR_Solver.dir"
+  "../src/tendon_robots/build/CMakeFiles/tdcr_test.dir"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2"
@@ -27,7 +36,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model"
-  "/usr/include/eigen3"
+  "/usr/local/include/eigen3"
   )
 
 # Targets to which this target links.
