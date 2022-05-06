@@ -34,17 +34,73 @@ CONFIGURATION = Debug
 
 include CMakeFiles/rules.ninja
 
+# =============================================================================
+# Object build statements for EXECUTABLE target test_stage_calculator
+
 
 #############################################
-# Utility command for rebuild_cache
+# Order-only phony target for test_stage_calculator
 
-build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/jerluen/tdcr-crt/src/tendon_robots/build && /usr/local/bin/cmake --regenerate-during-build -S/home/jerluen/tdcr-crt -B/home/jerluen/tdcr-crt/src/tendon_robots/build
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
+build cmake_object_order_depends_target_test_stage_calculator: phony || cmake_object_order_depends_target_MultistageTDCR_Solver
 
-build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+build CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.o: CXX_COMPILER__test_stage_calculator_Debug ../../../tests/test_stage_calculator.cpp || cmake_object_order_depends_target_test_stage_calculator
+  DEP_FILE = CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.o.d
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  OBJECT_DIR = CMakeFiles/test_stage_calculator.dir
+  OBJECT_FILE_DIR = CMakeFiles/test_stage_calculator.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target test_stage_calculator
+
+
+#############################################
+# Link the executable ../../../bin/test_stage_calculator
+
+build ../../../bin/test_stage_calculator: CXX_EXECUTABLE_LINKER__test_stage_calculator_Debug CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.o | /usr/local/lib/libpython3.8.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so ../../../lib/static/libIntegrator.a ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libMathUtils.a ../../../lib/static/libMultistageTDCR_Solver.a //usr/lib/x86_64-linux-gnu/libboost_log.so //usr/lib/x86_64-linux-gnu/libboost_log_setup.so /usr/local/lib/libpython3.8.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so //usr/lib/x86_64-linux-gnu/libboost_filesystem.so //usr/lib/x86_64-linux-gnu/libboost_thread.so //usr/lib/x86_64-linux-gnu/libboost_date_time.so //usr/lib/x86_64-linux-gnu/libboost_atomic.so //usr/lib/x86_64-linux-gnu/libboost_regex.so //usr/lib/x86_64-linux-gnu/libboost_chrono.so //usr/lib/x86_64-linux-gnu/libboost_system.so || ../../../lib/static/libMultistageTDCR_Solver.a
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
+  LINK_LIBRARIES = -Wl,-rpath,/home/jerluen/tdcr-crt/../acados/lib:/home/jerluen/tdcr-crt/lib/shared  /usr/local/lib/libpython3.8.a  ../../../lib/static/libMultistageTDCR_Solver.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  ../../../lib/static/libIntegrator.a  ../../../lib/static/libIntegratorInterface.a  ../../../lib/static/libLevenbergMarquardt.a  ../../../lib/static/libMathUtils.a  ../../../lib/static/libMultistageTDCR_Solver.a  //usr/lib/x86_64-linux-gnu/libboost_log.so  //usr/lib/x86_64-linux-gnu/libboost_log_setup.so  /usr/local/lib/libpython3.8.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  //usr/lib/x86_64-linux-gnu/libboost_filesystem.so  //usr/lib/x86_64-linux-gnu/libboost_thread.so  //usr/lib/x86_64-linux-gnu/libboost_date_time.so  //usr/lib/x86_64-linux-gnu/libboost_atomic.so  -lpthread  //usr/lib/x86_64-linux-gnu/libboost_regex.so  //usr/lib/x86_64-linux-gnu/libboost_chrono.so  //usr/lib/x86_64-linux-gnu/libboost_system.so
+  LINK_PATH = -L/home/jerluen/tdcr-crt/lib/shared
+  OBJECT_DIR = CMakeFiles/test_stage_calculator.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ../../../bin/test_stage_calculator
+  TARGET_PDB = test_stage_calculator.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target test_integrator
+
+
+#############################################
+# Order-only phony target for test_integrator
+
+build cmake_object_order_depends_target_test_integrator: phony || cmake_object_order_depends_target_MultistageTDCR_Solver
+
+build CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.o: CXX_COMPILER__test_integrator_Debug ../../../tests/test_integrator.cpp || cmake_object_order_depends_target_test_integrator
+  DEP_FILE = CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.o.d
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  OBJECT_DIR = CMakeFiles/test_integrator.dir
+  OBJECT_FILE_DIR = CMakeFiles/test_integrator.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target test_integrator
+
+
+#############################################
+# Link the executable ../../../bin/test_integrator
+
+build ../../../bin/test_integrator: CXX_EXECUTABLE_LINKER__test_integrator_Debug CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.o | /usr/local/lib/libpython3.8.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so ../../../lib/static/libIntegrator.a ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libMathUtils.a ../../../lib/static/libMultistageTDCR_Solver.a //usr/lib/x86_64-linux-gnu/libboost_log.so //usr/lib/x86_64-linux-gnu/libboost_log_setup.so /usr/local/lib/libpython3.8.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so //usr/lib/x86_64-linux-gnu/libboost_filesystem.so //usr/lib/x86_64-linux-gnu/libboost_thread.so //usr/lib/x86_64-linux-gnu/libboost_date_time.so //usr/lib/x86_64-linux-gnu/libboost_atomic.so //usr/lib/x86_64-linux-gnu/libboost_regex.so //usr/lib/x86_64-linux-gnu/libboost_chrono.so //usr/lib/x86_64-linux-gnu/libboost_system.so || ../../../lib/static/libMultistageTDCR_Solver.a
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
+  LINK_LIBRARIES = -Wl,-rpath,/home/jerluen/tdcr-crt/../acados/lib:/home/jerluen/tdcr-crt/lib/shared  /usr/local/lib/libpython3.8.a  ../../../lib/static/libMultistageTDCR_Solver.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  ../../../lib/static/libIntegrator.a  ../../../lib/static/libIntegratorInterface.a  ../../../lib/static/libLevenbergMarquardt.a  ../../../lib/static/libMathUtils.a  ../../../lib/static/libMultistageTDCR_Solver.a  //usr/lib/x86_64-linux-gnu/libboost_log.so  //usr/lib/x86_64-linux-gnu/libboost_log_setup.so  /usr/local/lib/libpython3.8.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  //usr/lib/x86_64-linux-gnu/libboost_filesystem.so  //usr/lib/x86_64-linux-gnu/libboost_thread.so  //usr/lib/x86_64-linux-gnu/libboost_date_time.so  //usr/lib/x86_64-linux-gnu/libboost_atomic.so  -lpthread  //usr/lib/x86_64-linux-gnu/libboost_regex.so  //usr/lib/x86_64-linux-gnu/libboost_chrono.so  //usr/lib/x86_64-linux-gnu/libboost_system.so
+  LINK_PATH = -L/home/jerluen/tdcr-crt/lib/shared
+  OBJECT_DIR = CMakeFiles/test_integrator.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ../../../bin/test_integrator
+  TARGET_PDB = test_integrator.dbg
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target LevenbergMarquardt
@@ -58,7 +114,7 @@ build cmake_object_order_depends_target_LevenbergMarquardt: phony || CMakeFiles/
 build CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o: CXX_COMPILER__LevenbergMarquardt_Debug ../LevenbergMarquardt.cpp || cmake_object_order_depends_target_LevenbergMarquardt
   DEP_FILE = CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o.d
   FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
-  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
   OBJECT_DIR = CMakeFiles/LevenbergMarquardt.dir
   OBJECT_FILE_DIR = CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots
 
@@ -78,39 +134,16 @@ build ../../../lib/static/libLevenbergMarquardt.a: CXX_STATIC_LIBRARY_LINKER__Le
   TARGET_FILE = ../../../lib/static/libLevenbergMarquardt.a
   TARGET_PDB = LevenbergMarquardt.a.dbg
 
-# =============================================================================
-# Object build statements for EXECUTABLE target tdcr_test
-
 
 #############################################
-# Order-only phony target for tdcr_test
+# Utility command for edit_cache
 
-build cmake_object_order_depends_target_tdcr_test: phony || cmake_object_order_depends_target_MultistageTDCR_Solver
+build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jerluen/tdcr-crt/src/tendon_robots/build && /usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
 
-build CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: CXX_COMPILER__tdcr_test_Debug ../../../tests/tdcr_test.cpp || cmake_object_order_depends_target_tdcr_test
-  DEP_FILE = CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o.d
-  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
-  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
-  OBJECT_DIR = CMakeFiles/tdcr_test.dir
-  OBJECT_FILE_DIR = CMakeFiles/tdcr_test.dir/tests
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target tdcr_test
-
-
-#############################################
-# Link the executable ../../../bin/tdcr_test
-
-build ../../../bin/tdcr_test: CXX_EXECUTABLE_LINKER__tdcr_test_Debug CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o | /usr/local/lib/libpython3.8.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libMultistageTDCR_Solver.a //usr/lib/x86_64-linux-gnu/libboost_log.so //usr/lib/x86_64-linux-gnu/libboost_log_setup.so /usr/local/lib/libpython3.8.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so //usr/lib/x86_64-linux-gnu/libboost_filesystem.so //usr/lib/x86_64-linux-gnu/libboost_thread.so //usr/lib/x86_64-linux-gnu/libboost_date_time.so //usr/lib/x86_64-linux-gnu/libboost_atomic.so //usr/lib/x86_64-linux-gnu/libboost_regex.so //usr/lib/x86_64-linux-gnu/libboost_chrono.so //usr/lib/x86_64-linux-gnu/libboost_system.so || ../../../lib/static/libMultistageTDCR_Solver.a
-  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
-  LINK_LIBRARIES = -Wl,-rpath,/home/jerluen/tdcr-crt/../acados/lib:/home/jerluen/tdcr-crt/lib/shared  /usr/local/lib/libpython3.8.a  ../../../lib/static/libMultistageTDCR_Solver.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  ../../../lib/static/libIntegratorInterface.a  ../../../lib/static/libLevenbergMarquardt.a  ../../../lib/static/libMultistageTDCR_Solver.a  //usr/lib/x86_64-linux-gnu/libboost_log.so  //usr/lib/x86_64-linux-gnu/libboost_log_setup.so  /usr/local/lib/libpython3.8.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  //usr/lib/x86_64-linux-gnu/libboost_filesystem.so  //usr/lib/x86_64-linux-gnu/libboost_thread.so  //usr/lib/x86_64-linux-gnu/libboost_date_time.so  //usr/lib/x86_64-linux-gnu/libboost_atomic.so  -lpthread  //usr/lib/x86_64-linux-gnu/libboost_regex.so  //usr/lib/x86_64-linux-gnu/libboost_chrono.so  //usr/lib/x86_64-linux-gnu/libboost_system.so
-  LINK_PATH = -L/home/jerluen/tdcr-crt/lib/shared
-  OBJECT_DIR = CMakeFiles/tdcr_test.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = ../../../bin/tdcr_test
-  TARGET_PDB = tdcr_test.dbg
+build edit_cache: phony CMakeFiles/edit_cache.util
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target IntegratorInterface
@@ -124,7 +157,7 @@ build cmake_object_order_depends_target_IntegratorInterface: phony || CMakeFiles
 build CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o: CXX_COMPILER__IntegratorInterface_Debug ../IntegratorInterface.cpp || cmake_object_order_depends_target_IntegratorInterface
   DEP_FILE = CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o.d
   FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
-  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
   OBJECT_DIR = CMakeFiles/IntegratorInterface.dir
   OBJECT_FILE_DIR = CMakeFiles/IntegratorInterface.dir/src/tendon_robots
 
@@ -156,7 +189,7 @@ build cmake_object_order_depends_target_MultistageTDCR_Solver: phony || CMakeFil
 build CMakeFiles/MultistageTDCR_Solver.dir/src/tendon_robots/MultistageTDCR_Solver.cpp.o: CXX_COMPILER__MultistageTDCR_Solver_Debug ../MultistageTDCR_Solver.cpp || cmake_object_order_depends_target_MultistageTDCR_Solver
   DEP_FILE = CMakeFiles/MultistageTDCR_Solver.dir/src/tendon_robots/MultistageTDCR_Solver.cpp.o.d
   FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
-  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
   OBJECT_DIR = CMakeFiles/MultistageTDCR_Solver.dir
   OBJECT_FILE_DIR = CMakeFiles/MultistageTDCR_Solver.dir/src/tendon_robots
 
@@ -178,14 +211,81 @@ build ../../../lib/static/libMultistageTDCR_Solver.a: CXX_STATIC_LIBRARY_LINKER_
 
 
 #############################################
-# Utility command for edit_cache
+# Utility command for rebuild_cache
 
-build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cd /home/jerluen/tdcr-crt/src/tendon_robots/build && /usr/local/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-  DESC = No interactive CMake dialog available...
+build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/jerluen/tdcr-crt/src/tendon_robots/build && /usr/local/bin/cmake --regenerate-during-build -S/home/jerluen/tdcr-crt -B/home/jerluen/tdcr-crt/src/tendon_robots/build
+  DESC = Running CMake to regenerate build system...
+  pool = console
   restat = 1
 
-build edit_cache: phony CMakeFiles/edit_cache.util
+build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target MathUtils
+
+
+#############################################
+# Order-only phony target for MathUtils
+
+build cmake_object_order_depends_target_MathUtils: phony || CMakeFiles/MathUtils.dir
+
+build CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o: CXX_COMPILER__MathUtils_Debug ../MathUtils.cpp || cmake_object_order_depends_target_MathUtils
+  DEP_FILE = CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o.d
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  OBJECT_DIR = CMakeFiles/MathUtils.dir
+  OBJECT_FILE_DIR = CMakeFiles/MathUtils.dir/src/tendon_robots
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target MathUtils
+
+
+#############################################
+# Link the static library ../../../lib/static/libMathUtils.a
+
+build ../../../lib/static/libMathUtils.a: CXX_STATIC_LIBRARY_LINKER__MathUtils_Debug CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
+  OBJECT_DIR = CMakeFiles/MathUtils.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ../../../lib/static/libMathUtils.a
+  TARGET_PDB = MathUtils.a.dbg
+
+# =============================================================================
+# Object build statements for EXECUTABLE target tdcr_test
+
+
+#############################################
+# Order-only phony target for tdcr_test
+
+build cmake_object_order_depends_target_tdcr_test: phony || cmake_object_order_depends_target_MultistageTDCR_Solver
+
+build CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: CXX_COMPILER__tdcr_test_Debug ../../../tests/tdcr_test.cpp || cmake_object_order_depends_target_tdcr_test
+  DEP_FILE = CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o.d
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  OBJECT_DIR = CMakeFiles/tdcr_test.dir
+  OBJECT_FILE_DIR = CMakeFiles/tdcr_test.dir/tests
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target tdcr_test
+
+
+#############################################
+# Link the executable ../../../bin/tdcr_test
+
+build ../../../bin/tdcr_test: CXX_EXECUTABLE_LINKER__tdcr_test_Debug CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o | /usr/local/lib/libpython3.8.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so ../../../lib/static/libIntegrator.a ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libMathUtils.a ../../../lib/static/libMultistageTDCR_Solver.a //usr/lib/x86_64-linux-gnu/libboost_log.so //usr/lib/x86_64-linux-gnu/libboost_log_setup.so /usr/local/lib/libpython3.8.a ../../../../acados/lib/libacados.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so ../../../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so //usr/lib/x86_64-linux-gnu/libboost_filesystem.so //usr/lib/x86_64-linux-gnu/libboost_thread.so //usr/lib/x86_64-linux-gnu/libboost_date_time.so //usr/lib/x86_64-linux-gnu/libboost_atomic.so //usr/lib/x86_64-linux-gnu/libboost_regex.so //usr/lib/x86_64-linux-gnu/libboost_chrono.so //usr/lib/x86_64-linux-gnu/libboost_system.so || ../../../lib/static/libMultistageTDCR_Solver.a
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
+  LINK_LIBRARIES = -Wl,-rpath,/home/jerluen/tdcr-crt/../acados/lib:/home/jerluen/tdcr-crt/lib/shared  /usr/local/lib/libpython3.8.a  ../../../lib/static/libMultistageTDCR_Solver.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  ../../../lib/static/libIntegrator.a  ../../../lib/static/libIntegratorInterface.a  ../../../lib/static/libLevenbergMarquardt.a  ../../../lib/static/libMathUtils.a  ../../../lib/static/libMultistageTDCR_Solver.a  //usr/lib/x86_64-linux-gnu/libboost_log.so  //usr/lib/x86_64-linux-gnu/libboost_log_setup.so  /usr/local/lib/libpython3.8.a  ../../../../acados/lib/libacados.so  -lacados_sim_solver_multistage_straight_integrator1  -lacados_sim_solver_multistage_straight_integrator2  -lacados_sim_solver_multistage_straight_step_integrator1  -lacados_sim_solver_multistage_straight_step_integrator2  //usr/lib/x86_64-linux-gnu/libboost_filesystem.so  //usr/lib/x86_64-linux-gnu/libboost_thread.so  //usr/lib/x86_64-linux-gnu/libboost_date_time.so  //usr/lib/x86_64-linux-gnu/libboost_atomic.so  -lpthread  //usr/lib/x86_64-linux-gnu/libboost_regex.so  //usr/lib/x86_64-linux-gnu/libboost_chrono.so  //usr/lib/x86_64-linux-gnu/libboost_system.so
+  LINK_PATH = -L/home/jerluen/tdcr-crt/lib/shared
+  OBJECT_DIR = CMakeFiles/tdcr_test.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ../../../bin/tdcr_test
+  TARGET_PDB = tdcr_test.dbg
 
 # =============================================================================
 # Target aliases.
@@ -194,15 +294,23 @@ build IntegratorInterface: phony ../../../lib/static/libIntegratorInterface.a
 
 build LevenbergMarquardt: phony ../../../lib/static/libLevenbergMarquardt.a
 
+build MathUtils: phony ../../../lib/static/libMathUtils.a
+
 build MultistageTDCR_Solver: phony ../../../lib/static/libMultistageTDCR_Solver.a
 
 build libIntegratorInterface.a: phony ../../../lib/static/libIntegratorInterface.a
 
 build libLevenbergMarquardt.a: phony ../../../lib/static/libLevenbergMarquardt.a
 
+build libMathUtils.a: phony ../../../lib/static/libMathUtils.a
+
 build libMultistageTDCR_Solver.a: phony ../../../lib/static/libMultistageTDCR_Solver.a
 
 build tdcr_test: phony ../../../bin/tdcr_test
+
+build test_integrator: phony ../../../bin/test_integrator
+
+build test_stage_calculator: phony ../../../bin/test_stage_calculator
 
 # =============================================================================
 # Folder targets.
@@ -212,7 +320,7 @@ build tdcr_test: phony ../../../bin/tdcr_test
 #############################################
 # Folder: /home/jerluen/tdcr-crt/src/tendon_robots/build
 
-build all: phony ../../../lib/static/libLevenbergMarquardt.a ../../../bin/tdcr_test ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libMultistageTDCR_Solver.a
+build all: phony ../../../bin/test_stage_calculator ../../../bin/test_integrator ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../lib/static/libMathUtils.a ../../../bin/tdcr_test
 
 # =============================================================================
 # Built-in targets

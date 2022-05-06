@@ -75,17 +75,6 @@ CMAKE_BINARY_DIR = /home/jerluen/tdcr-crt/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -96,6 +85,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/local/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -130,6 +130,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named test_stage_calculator
+
+# Build rule for target.
+test_stage_calculator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_stage_calculator
+.PHONY : test_stage_calculator
+
+# fast build rule for target.
+test_stage_calculator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stage_calculator.dir/build.make CMakeFiles/test_stage_calculator.dir/build
+.PHONY : test_stage_calculator/fast
+
+#=============================================================================
+# Target rules for targets named test_integrator
+
+# Build rule for target.
+test_integrator: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_integrator
+.PHONY : test_integrator
+
+# fast build rule for target.
+test_integrator/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrator.dir/build.make CMakeFiles/test_integrator.dir/build
+.PHONY : test_integrator/fast
+
+#=============================================================================
 # Target rules for targets named LevenbergMarquardt
 
 # Build rule for target.
@@ -141,19 +167,6 @@ LevenbergMarquardt: cmake_check_build_system
 LevenbergMarquardt/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LevenbergMarquardt.dir/build.make CMakeFiles/LevenbergMarquardt.dir/build
 .PHONY : LevenbergMarquardt/fast
-
-#=============================================================================
-# Target rules for targets named tdcr_test
-
-# Build rule for target.
-tdcr_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tdcr_test
-.PHONY : tdcr_test
-
-# fast build rule for target.
-tdcr_test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tdcr_test.dir/build.make CMakeFiles/tdcr_test.dir/build
-.PHONY : tdcr_test/fast
 
 #=============================================================================
 # Target rules for targets named IntegratorInterface
@@ -180,6 +193,32 @@ MultistageTDCR_Solver: cmake_check_build_system
 MultistageTDCR_Solver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MultistageTDCR_Solver.dir/build.make CMakeFiles/MultistageTDCR_Solver.dir/build
 .PHONY : MultistageTDCR_Solver/fast
+
+#=============================================================================
+# Target rules for targets named MathUtils
+
+# Build rule for target.
+MathUtils: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MathUtils
+.PHONY : MathUtils
+
+# fast build rule for target.
+MathUtils/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MathUtils.dir/build.make CMakeFiles/MathUtils.dir/build
+.PHONY : MathUtils/fast
+
+#=============================================================================
+# Target rules for targets named tdcr_test
+
+# Build rule for target.
+tdcr_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tdcr_test
+.PHONY : tdcr_test
+
+# fast build rule for target.
+tdcr_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tdcr_test.dir/build.make CMakeFiles/tdcr_test.dir/build
+.PHONY : tdcr_test/fast
 
 src/tendon_robots/IntegratorInterface.o: src/tendon_robots/IntegratorInterface.cpp.o
 
@@ -235,6 +274,33 @@ src/tendon_robots/LevenbergMarquardt.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LevenbergMarquardt.dir/build.make CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.s
 .PHONY : src/tendon_robots/LevenbergMarquardt.cpp.s
 
+src/tendon_robots/MathUtils.o: src/tendon_robots/MathUtils.cpp.o
+
+.PHONY : src/tendon_robots/MathUtils.o
+
+# target to build an object file
+src/tendon_robots/MathUtils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MathUtils.dir/build.make CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o
+.PHONY : src/tendon_robots/MathUtils.cpp.o
+
+src/tendon_robots/MathUtils.i: src/tendon_robots/MathUtils.cpp.i
+
+.PHONY : src/tendon_robots/MathUtils.i
+
+# target to preprocess a source file
+src/tendon_robots/MathUtils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MathUtils.dir/build.make CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.i
+.PHONY : src/tendon_robots/MathUtils.cpp.i
+
+src/tendon_robots/MathUtils.s: src/tendon_robots/MathUtils.cpp.s
+
+.PHONY : src/tendon_robots/MathUtils.s
+
+# target to generate assembly for a file
+src/tendon_robots/MathUtils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MathUtils.dir/build.make CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.s
+.PHONY : src/tendon_robots/MathUtils.cpp.s
+
 src/tendon_robots/MultistageTDCR_Solver.o: src/tendon_robots/MultistageTDCR_Solver.cpp.o
 
 .PHONY : src/tendon_robots/MultistageTDCR_Solver.o
@@ -289,6 +355,60 @@ tests/tdcr_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tdcr_test.dir/build.make CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.s
 .PHONY : tests/tdcr_test.cpp.s
 
+tests/test_integrator.o: tests/test_integrator.cpp.o
+
+.PHONY : tests/test_integrator.o
+
+# target to build an object file
+tests/test_integrator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrator.dir/build.make CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.o
+.PHONY : tests/test_integrator.cpp.o
+
+tests/test_integrator.i: tests/test_integrator.cpp.i
+
+.PHONY : tests/test_integrator.i
+
+# target to preprocess a source file
+tests/test_integrator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrator.dir/build.make CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.i
+.PHONY : tests/test_integrator.cpp.i
+
+tests/test_integrator.s: tests/test_integrator.cpp.s
+
+.PHONY : tests/test_integrator.s
+
+# target to generate assembly for a file
+tests/test_integrator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_integrator.dir/build.make CMakeFiles/test_integrator.dir/tests/test_integrator.cpp.s
+.PHONY : tests/test_integrator.cpp.s
+
+tests/test_stage_calculator.o: tests/test_stage_calculator.cpp.o
+
+.PHONY : tests/test_stage_calculator.o
+
+# target to build an object file
+tests/test_stage_calculator.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stage_calculator.dir/build.make CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.o
+.PHONY : tests/test_stage_calculator.cpp.o
+
+tests/test_stage_calculator.i: tests/test_stage_calculator.cpp.i
+
+.PHONY : tests/test_stage_calculator.i
+
+# target to preprocess a source file
+tests/test_stage_calculator.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stage_calculator.dir/build.make CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.i
+.PHONY : tests/test_stage_calculator.cpp.i
+
+tests/test_stage_calculator.s: tests/test_stage_calculator.cpp.s
+
+.PHONY : tests/test_stage_calculator.s
+
+# target to generate assembly for a file
+tests/test_stage_calculator.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stage_calculator.dir/build.make CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.s
+.PHONY : tests/test_stage_calculator.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -299,20 +419,32 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... IntegratorInterface"
 	@echo "... LevenbergMarquardt"
+	@echo "... MathUtils"
 	@echo "... MultistageTDCR_Solver"
 	@echo "... tdcr_test"
+	@echo "... test_integrator"
+	@echo "... test_stage_calculator"
 	@echo "... src/tendon_robots/IntegratorInterface.o"
 	@echo "... src/tendon_robots/IntegratorInterface.i"
 	@echo "... src/tendon_robots/IntegratorInterface.s"
 	@echo "... src/tendon_robots/LevenbergMarquardt.o"
 	@echo "... src/tendon_robots/LevenbergMarquardt.i"
 	@echo "... src/tendon_robots/LevenbergMarquardt.s"
+	@echo "... src/tendon_robots/MathUtils.o"
+	@echo "... src/tendon_robots/MathUtils.i"
+	@echo "... src/tendon_robots/MathUtils.s"
 	@echo "... src/tendon_robots/MultistageTDCR_Solver.o"
 	@echo "... src/tendon_robots/MultistageTDCR_Solver.i"
 	@echo "... src/tendon_robots/MultistageTDCR_Solver.s"
 	@echo "... tests/tdcr_test.o"
 	@echo "... tests/tdcr_test.i"
 	@echo "... tests/tdcr_test.s"
+	@echo "... tests/test_integrator.o"
+	@echo "... tests/test_integrator.i"
+	@echo "... tests/test_integrator.s"
+	@echo "... tests/test_stage_calculator.o"
+	@echo "... tests/test_stage_calculator.i"
+	@echo "... tests/test_stage_calculator.s"
 .PHONY : help
 
 

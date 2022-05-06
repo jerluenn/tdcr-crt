@@ -70,7 +70,7 @@ int multistage_straight_integrator1_acados_sim_solver_free_capsule(sim_solver_ca
 int multistage_straight_integrator1_acados_sim_create(sim_solver_capsule * capsule)
 {
     // initialize
-    int nx = 23;
+    int nx = 25;
     int nu = 0;
     int nz = 0;
 
@@ -170,8 +170,8 @@ int multistage_straight_integrator1_acados_sim_create(sim_solver_capsule * capsu
 
     /* initialize input */
     // x
-    double x0[23];
-    for (int ii = 0; ii < 23; ii++)
+    double x0[25];
+    for (int ii = 0; ii < 25; ii++)
         x0[ii] = 0.0;
 
     sim_in_set(multistage_straight_integrator1_sim_config, multistage_straight_integrator1_sim_dims,
@@ -187,11 +187,11 @@ int multistage_straight_integrator1_acados_sim_create(sim_solver_capsule * capsu
                multistage_straight_integrator1_sim_in, "u", u0);
 
     // S_forw
-    double S_forw[529];
-    for (int ii = 0; ii < 529; ii++)
+    double S_forw[625];
+    for (int ii = 0; ii < 625; ii++)
         S_forw[ii] = 0.0;
-    for (int ii = 0; ii < 23; ii++)
-        S_forw[ii + ii * 23 ] = 1.0;
+    for (int ii = 0; ii < 25; ii++)
+        S_forw[ii + ii * 25 ] = 1.0;
 
 
     sim_in_set(multistage_straight_integrator1_sim_config, multistage_straight_integrator1_sim_dims,

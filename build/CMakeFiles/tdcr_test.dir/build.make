@@ -105,8 +105,10 @@ tdcr_test_EXTERNAL_OBJECTS =
 ../bin/tdcr_test: ../lib/shared/libacados_sim_solver_multistage_straight_integrator2.so
 ../bin/tdcr_test: ../lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so
 ../bin/tdcr_test: ../lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so
+../bin/tdcr_test: ../lib/static/libIntegrator.a
 ../bin/tdcr_test: ../lib/static/libIntegratorInterface.a
 ../bin/tdcr_test: ../lib/static/libLevenbergMarquardt.a
+../bin/tdcr_test: ../lib/static/libMathUtils.a
 ../bin/tdcr_test: ../lib/static/libMultistageTDCR_Solver.a
 ../bin/tdcr_test: //usr/lib/x86_64-linux-gnu/libboost_log.so
 ../bin/tdcr_test: //usr/lib/x86_64-linux-gnu/libboost_log_setup.so

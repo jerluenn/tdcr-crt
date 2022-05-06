@@ -34,7 +34,9 @@ CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../../acados/include/hpipm/inclu
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../../acados/include/hpipm/include/hpipm_d_ocp_qp_dim.h
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../../acados/include/hpipm/include/hpipm_d_ocp_qp_res.h
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../../acados/include/hpipm/include/hpipm_d_ocp_qp_sol.h
+CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/Integrator.hpp
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/IntegratorInterface.hpp
+CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/MathUtils.hpp
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/MultistageTDCR_Solver.hpp
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/acados_sim_solver_multistage_straight_integrator1.h
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o: ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2/acados_sim_solver_multistage_straight_integrator2.h

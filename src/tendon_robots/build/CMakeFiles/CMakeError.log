@@ -1,10 +1,10 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/ninja cmTC_8036e && [1/2] Building C object CMakeFiles/cmTC_8036e.dir/src.c.o
-[2/2] Linking C executable cmTC_8036e
-FAILED: : && /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  CMakeFiles/cmTC_8036e.dir/src.c.o -o cmTC_8036e   && :
-CMakeFiles/cmTC_8036e.dir/src.c.o: In function `main':
+Run Build Command(s):/usr/bin/ninja cmTC_380a2 && [1/2] Building C object CMakeFiles/cmTC_380a2.dir/src.c.o
+[2/2] Linking C executable cmTC_380a2
+FAILED: : && /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD  CMakeFiles/cmTC_380a2.dir/src.c.o -o cmTC_380a2   && :
+CMakeFiles/cmTC_380a2.dir/src.c.o: In function `main':
 src.c:(.text+0x3c): undefined reference to `pthread_create'
 src.c:(.text+0x48): undefined reference to `pthread_detach'
 src.c:(.text+0x54): undefined reference to `pthread_cancel'
@@ -38,9 +38,9 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/ninja cmTC_09679 && [1/2] Building C object CMakeFiles/cmTC_09679.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_09679
-FAILED: : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_09679.dir/CheckFunctionExists.c.o -o cmTC_09679  -lpthreads && :
+Run Build Command(s):/usr/bin/ninja cmTC_7cb84 && [1/2] Building C object CMakeFiles/cmTC_7cb84.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_7cb84
+FAILED: : && /usr/bin/cc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_7cb84.dir/CheckFunctionExists.c.o -o cmTC_7cb84  -lpthreads && :
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.

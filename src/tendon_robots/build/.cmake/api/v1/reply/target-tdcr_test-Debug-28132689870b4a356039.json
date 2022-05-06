@@ -26,13 +26,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 110,
+				"line" : 114,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 111,
+				"line" : 115,
 				"parent" : 0
 			},
 			{
@@ -57,6 +57,24 @@
 				"command" : 2,
 				"file" : 0,
 				"line" : 77,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 81,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 81,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 81,
 				"parent" : 0
 			},
 			{
@@ -225,42 +243,54 @@
 				},
 				{
 					"backtrace" : 11,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/MultistageTDCR_Solver.dir"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/MathUtils.dir"
 				},
 				{
 					"backtrace" : 12,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/tdcr_test.dir"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/MultistageTDCR_Solver.dir"
 				},
 				{
 					"backtrace" : 13,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/tdcr_test.dir"
 				},
 				{
 					"backtrace" : 14,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/test_integrator.dir"
 				},
 				{
 					"backtrace" : 15,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/build/CMakeFiles/test_stage_calculator.dir"
 				},
 				{
 					"backtrace" : 16,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1"
 				},
 				{
 					"backtrace" : 17,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model"
 				},
 				{
 					"backtrace" : 18,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2"
 				},
 				{
 					"backtrace" : 19,
-					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2"
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model"
 				},
 				{
 					"backtrace" : 20,
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1"
+				},
+				{
+					"backtrace" : 21,
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model"
+				},
+				{
+					"backtrace" : 22,
+					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2"
+				},
+				{
+					"backtrace" : 23,
 					"path" : "/home/jerluen/tdcr-crt/src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model"
 				},
 				{
@@ -337,12 +367,22 @@
 			},
 			{
 				"backtrace" : 2,
+				"fragment" : "../../../lib/static/libIntegrator.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
 				"fragment" : "../../../lib/static/libIntegratorInterface.a",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
 				"fragment" : "../../../lib/static/libLevenbergMarquardt.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "../../../lib/static/libMathUtils.a",
 				"role" : "libraries"
 			},
 			{

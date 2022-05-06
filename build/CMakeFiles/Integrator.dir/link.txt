@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/static/libIntegrator.a CMakeFiles/Integrator.dir/src/tendon_robots/Integrator.cpp.o
+/usr/bin/ranlib ../lib/static/libIntegrator.a

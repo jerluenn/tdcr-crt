@@ -60,7 +60,7 @@ int main()
     void *acados_sim_dims = multistage_straight_integrator1_acados_get_sim_dims(capsule);
 
     // initial condition
-    double x_current[23];
+    double x_current[25];
     x_current[0] = 0.0;
     x_current[1] = 0.0;
     x_current[2] = 0.0;
@@ -84,6 +84,8 @@ int main()
     x_current[20] = 0.0;
     x_current[21] = 0.0;
     x_current[22] = 0.0;
+    x_current[23] = 0.0;
+    x_current[24] = 0.0;
 
   
     printf("main_sim: initial state not defined, should be in lbx_0, using zero vector.");
@@ -109,7 +111,7 @@ int main()
                acados_sim_out, "x", x_current);
         
         printf("\nx_current, %d\n", ii);
-        for (int jj = 0; jj < 23; jj++)
+        for (int jj = 0; jj < 25; jj++)
         {
             printf("%e\n", x_current[jj]);
         }

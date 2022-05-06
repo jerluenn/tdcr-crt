@@ -9,17 +9,18 @@
 
 #define PI 3.14159 
 
+using namespace MathUtils;
 
 int main() {
 
     sim_solver_capsule *capsule1 = multistage_straight_integrator1_acados_sim_solver_create_capsule();
     multistage_straight_integrator1_acados_sim_create(capsule1);
-    sim_solver_capsule *capsule2 = multistage_straight_integrator1_acados_sim_solver_create_capsule();
-    multistage_straight_integrator1_acados_sim_create(capsule2);
+    sim_solver_capsule *capsule2 = multistage_straight_integrator2_acados_sim_solver_create_capsule();
+    multistage_straight_integrator2_acados_sim_create(capsule2);
     sim_solver_capsule *capsule1step = multistage_straight_integrator1_acados_sim_solver_create_capsule();
-    multistage_straight_integrator1_acados_sim_create(capsule1step);
-    sim_solver_capsule *capsule2step = multistage_straight_integrator1_acados_sim_solver_create_capsule();
-    multistage_straight_integrator1_acados_sim_create(capsule2step);
+    multistage_straight_step_integrator1_acados_sim_create(capsule1step);
+    sim_solver_capsule *capsule2step = multistage_straight_integrator2_acados_sim_solver_create_capsule();
+    multistage_straight_step_integrator2_acados_sim_create(capsule2step);
 
     std::vector<IntegrationInterface> i;
     std::vector<IntegrationInterface> is;
@@ -39,7 +40,7 @@ int main() {
     routing.row(2).setZero(); 
     double angle = 0.0; 
     double angle2 = PI;
-    double radius = 0.015;
+    double radius = 0.01506;
 
     for (int i = 0; i < 3; ++i) {
 
@@ -47,14 +48,17 @@ int main() {
         routing(1, i) = radius*sin(angle);
         routing(0, i + 3) = radius*cos(angle2);
         routing(1, i + 3) = radius*sin(angle2);
-        angle += PI/3;
-        angle2 += PI/3;
+        angle += 2*PI/3;
+        angle2 += 2*PI/3;
 
     } 
 
+    
+    std::cout << routing << "\n\n\n"; 
+
     MultistageTDCR_Solver b(6, 2, i, is, stage_tendons, routing);
 
-    b.getRobotStates(true, true);
+    // b.getRobotStates(true, true);
 
     free(capsule1);
     free(capsule1step);

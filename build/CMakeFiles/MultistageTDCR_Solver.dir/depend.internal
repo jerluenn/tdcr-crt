@@ -35,7 +35,9 @@ CMakeFiles/MultistageTDCR_Solver.dir/src/tendon_robots/MultistageTDCR_Solver.cpp
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_dim.h
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_res.h
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_sol.h
+ ../src/tendon_robots/Integrator.hpp
  ../src/tendon_robots/IntegratorInterface.hpp
+ ../src/tendon_robots/MathUtils.hpp
  /home/jerluen/tdcr-crt/src/tendon_robots/MultistageTDCR_Solver.cpp
  /home/jerluen/tdcr-crt/src/tendon_robots/MultistageTDCR_Solver.hpp
  /usr/local/include/eigen3/Eigen/Cholesky
