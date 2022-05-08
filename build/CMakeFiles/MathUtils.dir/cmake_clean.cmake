@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "../lib/static/libMathUtils.a"
+  "CMakeFiles/MathUtils.dir/utils/MathUtils.cpp.o"
   "../lib/static/libMathUtils.pdb"
-  "CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o"
+  "../lib/static/libMathUtils.a"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "../lib/static/libLevenbergMarquardt.a"
+  "CMakeFiles/LevenbergMarquardt.dir/utils/LevenbergMarquardt.cpp.o"
   "../lib/static/libLevenbergMarquardt.pdb"
-  "CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o"
+  "../lib/static/libLevenbergMarquardt.a"
 )
 
 # Per-language clean rules from dependency scanning.
