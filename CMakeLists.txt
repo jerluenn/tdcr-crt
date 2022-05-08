@@ -33,8 +33,9 @@ MACRO(SUBDIRLIST result curdir)
   SET(${result} ${dirlist})
 ENDMACRO()
 
-# find_package(Eigen3 CONFIG REQUIRED)
-find_package(Eigen3)
+find_package(Eigen3 3.4.0 REQUIRED)
+
+# find_package(Eigen3)
 if(NOT EIGEN3_FOUND)
   # Fallback to cmake_modules
   find_package(cmake_modules REQUIRED)
@@ -63,6 +64,7 @@ include_directories(
 
 
 FILE( GLOB SOURCES ${SOURCE_DIR}/tendon_robots/*.cpp )
+FILE( GLOB UTIL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp )
 FILE( GLOB TEST_FILES ${TEST_DIR}/*.cpp)
 SUBDIRLIST(SUBDIRS ${c_functions})
 
@@ -99,6 +101,22 @@ FOREACH(SRC ${SOURCES})
 	${LIBFILES}
 
 )
+
+ENDFOREACH(SRC ${SOURCES})
+
+FOREACH(UTIL_SRC ${UTIL_SOURCES})
+
+	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
+	GET_FILENAME_COMPONENT( EXEC_NAME ${UTIL_SRC} NAME_WE )
+	ADD_LIBRARY(${EXEC_NAME} ${UTIL_SRC})	
+	TARGET_LINK_LIBRARIES(	${EXEC_NAME} 
+	PRIVATE Eigen3::Eigen 
+	${PYTHON_LIBRARIES} 
+	${acados_lib}/libacados.so
+	${LIBFILES}
+
+)
+
 
 ENDFOREACH(SRC ${SOURCES})
 

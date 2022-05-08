@@ -178,6 +178,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
         params_step['name'] = self._robot_type + '_step_integrator'
         params_step['num_stages'] = 4
         params_step['num_steps'] = 10
+        # params_step['num_steps'] = 20
 
         for i in range(self._num_stage):
 

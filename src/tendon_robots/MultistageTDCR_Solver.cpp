@@ -49,13 +49,15 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
     // std::cout << "Stage Tendons Index 0 : " << stageTendonsIndex_Termination[0] << "\n\n\n";
     // std::cout << "Stage Tendons Index 1 : " << stageTendonsIndex_Termination[1] << "\n\n\n";
 
-    timer.tic();
+    
 
     for (int i = 0 ; i < 500; ++i) 
     
     {
 
+        timer.tic();
         simulateStep(tau1);
+        timer.toc();
         
 
     }
@@ -65,7 +67,7 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
     std::cout << initialConditions[0] << "\n\n";
     std::cout << initialConditions[1] << "\n\n";
 
-    timer.toc();
+    
 
     
 
@@ -621,9 +623,9 @@ void MultistageTDCR_Solver::solveJacobians()
             J_b[l] = -B_yu[l].completeOrthogonalDecomposition().pseudoInverse()*B_q[l];
             J_q[l] = E_q[l] + E_yu[l]*J_b[l];
 
-            std::cout << "Debugging info at stage " << l << ": \n";
+            // std::cout << "Debugging info at stage " << l << ": \n";
             // std::cout << "J_b[l]: " << J_b[l].format(OctaveFmt) << "\n";
-            std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
+            // std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
 
         }
 
@@ -633,13 +635,13 @@ void MultistageTDCR_Solver::solveJacobians()
             J_b[l] = -B_yu[l].completeOrthogonalDecomposition().pseudoInverse()*(B_q[l] + B_yu_Nplus1[l]*J_b[l + 1]);
             J_q[l] = E_q[l] + E_yu[l]*J_b[l];
 
-            std::cout << "Debugging info at stage " << l << ": \n";
+            // std::cout << "Debugging info at stage " << l << ": \n";
             // std::cout << "B_yu[l+1]" << B_yu[l+1].format(OctaveFmt) << "\n";
             // std::cout << "B_yu_Nplus1" << B_yu_Nplus1[l].format(OctaveFmt) << "\n";
             // std::cout << "R " << R << "\n";
             // std::cout << "B_q[l]" << B_q[l].format(OctaveFmt) << "\n";
             // std::cout << "J_b[l+1]: " << J_b[l+1].format(OctaveFmt) << "\n";
-            std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
+            // std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
 
         }
         

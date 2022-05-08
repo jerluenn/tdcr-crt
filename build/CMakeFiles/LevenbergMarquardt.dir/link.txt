@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/static/libLevenbergMarquardt.a CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o
+/usr/bin/ar qc ../lib/static/libLevenbergMarquardt.a  CMakeFiles/LevenbergMarquardt.dir/utils/LevenbergMarquardt.cpp.o
 /usr/bin/ranlib ../lib/static/libLevenbergMarquardt.a
