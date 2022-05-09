@@ -96,7 +96,7 @@ class TetherUnitBoundarySolver:
 
         self.initConditions[12:18] = guess 
         self.set_and_solve()
-        residual = self.distalConditions[0:12] - self.distalPose 
+        residual = np.hstack((100*self.distalConditions[0:12] - 100*self.distalPose, self.initConditions[12:18]))
         # print(norm_2(residual))
 
         return residual
@@ -109,13 +109,14 @@ if __name__ == "__main__":
     robot_dict['outer_radius'] = 0.005
     robot_dict['inner_radius'] = 0.002
     robot_dict['elastic_modulus'] = 120e9
-    robot_dict['mass_distribution'] = 0.03
+    robot_dict['mass_distribution'] = 0.1
     robot_dict['tether_length'] = 5.0
     robot_dict['tip_weight'] = 0.0
     robot_dict['shear_modulus'] = 70e9
     robot_dict['integration_steps'] = 50 
 
-    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 5, 0, 0.05])
+    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1.6, 0, 0, 3, 5, 0, 0.05])
     distalPose = np.array([-2, 0, 4.5, 1, 0, 0, 0, 1, 0, 0, 0, 1])
     testClass = TetherUnitBoundarySolver(robot_dict, initConditions, distalPose)
     testClass.solveBVP(True, True)
+    # print(testClass.tetherObject._Kbt)
