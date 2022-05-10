@@ -18,7 +18,7 @@
     },
     "problem_class": "SIM",
     "solver_options": {
-        "Tsim": 5.0,
+        "Tsim": 0.02,
         "integrator_type": "ERK",
         "output_z": false,
         "sens_adj": false,

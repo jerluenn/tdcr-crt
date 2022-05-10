@@ -12,65 +12,7 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
     setNumStages(numStages);
     initialiseJacobianMatrices(stage_tendons);
 
-
-    Eigen::Matrix<double, 6, 1> ic; 
-    ic << 8.69005567e-01, -1.68328807e-27, -5.43264986e+00, -2.19026323e-27,
-        2.73144032e-01, -9.56647789e-29;
-    setInitialConditions(0, ic);
-    Eigen::Matrix<double, 6, 1> ic1;
-    ic1 <<  5.37588000e-01,  4.28851040e-28, -4.88462763e-27, -2.22218785e-27,
-        5.36810924e-02, -1.02139239e-28;
-    setInitialConditions(1, ic1);
-    Eigen::MatrixXd tau;
-    tau.resize(6, 1); 
-    tau << 5, 0, 0, 0, 0, 0;
-    setTau(tau);
-
-    robotStates[0] = integrateStates(0);
-    robotStates[1] = integrateStates(1);
-
-    Eigen::MatrixXd tau1; 
-    tau1.resize(6, 1);
-    tau1 << 0, 0, 0, 0, 1, 0;
-
-    // std::cout << "BC0: " << getBoundaryConditions(0) << "\n\n\n";
-    // std::cout << "BC1: " << getBoundaryConditions(1) << "\n\n\n";
-
-    // unsigned int n = 1;    
-    // for (auto it: stageTendonsIndex_Jacobians) 
-    
-    // {
-
-    //     std::cout << it << "\n\n\n"; 
-
-    // }
-
-
-    // std::cout << "Stage Tendons Index 0 : " << stageTendonsIndex_Termination[0] << "\n\n\n";
-    // std::cout << "Stage Tendons Index 1 : " << stageTendonsIndex_Termination[1] << "\n\n\n";
-
-    
-
-    for (int i = 0 ; i < 500; ++i) 
-    
-    {
-
-        timer.tic();
-        simulateStep(tau1);
-        timer.toc();
-        
-
-    }
-
-    std::cout << "Boundary Conditions at 0" << ": " << getBoundaryConditions(0) << "\n\n\n\n";
-    std::cout << "Boundary Conditions at 1" << ": " << getBoundaryConditions(1) << "\n\n\n\n";
-    std::cout << initialConditions[0] << "\n\n";
-    std::cout << initialConditions[1] << "\n\n";
-
-    
-
-    
-
+    testFunction();
 
 
 }
@@ -721,6 +663,62 @@ void MultistageTDCR_Solver::simulateStep(Eigen::MatrixXd tau)
     
 
 }
+
+void MultistageTDCR_Solver::testFunction() 
+
+{
+
+    Eigen::Matrix<double, 6, 1> ic; 
+    ic << 8.69005567e-01, -1.68328807e-27, -5.43264986e+00, -2.19026323e-27,
+        2.73144032e-01, -9.56647789e-29;
+    setInitialConditions(0, ic);
+    Eigen::Matrix<double, 6, 1> ic1;
+    ic1 <<  5.37588000e-01,  4.28851040e-28, -4.88462763e-27, -2.22218785e-27,
+        5.36810924e-02, -1.02139239e-28;
+    setInitialConditions(1, ic1);
+    Eigen::MatrixXd tau;
+    tau.resize(6, 1); 
+    tau << 5, 0, 0, 0, 0, 0;
+    setTau(tau);
+
+    robotStates[0] = integrateStates(0);
+    robotStates[1] = integrateStates(1);
+
+    Eigen::MatrixXd tau1; 
+    tau1.resize(6, 1);
+    tau1 << 0, 0.8, 0, 0, 1, 0;
+    std::vector<Eigen::Matrix<double, 3, 1>> p; 
+    Eigen::Matrix<double, 3, 1> p_;
+    p_.setZero();
+    p.push_back(p_);
+    p.push_back(p_);
+    std::cout << robotStates[0].block<3, 1>(0, 0) << "\n";
+    p[0] = robotStates[0].block<3, 1>(0, 0); 
+    p[1] = robotStates[1].block<3, 1>(0, 0);
+
+    for (int i = 0 ; i < 500; ++i) 
+    
+    {
+
+        timer.tic();
+        simulateStep(tau1);
+        p[0] += J_q[0].block(0, 0, 3, num_tendons)*tau1*dt; 
+        p[1] += J_q[1].block(0, 0, 3, num_tendons)*tau1*dt; 
+        timer.toc();
+        
+
+    }
+
+    std::cout << "Boundary Conditions at 0" << ": " << getBoundaryConditions(0) << "\n\n\n\n";
+    std::cout << "Boundary Conditions at 1" << ": " << getBoundaryConditions(1) << "\n\n\n\n";
+    std::cout << integrateStates(0) << "\n\n";
+    std::cout << integrateStates(1) << "\n\n";
+    std::cout << p[0] << "\n\n"; 
+    std::cout << p[1] << "\n\n"; 
+
+
+}
+
 
 void MultistageTDCR_Solver::setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment) {
 

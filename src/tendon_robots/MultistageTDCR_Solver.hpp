@@ -33,6 +33,7 @@ class MultistageTDCR_Solver {
         void initialiseJacobianMatrices(Eigen::MatrixXd stage_tendons_);
         void setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment);
         void convertStageTendonsIndex();
+        void testFunction();
 
         std::vector<Eigen::MatrixXd> robotStates;
         std::vector<Eigen::MatrixXd> initialConditions;

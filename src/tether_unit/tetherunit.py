@@ -53,6 +53,7 @@ class TetherUnit:
         self._m_d = SX.sym('m_dot', 3)
         self._tau_d = SX.sym('tau_dot', 1)
         self._alpha_d = SX.sym('alpha_dot', 1)
+        self._Kappa_d = SX.sym('Kappa_d', 1)
 
         # Initialise constants
 
@@ -72,22 +73,25 @@ class TetherUnit:
 
         p_dot = reshape(self._R, 3, 3) @ self._v
         R_dot = reshape(self._R, 3, 3) @ skew(self._u)
-        n_dot = - (self._f_ext)
-        m_dot = - cross(p_dot, self._n)
-        tau_dot = -self._Kappa*self._tau*norm_2(inv(self._Kbt)@(transpose(R_dot)@self._m + transpose(reshape(self._R, 3, 3))@m_dot))
+        n_dot = - (self._f_ext) 
+        m_dot = - cross(p_dot, self._n) 
+        tau_dot = -self._Kappa*self._tau*norm_2(self._u)
         alpha_dot = 1
         kappa_dot = 0
 
         x = vertcat(self._p, self._R, self._n, self._m, self._tau, self._alpha, self._Kappa)
         xdot = vertcat(p_dot, reshape(R_dot, 9, 1),
                        n_dot, m_dot, tau_dot, alpha_dot, kappa_dot)
+        x_dot_impl = vertcat(self._p_d, self._R_d, self._n_d, self._m_d, self._tau_d, self._alpha_d, self._Kappa_d)
 
         model = AcadosModel()
         model.name = model_name
         model.x = x 
         model.f_expl_expr = xdot 
+        model.f_impl_expr = xdot - x_dot_impl
         model.u = SX([])
-        model.z = []
+        model.z = SX([])
+        model.xdot = x_dot_impl
 
         sim = AcadosSim()
         sim.model = model 
@@ -100,7 +104,8 @@ class TetherUnit:
         sim.solver_options.T = Sf
         sim.solver_options.integrator_type = 'ERK'
         sim.solver_options.num_stages = 4
-        sim.solver_options.num_steps = 50
+        sim.solver_options.num_steps = 10
+
         acados_integrator = AcadosSimSolver(sim)
 
         self._Integrator = acados_integrator

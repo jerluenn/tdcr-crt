@@ -33,7 +33,7 @@ MACRO(SUBDIRLIST result curdir)
   SET(${result} ${dirlist})
 ENDMACRO()
 
-find_package(Eigen3 3.4.0 REQUIRED)
+find_package(Eigen3 3.4 REQUIRED)
 
 # find_package(Eigen3)
 if(NOT EIGEN3_FOUND)
@@ -102,7 +102,7 @@ FOREACH(SRC ${SOURCES})
 
 )
 
-ENDFOREACH(SRC ${SOURCES})
+ENDFOREACH()
 
 FOREACH(UTIL_SRC ${UTIL_SOURCES})
 
@@ -118,7 +118,7 @@ FOREACH(UTIL_SRC ${UTIL_SOURCES})
 )
 
 
-ENDFOREACH(SRC ${SOURCES})
+ENDFOREACH()
 
 # Compiling executables
 

@@ -75,7 +75,7 @@ int tetherunit_acados_sim_create(sim_solver_capsule * capsule)
     int nz = 0;
 
     
-    double Tsim = 5;
+    double Tsim = 1;
 
     
     // explicit ode

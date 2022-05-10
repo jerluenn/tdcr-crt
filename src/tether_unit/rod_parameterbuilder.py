@@ -121,7 +121,6 @@ class Rod_Parameter_Builder:
         try:
 
             assert type(params['mass_distribution']) == float, "mass_distribution must be a float."
-            assert type(params['tip_weight']) == float, "tip_weight must be a float." 
             assert type(params['Kse']) == DM, "Kse must be of DM type."
             assert type(params['Kbt']) == DM, "Kbt must be of DM type."
             assert type(params['tether_length']) == float, "tether_length must be a float."

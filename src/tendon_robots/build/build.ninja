@@ -102,38 +102,6 @@ build ../../../bin/test_integrator: CXX_EXECUTABLE_LINKER__test_integrator_Debug
   TARGET_FILE = ../../../bin/test_integrator
   TARGET_PDB = test_integrator.dbg
 
-# =============================================================================
-# Object build statements for STATIC_LIBRARY target LevenbergMarquardt
-
-
-#############################################
-# Order-only phony target for LevenbergMarquardt
-
-build cmake_object_order_depends_target_LevenbergMarquardt: phony || CMakeFiles/LevenbergMarquardt.dir
-
-build CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o: CXX_COMPILER__LevenbergMarquardt_Debug ../LevenbergMarquardt.cpp || cmake_object_order_depends_target_LevenbergMarquardt
-  DEP_FILE = CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o.d
-  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
-  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
-  OBJECT_DIR = CMakeFiles/LevenbergMarquardt.dir
-  OBJECT_FILE_DIR = CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots
-
-
-# =============================================================================
-# Link build statements for STATIC_LIBRARY target LevenbergMarquardt
-
-
-#############################################
-# Link the static library ../../../lib/static/libLevenbergMarquardt.a
-
-build ../../../lib/static/libLevenbergMarquardt.a: CXX_STATIC_LIBRARY_LINKER__LevenbergMarquardt_Debug CMakeFiles/LevenbergMarquardt.dir/src/tendon_robots/LevenbergMarquardt.cpp.o
-  LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
-  OBJECT_DIR = CMakeFiles/LevenbergMarquardt.dir
-  POST_BUILD = :
-  PRE_LINK = :
-  TARGET_FILE = ../../../lib/static/libLevenbergMarquardt.a
-  TARGET_PDB = LevenbergMarquardt.a.dbg
-
 
 #############################################
 # Utility command for edit_cache
@@ -154,12 +122,12 @@ build edit_cache: phony CMakeFiles/edit_cache.util
 
 build cmake_object_order_depends_target_IntegratorInterface: phony || CMakeFiles/IntegratorInterface.dir
 
-build CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o: CXX_COMPILER__IntegratorInterface_Debug ../IntegratorInterface.cpp || cmake_object_order_depends_target_IntegratorInterface
-  DEP_FILE = CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o.d
+build CMakeFiles/IntegratorInterface.dir/utils/IntegratorInterface.cpp.o: CXX_COMPILER__IntegratorInterface_Debug ../../../utils/IntegratorInterface.cpp || cmake_object_order_depends_target_IntegratorInterface
+  DEP_FILE = CMakeFiles/IntegratorInterface.dir/utils/IntegratorInterface.cpp.o.d
   FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
   INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
   OBJECT_DIR = CMakeFiles/IntegratorInterface.dir
-  OBJECT_FILE_DIR = CMakeFiles/IntegratorInterface.dir/src/tendon_robots
+  OBJECT_FILE_DIR = CMakeFiles/IntegratorInterface.dir/utils
 
 
 # =============================================================================
@@ -169,7 +137,7 @@ build CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.c
 #############################################
 # Link the static library ../../../lib/static/libIntegratorInterface.a
 
-build ../../../lib/static/libIntegratorInterface.a: CXX_STATIC_LIBRARY_LINKER__IntegratorInterface_Debug CMakeFiles/IntegratorInterface.dir/src/tendon_robots/IntegratorInterface.cpp.o
+build ../../../lib/static/libIntegratorInterface.a: CXX_STATIC_LIBRARY_LINKER__IntegratorInterface_Debug CMakeFiles/IntegratorInterface.dir/utils/IntegratorInterface.cpp.o
   LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
   OBJECT_DIR = CMakeFiles/IntegratorInterface.dir
   POST_BUILD = :
@@ -209,6 +177,38 @@ build ../../../lib/static/libMultistageTDCR_Solver.a: CXX_STATIC_LIBRARY_LINKER_
   TARGET_FILE = ../../../lib/static/libMultistageTDCR_Solver.a
   TARGET_PDB = MultistageTDCR_Solver.a.dbg
 
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target LevenbergMarquardt
+
+
+#############################################
+# Order-only phony target for LevenbergMarquardt
+
+build cmake_object_order_depends_target_LevenbergMarquardt: phony || CMakeFiles/LevenbergMarquardt.dir
+
+build CMakeFiles/LevenbergMarquardt.dir/utils/LevenbergMarquardt.cpp.o: CXX_COMPILER__LevenbergMarquardt_Debug ../../../utils/LevenbergMarquardt.cpp || cmake_object_order_depends_target_LevenbergMarquardt
+  DEP_FILE = CMakeFiles/LevenbergMarquardt.dir/utils/LevenbergMarquardt.cpp.o.d
+  FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
+  INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
+  OBJECT_DIR = CMakeFiles/LevenbergMarquardt.dir
+  OBJECT_FILE_DIR = CMakeFiles/LevenbergMarquardt.dir/utils
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target LevenbergMarquardt
+
+
+#############################################
+# Link the static library ../../../lib/static/libLevenbergMarquardt.a
+
+build ../../../lib/static/libLevenbergMarquardt.a: CXX_STATIC_LIBRARY_LINKER__LevenbergMarquardt_Debug CMakeFiles/LevenbergMarquardt.dir/utils/LevenbergMarquardt.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
+  OBJECT_DIR = CMakeFiles/LevenbergMarquardt.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = ../../../lib/static/libLevenbergMarquardt.a
+  TARGET_PDB = LevenbergMarquardt.a.dbg
+
 
 #############################################
 # Utility command for rebuild_cache
@@ -230,12 +230,12 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 
 build cmake_object_order_depends_target_MathUtils: phony || CMakeFiles/MathUtils.dir
 
-build CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o: CXX_COMPILER__MathUtils_Debug ../MathUtils.cpp || cmake_object_order_depends_target_MathUtils
-  DEP_FILE = CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o.d
+build CMakeFiles/MathUtils.dir/utils/MathUtils.cpp.o: CXX_COMPILER__MathUtils_Debug ../../../utils/MathUtils.cpp || cmake_object_order_depends_target_MathUtils
+  DEP_FILE = CMakeFiles/MathUtils.dir/utils/MathUtils.cpp.o.d
   FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g -std=gnu++11
   INCLUDES = -I../ -I../../../../acados/include -I../../../../acados/include/blasfeo/include -I../../../../acados/include/hpipm/include -I../../../../acados/include/acados -I../../../../acados/include/qpOASES_e -I../../../utils -I../../../lib -I/usr/local/include/python3.8 -I.cmake -I.cmake/api -ICMakeFiles -ICMakeFiles/3.18.0 -ICMakeFiles/CMakeTmp -ICMakeFiles/IntegratorInterface.dir -ICMakeFiles/LevenbergMarquardt.dir -ICMakeFiles/MathUtils.dir -ICMakeFiles/MultistageTDCR_Solver.dir -ICMakeFiles/tdcr_test.dir -ICMakeFiles/test_integrator.dir -ICMakeFiles/test_stage_calculator.dir -I../c_generated_code_multistage_straight/multistage_straight_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_integrator2/multistage_straight_integrator2_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator1/multistage_straight_step_integrator1_model -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2 -I../c_generated_code_multistage_straight/multistage_straight_step_integrator2/multistage_straight_step_integrator2_model -isystem /usr/local/include/eigen3
   OBJECT_DIR = CMakeFiles/MathUtils.dir
-  OBJECT_FILE_DIR = CMakeFiles/MathUtils.dir/src/tendon_robots
+  OBJECT_FILE_DIR = CMakeFiles/MathUtils.dir/utils
 
 
 # =============================================================================
@@ -245,7 +245,7 @@ build CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o: CXX_COMPILER__
 #############################################
 # Link the static library ../../../lib/static/libMathUtils.a
 
-build ../../../lib/static/libMathUtils.a: CXX_STATIC_LIBRARY_LINKER__MathUtils_Debug CMakeFiles/MathUtils.dir/src/tendon_robots/MathUtils.cpp.o
+build ../../../lib/static/libMathUtils.a: CXX_STATIC_LIBRARY_LINKER__MathUtils_Debug CMakeFiles/MathUtils.dir/utils/MathUtils.cpp.o
   LANGUAGE_COMPILE_FLAGS = -Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK -g
   OBJECT_DIR = CMakeFiles/MathUtils.dir
   POST_BUILD = :
@@ -320,7 +320,7 @@ build test_stage_calculator: phony ../../../bin/test_stage_calculator
 #############################################
 # Folder: /home/jerluen/tdcr-crt/src/tendon_robots/build
 
-build all: phony ../../../bin/test_stage_calculator ../../../bin/test_integrator ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../lib/static/libMathUtils.a ../../../bin/tdcr_test
+build all: phony ../../../bin/test_stage_calculator ../../../bin/test_integrator ../../../lib/static/libIntegratorInterface.a ../../../lib/static/libMultistageTDCR_Solver.a ../../../lib/static/libLevenbergMarquardt.a ../../../lib/static/libMathUtils.a ../../../bin/tdcr_test
 
 # =============================================================================
 # Built-in targets
