@@ -11,6 +11,9 @@ namespace MathUtils {
     Eigen::Matrix<double, 3, 1> so3toVec(Eigen::Matrix3d so3mat);
     Eigen::Matrix<double, 6, 1> se3toVec(Eigen::Matrix4d se3mat);
     Eigen::MatrixXd forwardFiniteDifferences(Eigen::MatrixXd mat, Eigen::MatrixXd mat_plus, double eps);
+    Eigen::Matrix<double, 6, 6> adjointTransformation(Eigen::Affine3d T);
+    Eigen::Matrix<double, 3, 3> skew_m(Eigen::Matrix<double, 3, 1> v);
+    Eigen::Matrix<double, 3, 3> skew_v(Eigen::Vector<double, 3> v);
     class Timer{
 
         private: 

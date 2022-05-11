@@ -3,6 +3,7 @@
 #include <cmath>
 #include <Eigen/Dense>
 #include <Eigen/Core>
+#include <Eigen/Geometry>
 #include <IntegratorInterface.hpp>
 #include <MathUtils.hpp>
 #include <vector>
@@ -53,11 +54,15 @@ class MultistageTDCR_Solver {
         Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num);
         Eigen::Matrix<double, 6, 1> getPointForceMoment(unsigned int stage_num);
         Eigen::Matrix<double, 6, 1> getPointForceMoment(unsigned int stage_num, Eigen::MatrixXd robotStates_);
+        Eigen::Affine3d getAffine3d_Distal(unsigned int stage_num);
+        Eigen::Affine3d getAffine3d_Proximal(unsigned int stage_num);
         Eigen::MatrixXd integrateWithIncrement(unsigned int index, unsigned int stage_num);
         Eigen::MatrixXd addIncrement(unsigned int index, unsigned int stage_num);
 
         Eigen::MatrixXd stageTendons;
+        Eigen::Matrix<double, 6, 6> AdjointMatrix;
         Eigen::Matrix<double, 3, 1> v; 
+        Eigen::Affine3d T_Affine3d; 
         Eigen::MatrixXd R; 
         Eigen::MatrixXd x; // dummy variable to hold all the states at initial condition.
         Eigen::MatrixXd routing; 

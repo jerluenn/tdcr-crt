@@ -1,0 +1,113 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "tdcr-crt",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "IntegratorInterface::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IntegratorInterface-Debug-22564a17b68fc3d69091.json",
+					"name" : "IntegratorInterface",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "LevenbergMarquardt::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-LevenbergMarquardt-Debug-25c9d08a737d14b732be.json",
+					"name" : "LevenbergMarquardt",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MathUtils::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MathUtils-Debug-fe7fd449cfc22c780442.json",
+					"name" : "MathUtils",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "MultistageTDCR_Solver::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-MultistageTDCR_Solver-Debug-16c85cbe6dde783e3c40.json",
+					"name" : "MultistageTDCR_Solver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "tdcr_test::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-tdcr_test-Debug-75d865822ea665a23614.json",
+					"name" : "tdcr_test",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_integrator::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_integrator-Debug-a1dc463cbc57d3fa9ac3.json",
+					"name" : "test_integrator",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_stage_calculator::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_stage_calculator-Debug-0764b28bcd189badaa1b.json",
+					"name" : "test_stage_calculator",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/jerluen/tdcr-crt/src/tendon_robots/build",
+		"source" : "/home/jerluen/tdcr-crt"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 1
+	}
+}

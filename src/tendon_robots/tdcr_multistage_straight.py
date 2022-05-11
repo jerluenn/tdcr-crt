@@ -259,6 +259,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
     def _calc_forces_moments(self):
 
         num_stages = self._num_stage
+        assert(np.sum(self._stage_tendons) == self._num_tendons)
 
         # Find out which tendons affect which stage.
 

@@ -55,4 +55,44 @@ Eigen::MatrixXd MathUtils::forwardFiniteDifferences(Eigen::MatrixXd mat, Eigen::
 
 }
 
+Eigen::Matrix<double, 3, 3> MathUtils::skew_v(Eigen::Vector<double, 3> v) 
 
+{
+
+    Eigen::Matrix<double, 3, 3> skew_mat;
+
+    skew_mat << 0, - v(2), v(1), v(2), 0, -v(0), -v(1), v(0), 0;
+
+    return skew_mat; 
+    
+
+}
+
+Eigen::Matrix<double, 3, 3> MathUtils::skew_m(Eigen::Matrix<double, 3, 1> v) 
+
+{
+
+    Eigen::Matrix<double, 3, 3> skew_mat;
+
+   skew_mat << 0, - v(2, 0), v(1, 0), v(2, 0), 0, -v(0, 0), -v(1, 0), v(0, 0), 0;
+
+    return skew_mat; 
+    
+
+}
+
+
+Eigen::Matrix<double, 6, 6> MathUtils::adjointTransformation(Eigen::Affine3d T) 
+
+{
+
+    Eigen::Matrix<double, 6, 6> adjT; 
+
+    adjT.setZero();
+    adjT.block<3, 3>(0, 0) = T.rotation();
+    adjT.block<3, 3>(3, 3) = T.rotation();
+    adjT.block<3, 3>(0, 3) = skew_v(T.translation())*T.rotation();
+
+    return adjT;
+
+}

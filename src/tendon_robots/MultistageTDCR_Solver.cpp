@@ -90,6 +90,7 @@ void MultistageTDCR_Solver::initialiseJacobianMatrices(Eigen::MatrixXd stage_ten
     Eigen::MatrixXd tmp; 
 
     convertStageTendonsIndex();
+    AdjointMatrix.setIdentity();
 
     for(unsigned int i = 0; i < num_stages; ++i) {
 
@@ -432,7 +433,6 @@ void MultistageTDCR_Solver::solveJacobians()
 
 {
 
-    // timer.tic();
 
     std::vector<Eigen::Matrix<double, 3, 1>> positions; 
     std::vector<Eigen::Matrix3d> rotations; 
@@ -590,43 +590,37 @@ void MultistageTDCR_Solver::solveJacobians()
     }
 
     R.resize(9, 1);
-    Eigen::Matrix3d R_tmp;
-    Eigen::Matrix3d zeros3x3;
     zeros3x3.setZero(); 
-    Eigen::Matrix<double, 6, 6> twist_transform;
+    Eigen::Matrix<double, 6, 6> AdjointMatrix_tmp;
+    AdjointMatrix_tmp.setIdentity(); 
     Eigen::MatrixXd J_world_tmp;
     J_world_tmp.resize(6, num_tendons);
+
+    // Get first J_world_tmp here. 
+
+    J_world_tmp = J_q[0];
 
     for (unsigned int k = 0; k < num_stages; ++k)
 
     {
 
-        if (k == 0) 
+        // Put into J_world.
 
-        {
+        J_world[k] = J_world_tmp;
 
-            J_world_tmp = J_q[k];
-            J_world[k] = J_world_tmp;
+        // Update Adjoint.
 
-        }
+        T_Affine3d = getAffine3d_Distal(k);
 
-        else
+        AdjointMatrix_tmp = MathUtils::adjointTransform(T_Affine3d);
+        AdjointMatrix *= AdjointMatrix_tmp; 
 
-        {       
+        // Update J_world_tmp.
 
-        R = robotStates[k-1].block<9, 1>(3, 0);
-        R.resize(3,3);
-        R_tmp *= R;
-        twist_transform << R_tmp, zeros3x3, zeros3x3, R_tmp; 
-        J_world_tmp += twist_transform*J_world[k-1];
-
-        }
-
+        J_world_tmp += AdjointMatrix*J_q[k]; 
         
 
     }  
-
-    // timer.toc();
 
 
 }
@@ -716,9 +710,38 @@ void MultistageTDCR_Solver::testFunction()
     std::cout << p[0] << "\n\n"; 
     std::cout << p[1] << "\n\n"; 
 
+    std::cout << getAffine3d_Distal(0).matrix() << "\n\n";
+    std::cout << MathUtils::adjointTransformation(getAffine3d_Distal(0)) << "\n\n\n";
 
 }
 
+Eigen::Affine3d MultistageTDCR_Solver::getAffine3d_Distal(unsigned int stage_num) 
+
+{
+
+    T_Affine3d.translation() = robotStates[stage_num].block<3, 1>(0, 0);
+    R.resize(9, 1); 
+    R = robotStates[stage_num].block<9, 1>(3, 0);
+    R.resize(3, 3);
+    T_Affine3d.linear() = R;
+
+    return T_Affine3d; 
+
+}
+
+Eigen::Affine3d MultistageTDCR_Solver::getAffine3d_Proximal(unsigned int stage_num) 
+
+{
+
+    T_Affine3d.translation() = initialConditions[stage_num].block<3, 1>(0, 0);
+    R.resize(9, 1); 
+    R = initialConditions[stage_num].block<9, 1>(3, 0);
+    R.resize(3, 3);
+    T_Affine3d.linear() = R;
+
+    return T_Affine3d; 
+
+}
 
 void MultistageTDCR_Solver::setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment) {
 

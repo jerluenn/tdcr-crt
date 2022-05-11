@@ -323,6 +323,8 @@ Eigen/Dense
 -
 Eigen/Core
 -
+Eigen/Geometry
+-
 IntegratorInterface.hpp
 -
 MathUtils.hpp
