@@ -74,7 +74,7 @@ Eigen::Matrix<double, 3, 3> MathUtils::skew_m(Eigen::Matrix<double, 3, 1> v)
 
     Eigen::Matrix<double, 3, 3> skew_mat;
 
-   skew_mat << 0, - v(2, 0), v(1, 0), v(2, 0), 0, -v(0, 0), -v(1, 0), v(0, 0), 0;
+   skew_mat << 0, -v(2, 0), v(1, 0), v(2, 0), 0, -v(0, 0), -v(1, 0), v(0, 0), 0;
 
     return skew_mat; 
     

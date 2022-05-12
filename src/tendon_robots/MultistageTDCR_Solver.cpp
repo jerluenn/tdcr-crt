@@ -589,36 +589,40 @@ void MultistageTDCR_Solver::solveJacobians()
         
     }
 
-    R.resize(9, 1);
-    zeros3x3.setZero(); 
-    Eigen::Matrix<double, 6, 6> AdjointMatrix_tmp;
-    AdjointMatrix_tmp.setIdentity(); 
+    Eigen::Matrix3d R_tmp; 
+    Eigen::Matrix<double, 3, 3> R_6x6;
+    R_6x6.setZero();
+    R_tmp.setIdentity();
+    Eigen::Matrix<double, 3, 1> pos_tmp;
     Eigen::MatrixXd J_world_tmp;
     J_world_tmp.resize(6, num_tendons);
+    Eigen::MatrixXd rhs_matrix; 
+    rhs_matrix.resize(6 , num_tendons);
+    rhs_matrix.setZero();
 
     // Get first J_world_tmp here. 
 
     J_world_tmp = J_q[0];
+    J_world[0] = J_world_tmp;
 
-    for (unsigned int k = 0; k < num_stages; ++k)
+    for (unsigned int k = 1; k < num_stages; ++k)
 
     {
 
-        // Put into J_world.
+        R.resize(9, 1); 
+        R = robotStates[k-1].block<9, 1>(3, 0); 
+        R.resize(3, 3);
+        R_tmp *= R; 
+        R_6x6.block<3, 3>(0, 0) = R_tmp; 
+        R_6x6.block<3, 3>(3, 3) = R_tmp;
+        pos_tmp = robotStates[k].block<3, 1>(0, 0);  
+        rhs_matrix.block<3, 6>(0, 0) = -MathUtils::skew_m(pos_tmp) * J_world[k - 1].block(2, 0, 3, num_tendons);
 
+        std::cout << "J_q" << J_q[k] << std::endl;
+        std::cout << "RHS" << rhs_matrix << std::endl;
+
+        J_world_tmp += R_6x6 * J_q[k] + R_6x6 * rhs_matrix;
         J_world[k] = J_world_tmp;
-
-        // Update Adjoint.
-
-        T_Affine3d = getAffine3d_Distal(k);
-
-        AdjointMatrix_tmp = MathUtils::adjointTransform(T_Affine3d);
-        AdjointMatrix *= AdjointMatrix_tmp; 
-
-        // Update J_world_tmp.
-
-        J_world_tmp += AdjointMatrix*J_q[k]; 
-        
 
     }  
 
@@ -680,7 +684,7 @@ void MultistageTDCR_Solver::testFunction()
 
     Eigen::MatrixXd tau1; 
     tau1.resize(6, 1);
-    tau1 << 0, 0.8, 0, 0, 1, 0;
+    tau1 << 0, 0, 0, 0, 1, 0;
     std::vector<Eigen::Matrix<double, 3, 1>> p; 
     Eigen::Matrix<double, 3, 1> p_;
     p_.setZero();
@@ -690,6 +694,12 @@ void MultistageTDCR_Solver::testFunction()
     p[0] = robotStates[0].block<3, 1>(0, 0); 
     p[1] = robotStates[1].block<3, 1>(0, 0);
 
+    Eigen::Matrix<double, 3, 1> p_world(0, 0, 0);
+    R.resize(9, 1); 
+    R = robotStates[0].block<9, 1>(3, 0); 
+    R.resize(3, 3);
+    p_world = robotStates[0].block<3, 1>(0, 0) + R * robotStates[1].block<3, 1>(0, 0);
+
     for (int i = 0 ; i < 500; ++i) 
     
     {
@@ -698,17 +708,25 @@ void MultistageTDCR_Solver::testFunction()
         simulateStep(tau1);
         p[0] += J_q[0].block(0, 0, 3, num_tendons)*tau1*dt; 
         p[1] += J_q[1].block(0, 0, 3, num_tendons)*tau1*dt; 
+        p_world += J_world[1].block(0, 0, 3, num_tendons)*tau1*dt;
         timer.toc();
         
 
     }
 
-    std::cout << "Boundary Conditions at 0" << ": " << getBoundaryConditions(0) << "\n\n\n\n";
-    std::cout << "Boundary Conditions at 1" << ": " << getBoundaryConditions(1) << "\n\n\n\n";
-    std::cout << integrateStates(0) << "\n\n";
-    std::cout << integrateStates(1) << "\n\n";
+    robotStates[0] = integrateStates(0);
+    robotStates[1] = integrateStates(1);
+    std::cout << "robotStates at 0" << ": " << robotStates[0] << "\n\n\n\n";
+    std::cout << "robotStates at 1" << ": " << robotStates[1] << "\n\n\n\n";
+    std::cout << "p_world:  " << p_world << "\n\n";
+    R.resize(9, 1); 
+    R = robotStates[0].block<9, 1>(3, 0); 
+    R.resize(3, 3);
+    p_world = robotStates[0].block<3, 1>(0, 0) + R * robotStates[1].block<3, 1>(0, 0);
     std::cout << p[0] << "\n\n"; 
     std::cout << p[1] << "\n\n"; 
+    std::cout << "p_world:  " << p_world << "\n\n";
+    
 
     std::cout << getAffine3d_Distal(0).matrix() << "\n\n";
     std::cout << MathUtils::adjointTransformation(getAffine3d_Distal(0)) << "\n\n\n";

@@ -72,7 +72,7 @@ class MultistageTDCR_Solver {
         const static int num_m = 3; 
         const static int num_n = 3; 
         unsigned int num_tendons; 
-        constexpr static double EPS = 1.0e-10;
+        constexpr static double EPS = 1.0e-9;
         constexpr static double dt = 0.005;
         const static int num_alpha = 1; 
         unsigned int num_stages;
