@@ -65,6 +65,16 @@ int main() {
     free(capsule2);
     free(capsule2step);
 
+    Eigen::Affine3d T; 
+    Eigen::Matrix3d R; 
+    Eigen::Vector3d V(0, 0, 3); 
+    R << 1, 0, 0, 0, 0, -1, 0, 1, 0; 
+    T.linear() = R; 
+    T.translation() = V; 
+
+    std::cout << MathUtils::adjointTransformation(T) << "\n\n";
+
+
     return 0; 
 
 }   

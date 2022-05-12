@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "../lib/static/libMultistageTDCR_Solver.a"
-  "../lib/static/libMultistageTDCR_Solver.pdb"
   "CMakeFiles/MultistageTDCR_Solver.dir/src/tendon_robots/MultistageTDCR_Solver.cpp.o"
+  "../lib/static/libMultistageTDCR_Solver.pdb"
+  "../lib/static/libMultistageTDCR_Solver.a"
 )
 
 # Per-language clean rules from dependency scanning.
