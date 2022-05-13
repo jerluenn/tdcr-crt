@@ -590,12 +590,13 @@ void MultistageTDCR_Solver::solveJacobians()
     }
 
     Eigen::Matrix3d R_tmp; 
-    Eigen::Matrix<double, 3, 3> R_6x6;
+    Eigen::Matrix<double, 6, 6> R_6x6;
     R_6x6.setZero();
     R_tmp.setIdentity();
     Eigen::Matrix<double, 3, 1> pos_tmp;
     Eigen::MatrixXd J_world_tmp;
     J_world_tmp.resize(6, num_tendons);
+    J_world_tmp.setZero();
     Eigen::MatrixXd rhs_matrix; 
     rhs_matrix.resize(6 , num_tendons);
     rhs_matrix.setZero();
@@ -616,12 +617,11 @@ void MultistageTDCR_Solver::solveJacobians()
         R_6x6.block<3, 3>(0, 0) = R_tmp; 
         R_6x6.block<3, 3>(3, 3) = R_tmp;
         pos_tmp = robotStates[k].block<3, 1>(0, 0);  
-        rhs_matrix.block<3, 6>(0, 0) = -MathUtils::skew_m(pos_tmp) * J_world[k - 1].block(2, 0, 3, num_tendons);
+        rhs_matrix.block<3, 6>(0, 0) = -MathUtils::skew_m(R_tmp*pos_tmp) * J_world[k - 1].block(3, 0, 3, num_tendons);
 
-        std::cout << "J_q" << J_q[k] << std::endl;
-        std::cout << "RHS" << rhs_matrix << std::endl;
+        std::cout << R_tmp << "\n";
 
-        J_world_tmp += R_6x6 * J_q[k] + R_6x6 * rhs_matrix;
+        J_world_tmp += R_6x6 * J_q[k] + rhs_matrix;
         J_world[k] = J_world_tmp;
 
     }  
@@ -684,7 +684,7 @@ void MultistageTDCR_Solver::testFunction()
 
     Eigen::MatrixXd tau1; 
     tau1.resize(6, 1);
-    tau1 << 0, 0, 0, 0, 1, 0;
+    tau1 << 0, 1, 1, 2, 0, 0;
     std::vector<Eigen::Matrix<double, 3, 1>> p; 
     Eigen::Matrix<double, 3, 1> p_;
     p_.setZero();
@@ -700,16 +700,16 @@ void MultistageTDCR_Solver::testFunction()
     R.resize(3, 3);
     p_world = robotStates[0].block<3, 1>(0, 0) + R * robotStates[1].block<3, 1>(0, 0);
 
-    for (int i = 0 ; i < 500; ++i) 
+    for (int i = 0 ; i < 1000; ++i) 
     
     {
 
-        timer.tic();
+        // timer.tic();
         simulateStep(tau1);
         p[0] += J_q[0].block(0, 0, 3, num_tendons)*tau1*dt; 
         p[1] += J_q[1].block(0, 0, 3, num_tendons)*tau1*dt; 
         p_world += J_world[1].block(0, 0, 3, num_tendons)*tau1*dt;
-        timer.toc();
+        // timer.toc();
         
 
     }
