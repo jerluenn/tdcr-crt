@@ -1,6 +1,8 @@
 #define BOOST_LOG_DYN_LINK 1
 #include <MultistageTDCR_Solver.hpp>
 #include <IntegratorInterface.hpp>
+#include <LevenbergMarquardtFunctor.hpp>
+#include <TDCR_Interface.hpp>
 #include "acados_sim_solver_multistage_straight_integrator1.h"
 #include "acados_sim_solver_multistage_straight_integrator2.h"
 #include "acados_sim_solver_multistage_straight_step_integrator1.h"
@@ -58,22 +60,20 @@ int main() {
 
     MultistageTDCR_Solver b(6, 2, i, is, stage_tendons, routing);
 
+    TDCR_Interface c(b); 
+    Eigen::MatrixXd tau(6, 1); 
+    tau << 2.0, 2.0, 0.0, 3.0, 0.0, 0.0; 
+    c.solveForwardKinematics(tau, true);
+
+
+    // LevenbergMarquardt c(b); 
+    // c.solveForwardKinematics();
     // b.getRobotStates(true, true);
 
     free(capsule1);
     free(capsule1step);
     free(capsule2);
     free(capsule2step);
-
-    Eigen::Affine3d T; 
-    Eigen::Matrix3d R; 
-    Eigen::Vector3d V(0, 0, 3); 
-    R << 1, 0, 0, 0, 0, -1, 0, 1, 0; 
-    T.linear() = R; 
-    T.translation() = V; 
-
-    std::cout << MathUtils::adjointTransformation(T) << "\n\n";
-
 
     return 0; 
 

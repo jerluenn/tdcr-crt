@@ -1,3 +1,6 @@
+#ifndef INTEGRATOR_H
+#define INTEGRATOR_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <cmath>
@@ -34,5 +37,4 @@ Eigen::MatrixXd integrate_step_rk4_autonomous(Eigen::MatrixXd x0, double dt)
 
 }
 
-
-
+#endif

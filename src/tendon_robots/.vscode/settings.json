@@ -59,6 +59,8 @@
         "random": "cpp",
         "set": "cpp",
         "string": "cpp",
-        "core": "cpp"
+        "core": "cpp",
+        "nonlinearoptimization": "cpp",
+        "*.txx": "cpp"
     }
 }

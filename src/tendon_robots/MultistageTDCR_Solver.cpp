@@ -17,6 +17,28 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
 
 }
 
+
+MultistageTDCR_Solver::MultistageTDCR_Solver()
+{               
+
+}
+
+unsigned int MultistageTDCR_Solver::getNumStages() 
+
+{
+
+    return num_stages; 
+
+}
+
+unsigned int MultistageTDCR_Solver::getNumTendons() 
+
+{
+
+    return num_tendons;
+
+}
+
 void MultistageTDCR_Solver::convertStageTendonsIndex() 
 
 {
@@ -393,7 +415,7 @@ void MultistageTDCR_Solver::setNumStages(int num)
 }
 
 
-std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getRobotStates(bool print_level, bool csv_level)
+std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getRobotStates(bool print_level)
 {
 
 
@@ -411,6 +433,13 @@ std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getRobotStates(bool print_le
     } 
 
     return robotStates;
+
+}
+
+void MultistageTDCR_Solver::integrateStatesandUpdate(unsigned int stage_num) 
+{
+
+    robotStates[stage_num] = integrators[stage_num].integrate(initialConditions[stage_num]);
 
 }
 
@@ -662,22 +691,19 @@ void MultistageTDCR_Solver::simulateStep(Eigen::MatrixXd tau)
 
 }
 
+std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getJacobians() 
+
+{
+
+    return J_world;
+
+}
+
 void MultistageTDCR_Solver::testFunction() 
 
 {
 
-    Eigen::Matrix<double, 6, 1> ic; 
-    ic << 8.69005567e-01, -1.68328807e-27, -5.43264986e+00, -2.19026323e-27,
-        2.73144032e-01, -9.56647789e-29;
-    setInitialConditions(0, ic);
-    Eigen::Matrix<double, 6, 1> ic1;
-    ic1 <<  5.37588000e-01,  4.28851040e-28, -4.88462763e-27, -2.22218785e-27,
-        5.36810924e-02, -1.02139239e-28;
-    setInitialConditions(1, ic1);
-    Eigen::MatrixXd tau;
-    tau.resize(6, 1); 
-    tau << 5, 0, 0, 0, 0, 0;
-    setTau(tau);
+
 
     robotStates[0] = integrateStates(0);
     robotStates[1] = integrateStates(1);
@@ -700,19 +726,19 @@ void MultistageTDCR_Solver::testFunction()
     R.resize(3, 3);
     p_world = robotStates[0].block<3, 1>(0, 0) + R * robotStates[1].block<3, 1>(0, 0);
 
-    for (int i = 0 ; i < 1000; ++i) 
+    // for (int i = 0 ; i < 100; ++i) 
     
-    {
+    // {
 
-        // timer.tic();
-        simulateStep(tau1);
-        p[0] += J_q[0].block(0, 0, 3, num_tendons)*tau1*dt; 
-        p[1] += J_q[1].block(0, 0, 3, num_tendons)*tau1*dt; 
-        p_world += J_world[1].block(0, 0, 3, num_tendons)*tau1*dt;
-        // timer.toc();
+    //     // timer.tic();
+    //     simulateStep(tau1);
+    //     p[0] += J_q[0].block(0, 0, 3, num_tendons)*tau1*dt; 
+    //     p[1] += J_q[1].block(0, 0, 3, num_tendons)*tau1*dt; 
+    //     p_world += J_world[1].block(0, 0, 3, num_tendons)*tau1*dt;
+    //     // timer.toc();
         
 
-    }
+    // }
 
     robotStates[0] = integrateStates(0);
     robotStates[1] = integrateStates(1);

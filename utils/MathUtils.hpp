@@ -1,3 +1,6 @@
+#ifndef MATHUTILS_H
+#define MATHUTILS_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <cmath>
@@ -30,3 +33,5 @@ namespace MathUtils {
     };
 
 } 
+
+#endif

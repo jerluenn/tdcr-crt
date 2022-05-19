@@ -1,3 +1,6 @@
+#ifndef MULTISTAGETDCR_H
+#define MULTISTAGETDCR_H
+
 #include <iostream>
 #include <stdlib.h>
 #include <cmath>
@@ -18,21 +21,31 @@ class MultistageTDCR_Solver {
     public: 
 
         MultistageTDCR_Solver(int numTendons, int numStages, std::vector<IntegrationInterface> integrators, std::vector<IntegrationInterface> integratorsStep, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_);
+        MultistageTDCR_Solver();
         virtual ~MultistageTDCR_Solver();
-        std::vector<Eigen::MatrixXd> getRobotStates(bool print_level, bool csv_level);
+        std::vector<Eigen::MatrixXd> getRobotStates(bool print_level);
         void solveForwardKinematics();
         void simulateStep(Eigen::MatrixXd tau);
         void setTau(Eigen::MatrixXd tau);
+        void setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment);
+        unsigned int getNumStages(); 
+        unsigned int getNumTendons();
+        void integrateStatesandUpdate(unsigned int stage_num);
+        std::vector<Eigen::MatrixXd> getJacobians();
+        Eigen::MatrixXd integrateStates(unsigned int stage_num);
+        Eigen::MatrixXd integrateStep(unsigned int stage_num); 
+        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd robotStates_, Eigen::MatrixXd initialConditions_);
+        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd robotStates_);
+        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num);
+
+        MathUtils::Timer timer;
         
 
     private: 
 
-        MathUtils::Timer timer;
-
         void setNumTendons(int num, Eigen::MatrixXd routing_);
         void setNumStages(int num);
         void initialiseJacobianMatrices(Eigen::MatrixXd stage_tendons_);
-        void setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment);
         void convertStageTendonsIndex();
         void testFunction();
 
@@ -45,13 +58,8 @@ class MultistageTDCR_Solver {
         std::vector<Eigen::MatrixXd> J_q, E_q, B_q, B_yu, E_yu, J_b, E_yu_Nplus1, B_yu_Nplus1;
         std::vector<Eigen::MatrixXd> J_world;
 
-        Eigen::MatrixXd integrateStates(unsigned int stage_num); 
-        Eigen::MatrixXd integrateStep(unsigned int stage_num); 
-
         void solveJacobians();
-        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd robotStates_, Eigen::MatrixXd initialConditions_);
-        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd robotStates_);
-        Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num);
+
         Eigen::Matrix<double, 6, 1> getPointForceMoment(unsigned int stage_num);
         Eigen::Matrix<double, 6, 1> getPointForceMoment(unsigned int stage_num, Eigen::MatrixXd robotStates_);
         Eigen::Affine3d getAffine3d_Distal(unsigned int stage_num);
@@ -73,9 +81,11 @@ class MultistageTDCR_Solver {
         const static int num_n = 3; 
         unsigned int num_tendons; 
         constexpr static double EPS = 1.0e-9;
-        constexpr static double dt = 0.005;
+        double dt = 0.005;
         const static int num_alpha = 1; 
         unsigned int num_stages;
         unsigned int num_total;
 
 };
+
+#endif
