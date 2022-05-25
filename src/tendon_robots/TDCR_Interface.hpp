@@ -13,6 +13,7 @@ class TDCR_Interface
 
         TDCR_Interface(MultistageTDCR_Solver& TDCR_);
         void solveForwardKinematics(Eigen::MatrixXd tau, bool print_level);
+        std::vector<Eigen::MatrixXd> getJacobians(); 
         virtual ~TDCR_Interface(); 
 
     private:

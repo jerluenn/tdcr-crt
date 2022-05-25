@@ -45,6 +45,13 @@ void TDCR_Interface::solveForwardKinematics(Eigen::MatrixXd tau, bool print_leve
     }
 
 
+}
+
+std::vector<Eigen::MatrixXd> TDCR_Interface::getJacobians() 
+
+{
+
+    return TDCR->getJacobians();
 
 }
 
