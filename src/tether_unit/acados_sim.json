@@ -5,7 +5,7 @@
     "dims": {
         "np": 0,
         "nu": 0,
-        "nx": 21,
+        "nx": 16,
         "nz": 0
     },
     "model": {
@@ -18,7 +18,7 @@
     },
     "problem_class": "SIM",
     "solver_options": {
-        "Tsim": 0.02,
+        "Tsim": 0.021,
         "integrator_type": "ERK",
         "output_z": false,
         "sens_adj": false,

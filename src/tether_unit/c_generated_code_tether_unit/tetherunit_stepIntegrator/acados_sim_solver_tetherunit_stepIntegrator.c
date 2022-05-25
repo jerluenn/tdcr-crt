@@ -70,12 +70,12 @@ int tetherunit_stepIntegrator_acados_sim_solver_free_capsule(sim_solver_capsule 
 int tetherunit_stepIntegrator_acados_sim_create(sim_solver_capsule * capsule)
 {
     // initialize
-    int nx = 21;
+    int nx = 16;
     int nu = 0;
     int nz = 0;
 
     
-    double Tsim = 0.02;
+    double Tsim = 0.021;
 
     
     // explicit ode
@@ -170,8 +170,8 @@ int tetherunit_stepIntegrator_acados_sim_create(sim_solver_capsule * capsule)
 
     /* initialize input */
     // x
-    double x0[21];
-    for (int ii = 0; ii < 21; ii++)
+    double x0[16];
+    for (int ii = 0; ii < 16; ii++)
         x0[ii] = 0.0;
 
     sim_in_set(tetherunit_stepIntegrator_sim_config, tetherunit_stepIntegrator_sim_dims,
@@ -187,11 +187,11 @@ int tetherunit_stepIntegrator_acados_sim_create(sim_solver_capsule * capsule)
                tetherunit_stepIntegrator_sim_in, "u", u0);
 
     // S_forw
-    double S_forw[441];
-    for (int ii = 0; ii < 441; ii++)
+    double S_forw[256];
+    for (int ii = 0; ii < 256; ii++)
         S_forw[ii] = 0.0;
-    for (int ii = 0; ii < 21; ii++)
-        S_forw[ii + ii * 21 ] = 1.0;
+    for (int ii = 0; ii < 16; ii++)
+        S_forw[ii + ii * 16 ] = 1.0;
 
 
     sim_in_set(tetherunit_stepIntegrator_sim_config, tetherunit_stepIntegrator_sim_dims,

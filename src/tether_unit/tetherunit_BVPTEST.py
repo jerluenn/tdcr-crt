@@ -43,17 +43,19 @@ class TetherUnitBoundarySolver:
     def solveBVP(self, debug, plot): 
 
         t_start = time.time()
-        sol = least_squares(self.getResiduals, np.zeros(6), method = 'trf')
-        self.initConditions[12:18] = sol.x 
+        # sol = least_squares(self.getResiduals, np.zeros(12), method = 'lm')
+        sol = least_squares(self.getResiduals, np.zeros(6), method = 'lm')
+        self.initConditions[7:13] = sol.x[0:6] 
         self.set_and_integrate()
 
         if debug == True: 
 
-            print(f"Internal forces and moments at proximal end: {sol.x}.")
-            print(f"Internal forces and moments at distal end: {self.distalConditions[12:18]}")
+            print(f"Internal forces and moments at proximal end: {sol.x[0:6]}.")
+            print(f"External wrench at end: {sol.x[6:12]}")
+            print(f"Internal forces and moments at distal end: {self.distalConditions[7:13]}")
             print(f"Pose at distal end: {self.distalConditions[0: 3]}")
-            print(f"Tension at proximal end: {self.initConditions[18]}")
-            print(f"Tension at distal end: {self.distalConditions[18]}")
+            print(f"Tension at proximal end: {self.initConditions[14]}")
+            print(f"Tension at distal end: {self.distalConditions[14]}")
             print(f"Total cost: {sol.cost}")
             print(f"Time taken: {time.time() - t_start} s.")
             
@@ -64,11 +66,11 @@ class TetherUnitBoundarySolver:
 
     def plotData(self, debug):
  
-        self.poseData = np.zeros((self.integration_steps + 1, 12))
+        self.poseData = np.zeros((self.integration_steps + 1, 7))
         self.internalWrenchData = np.zeros((self.integration_steps + 1, 6))
         self.arcData = np.zeros((self.integration_steps + 1, 1))
-        self.poseData[0, :] = self.initConditions[0:12]
-        self.internalWrenchData[0, :] = self.initConditions[12:18]
+        self.poseData[0, :] = self.initConditions[0:7]
+        self.internalWrenchData[0, :] = self.initConditions[7:13]
         states_i = self.initConditions
 
         for i in range(self.integration_steps): 
@@ -76,9 +78,9 @@ class TetherUnitBoundarySolver:
             self.tetherObject._stepIntegrator.set('x', states_i)
             self.tetherObject._stepIntegrator.solve()
             states_i = self.tetherObject._stepIntegrator.get('x')
-            self.poseData[i + 1, :] = states_i[0:12]
-            self.arcData[i + 1, :] = states_i[19]
-            self.internalWrenchData[i + 1, :] = states_i[12:18]
+            self.poseData[i + 1, :] = states_i[0:7]
+            self.arcData[i + 1, :] = states_i[14]
+            self.internalWrenchData[i + 1, :] = states_i[7:13]
 
             if debug == True: 
 
@@ -93,7 +95,7 @@ class TetherUnitBoundarySolver:
 
                     plt.plot(self.arcData, self.poseData[:, 0:3])
                     plt.show()
-                    plt.plot(self.arcData, self.poseData[:, 3:12])
+                    plt.plot(self.arcData, self.poseData[:, 3:7])
                     plt.show()
 
                 else: 
@@ -119,9 +121,11 @@ class TetherUnitBoundarySolver:
 
     def getResiduals(self, guess): 
 
-        self.initConditions[12:18] = guess 
+        external_wrench = np.zeros(6)
+        self.initConditions[7:13] = guess[0:6]
         self.set_and_integrate()
-        residual = np.hstack((500*(self.distalConditions[0:12] - self.distalPose), self.initConditions[12:18]))
+        # residual = np.hstack((50*(self.distalConditions[0:3] - self.distalPose[0:3]), 50*(self.distalConditions[3:7] - self.distalPose[3:7]) , 500*(self.distalConditions[7:13] - external_wrench)))
+        residual = np.hstack(500*(self.distalConditions[7:13] - external_wrench))
         # print(norm_2(residual))
 
         return residual
@@ -135,13 +139,12 @@ def test_Function2(testClass, initConditions):
 
     testClass.initConditions = initConditions
 
-    for i in range(5): 
 
-        testClass.set_and_integrate()
-        testClass.plotData(True)
-        plt.show()
-        testClass.initConditions = testClass.distalConditions
-        
+    testClass.set_and_integrate()
+    testClass.plotData(True)
+    plt.show()
+    testClass.initConditions = testClass.distalConditions
+    
 
 if __name__ == "__main__":
 
@@ -151,21 +154,25 @@ if __name__ == "__main__":
     robot_dict['inner_radius'] = 0.0006
     robot_dict['elastic_modulus'] = 2e9
     robot_dict['mass_distribution'] = 0.035
-    robot_dict['tether_length'] = 1.1
+    robot_dict['tether_length'] = 2.5
     robot_dict['shear_modulus'] = 70e9
     robot_dict['integration_steps'] = 50
 
-    # initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 2, 0, -0.5, 0, 5, 0, 0.05])
-    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.92, 0, -1.02, 0, -0.2, 0, 5, 0, 0.05])
-    distalPose = np.array([1.2, 0, 2.5, 1, 0, 0, 0, 1, 0, 0, 0, 1])
+    # initConditions = np.array([0, 0, 0, 1, 0, 0, 0, -2, 0, 2, 0, -0.5, 0, 5, 0, 0.05])
+    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 0.92, 0, 0.08, 0, 0.125, 0, 5, 0, 0.05])
+    distalPose = np.array([-0.8, 0, 0.5, 1, 0, 0, 0])
     testClass = TetherUnitBoundarySolver(robot_dict, initConditions, distalPose)
     testClass.solveBVP(True, True)
 
     # print(testClass.tetherObject._Kbt)
 
-    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.36, -7.21548500e-26, -3.62844316e-33, 4.22730307e-26,
-   0.114, -1.91589977e-24, 5, 0, 0.05])
-    test_Function(testClass, initConditions)
+    a = testClass.tetherObject.linearisedEquationsFunction(testClass.distalConditions)
+    b = np.linalg.eig(a.full())
+    print(b[0])
+
+#     initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 0.36, -7.21548500e-26, -3.62844316e-33, 4.22730307e-26,
+#    0.119, -1.91589977e-24, 5, 0, 0.05])
+#     test_Function(testClass, initConditions)
     # test_Function2(testClass, testClass.initConditions)
 
 
