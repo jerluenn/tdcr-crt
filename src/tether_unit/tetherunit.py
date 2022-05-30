@@ -79,7 +79,7 @@ class TetherUnit:
 
         self._u = inv(self._Kbt)@transpose(reshape(self._R, 3, 3))@self._m
         self._v = SX([0, 0, 1])
-        self._k = 0.5
+        self._k = 0.1
 
 
     def _createIntegrator(self):
@@ -126,7 +126,7 @@ class TetherUnit:
         sim.solver_options.T = Sf
         sim.solver_options.integrator_type = 'ERK'
         sim.solver_options.num_stages = 4
-        sim.solver_options.num_steps = 20
+        sim.solver_options.num_steps = 40
 
         acados_integrator = AcadosSimSolver(sim)
 
@@ -140,7 +140,6 @@ class TetherUnit:
 
         model_name = 'tetherunit_stepIntegrator'
 
-        k = 0.01
         c = self._k*(1-transpose(self._eta)@self._eta)
 
         p_dot = reshape(self._R, 3, 3) @ self._v

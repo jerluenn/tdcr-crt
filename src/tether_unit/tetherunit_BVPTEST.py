@@ -40,6 +40,29 @@ class TetherUnitBoundarySolver:
 
         return self.distalConditions
 
+    def set_integrate_eigenvalues(self): 
+
+        self.poseData = np.zeros((self.integration_steps + 1, 7))
+        self.internalWrenchData = np.zeros((self.integration_steps + 1, 6))
+        self.arcData = np.zeros((self.integration_steps + 1, 1))
+        self.poseData[0, :] = self.initConditions[0:7]
+        self.internalWrenchData[0, :] = self.initConditions[7:13]
+        self.eigenvaluesData = np.zeros((self.integration_steps + 1, 16), dtype = 'complex_')
+        states_i = self.initConditions
+        self.eigenvaluesData[0, :] = np.linalg.eig(self.tetherObject.linearisedEquationsFunction(states_i).full())[0]
+
+
+        for i in range(self.integration_steps): 
+            
+            self.tetherObject._stepIntegrator.set('x', states_i)
+            self.tetherObject._stepIntegrator.solve()
+            states_i = self.tetherObject._stepIntegrator.get('x')
+            self.eigenvaluesData[i + 1, :] = np.linalg.eig(self.tetherObject.linearisedEquationsFunction(states_i).full())[0]
+            self.poseData[i + 1, :] = states_i[0:7]
+            self.arcData[i + 1, :] = states_i[14]
+            self.internalWrenchData[i + 1, :] = states_i[7:13]
+
+
     def solveBVP(self, debug, plot): 
 
         t_start = time.time()
@@ -124,7 +147,7 @@ class TetherUnitBoundarySolver:
         external_wrench = np.zeros(6)
         self.initConditions[7:13] = guess[0:6]
         self.set_and_integrate()
-        # residual = np.hstack((50*(self.distalConditions[0:3] - self.distalPose[0:3]), 50*(self.distalConditions[3:7] - self.distalPose[3:7]) , 500*(self.distalConditions[7:13] - external_wrench)))
+        # residual = np.hstack((50*(self.distalConditions[0:3] - self.distalPose[0:3]), 50*(self.distalConditions[3:7] - self.distalPose[3:7])))
         residual = np.hstack(500*(self.distalConditions[7:13] - external_wrench))
         # print(norm_2(residual))
 
@@ -139,12 +162,22 @@ def test_Function2(testClass, initConditions):
 
     testClass.initConditions = initConditions
 
+    t = time.time()
 
     testClass.set_and_integrate()
+
+    print(time.time() - t)
+
     testClass.plotData(True)
     plt.show()
     testClass.initConditions = testClass.distalConditions
+
+def getEigenvalues(testClass, initConditions):
+
+    testClass.initConditions = initConditions
+    testClass.set_integrate_eigenvalues()   
     
+    return testClass.eigenvaluesData
 
 if __name__ == "__main__":
 
@@ -152,27 +185,32 @@ if __name__ == "__main__":
     robot_dict['type'] = 'hollow_rod'
     robot_dict['outer_radius'] = 0.002
     robot_dict['inner_radius'] = 0.0006
-    robot_dict['elastic_modulus'] = 2e9
+    robot_dict['elastic_modulus'] = 1.80e9
     robot_dict['mass_distribution'] = 0.035
     robot_dict['tether_length'] = 2.5
-    robot_dict['shear_modulus'] = 70e9
+    robot_dict['shear_modulus'] = 0.75e9
     robot_dict['integration_steps'] = 50
 
     # initConditions = np.array([0, 0, 0, 1, 0, 0, 0, -2, 0, 2, 0, -0.5, 0, 5, 0, 0.05])
-    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 0.92, 0, 0.08, 0, 0.125, 0, 5, 0, 0.05])
-    distalPose = np.array([-0.8, 0, 0.5, 1, 0, 0, 0])
+    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, robot_dict['tether_length']*robot_dict['mass_distribution']*9.81 , 0, 0.00, 0, 0.125, 0, 5, 0, 0.05])
+    distalPose = np.array([-0.6, 0, 0.485, 1, 0, 0, 0])
     testClass = TetherUnitBoundarySolver(robot_dict, initConditions, distalPose)
-    testClass.solveBVP(True, True)
+    # testClass.solveBVP(True, True)
+    initConditions = np.array([0, 0, 0, 1, 0, 0, 0, robot_dict['tether_length']*robot_dict['mass_distribution']*9.81, -7.21548500e-26, -3.62844316e-33, 4.22730307e-26,
+   0.192356, -1.91589977e-24, 5, 0, 0.05])
+    test_Function(testClass, initConditions)
+    test_Function2(testClass, testClass.initConditions)
+    eig = getEigenvalues(testClass, testClass.initConditions)
+    # print(eig)
+
 
     # print(testClass.tetherObject._Kbt)
 
-    a = testClass.tetherObject.linearisedEquationsFunction(testClass.distalConditions)
-    b = np.linalg.eig(a.full())
-    print(b[0])
+    # a = testClass.tetherObject.linearisedEquationsFunction(testClass.distalConditions)
+    # b = np.linalg.eig(a.full())
+    # print(b[0])
 
-#     initConditions = np.array([0, 0, 0, 1, 0, 0, 0, 0.36, -7.21548500e-26, -3.62844316e-33, 4.22730307e-26,
-#    0.119, -1.91589977e-24, 5, 0, 0.05])
-#     test_Function(testClass, initConditions)
-    # test_Function2(testClass, testClass.initConditions)
+
+
 
 
