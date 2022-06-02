@@ -302,6 +302,9 @@ PYTHON_LIBRARY_DEBUG:FILEPATH=PYTHON_LIBRARY_DEBUG-NOTFOUND
 //Dependencies for the target
 TDCR_Interface_LIB_DEPENDS:STATIC=general;/usr/local/lib/libpython3.8.a;general;/home/jerluen/tdcr-crt/../acados/lib/libacados.so;general;/home/jerluen/tdcr-crt/lib/shared/libacados_sim_solver_multistage_straight_integrator1.so;general;/home/jerluen/tdcr-crt/lib/shared/libacados_sim_solver_multistage_straight_integrator2.so;general;/home/jerluen/tdcr-crt/lib/shared/libacados_sim_solver_multistage_straight_step_integrator1.so;general;/home/jerluen/tdcr-crt/lib/shared/libacados_sim_solver_multistage_straight_step_integrator2.so;general;/home/jerluen/tdcr-crt/lib/static/libIntegratorInterface.a;general;/home/jerluen/tdcr-crt/lib/static/libLevenbergMarquardtFunctor.a;general;/home/jerluen/tdcr-crt/lib/static/libMathUtils.a;general;/home/jerluen/tdcr-crt/lib/static/libMultistageTDCR_Solver.a;general;/home/jerluen/tdcr-crt/lib/static/libTDCR_Interface.a;
 
+//The directory containing a CMake configuration file for ifopt.
+ifopt_DIR:PATH=/opt/ros/kinetic/share/ifopt/cmake
+
 //Value Computed by CMake
 tdcr-crt_BINARY_DIR:STATIC=/home/jerluen/tdcr-crt/build
 

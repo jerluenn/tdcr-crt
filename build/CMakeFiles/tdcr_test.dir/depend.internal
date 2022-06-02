@@ -37,10 +37,6 @@ CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_sol.h
  ../src/tendon_robots/MultistageTDCR_Solver.hpp
  ../src/tendon_robots/TDCR_Interface.hpp
- ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/acados_sim_solver_multistage_straight_integrator1.h
- ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2/acados_sim_solver_multistage_straight_integrator2.h
- ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator1/acados_sim_solver_multistage_straight_step_integrator1.h
- ../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_step_integrator2/acados_sim_solver_multistage_straight_step_integrator2.h
  ../utils/Integrator.hpp
  ../utils/IntegratorInterface.hpp
  ../utils/LevenbergMarquardtFunctor.hpp

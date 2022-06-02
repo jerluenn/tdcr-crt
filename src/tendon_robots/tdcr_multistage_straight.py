@@ -75,6 +75,8 @@ class MultistageTDCR(Tendon_Robot_Builder):
         os.system("rm *.so")
 
         self._dir_name = 'c_generated_code_' + self._robot_type
+        os.mkdir(os.path.expanduser(
+            "~/tdcr-crt/src/tendon_robots/" + self._dir_name))
         os.chdir(os.path.expanduser(
             "~/tdcr-crt/src/tendon_robots/" + self._dir_name))
 
@@ -206,6 +208,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
         Sf = self._stage_lengths[stage]
 
         sim.code_export_directory = self._dir_name + '/' + model_name
+
         # for exporting data to library folder afterwards.
         self._dir_list.append(sim.code_export_directory)
         self._integrator_names.append(model_name)
