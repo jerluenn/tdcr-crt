@@ -14,7 +14,7 @@
 #include <cassert>
 #include <chrono>
 
-#define assertm(exp, msg) assert(((void)msg, exp))
+
 
 class MultistageTDCR_Solver {
 

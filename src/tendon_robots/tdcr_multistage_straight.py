@@ -75,8 +75,6 @@ class MultistageTDCR(Tendon_Robot_Builder):
         os.system("rm *.so")
 
         self._dir_name = 'c_generated_code_' + self._robot_type
-        os.mkdir(os.path.expanduser(
-            "~/tdcr-crt/src/tendon_robots/" + self._dir_name))
         os.chdir(os.path.expanduser(
             "~/tdcr-crt/src/tendon_robots/" + self._dir_name))
 

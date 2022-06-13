@@ -65,10 +65,15 @@ int main() {
     tau << 2.0, 2.0, 0.0, 3.0, 0.0, 0.0; 
     c.solveForwardKinematics(tau, true);
 
+    for (int i = 0; i < 100; ++i) 
+    
+    {
 
-    // LevenbergMarquardt c(b); 
-    // c.solveForwardKinematics();
-    // b.getRobotStates(true, true);
+        b.timer.tic();
+        b.simulateStep(tau); 
+        b.timer.toc();
+
+    }
 
     free(capsule1);
     free(capsule1step);

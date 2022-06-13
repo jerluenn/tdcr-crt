@@ -61,6 +61,7 @@
         "string": "cpp",
         "core": "cpp",
         "nonlinearoptimization": "cpp",
-        "*.txx": "cpp"
+        "*.txx": "cpp",
+        "numericaldiff": "cpp"
     }
 }

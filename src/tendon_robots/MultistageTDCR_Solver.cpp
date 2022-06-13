@@ -7,7 +7,7 @@ MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std:
 
     v << 0.0, 0.0, 1.0;
     integrators = integrators_;
-    integratorsStep = integratorsStep_;
+    integratorsStep = integratorsStep_; 
     setNumTendons(numTendons, routing_);
     setNumStages(numStages);
     initialiseJacobianMatrices(stage_tendons);
@@ -647,8 +647,6 @@ void MultistageTDCR_Solver::solveJacobians()
         R_6x6.block<3, 3>(3, 3) = R_tmp;
         pos_tmp = robotStates[k].block<3, 1>(0, 0);  
         rhs_matrix.block<3, 6>(0, 0) = -MathUtils::skew_m(R_tmp*pos_tmp) * J_world[k - 1].block(3, 0, 3, num_tendons);
-
-        std::cout << R_tmp << "\n";
 
         J_world_tmp += R_6x6 * J_q[k] + rhs_matrix;
         J_world[k] = J_world_tmp;
