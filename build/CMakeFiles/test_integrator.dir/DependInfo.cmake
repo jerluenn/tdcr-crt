@@ -18,7 +18,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../../acados/include/qpOASES_e"
   "../utils"
   "../lib"
-  "/usr/local/include/python3.8"
+  "/usr/include/python3.7m"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator1/multistage_straight_integrator1_model"
   "../src/tendon_robots/c_generated_code_multistage_straight/multistage_straight_integrator2"

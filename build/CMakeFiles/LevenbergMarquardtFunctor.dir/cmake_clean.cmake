@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "../lib/static/libLevenbergMarquardtFunctor.a"
-  "../lib/static/libLevenbergMarquardtFunctor.pdb"
   "CMakeFiles/LevenbergMarquardtFunctor.dir/utils/LevenbergMarquardtFunctor.cpp.o"
+  "../lib/static/libLevenbergMarquardtFunctor.pdb"
+  "../lib/static/libLevenbergMarquardtFunctor.a"
 )
 
 # Per-language clean rules from dependency scanning.

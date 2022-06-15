@@ -39,6 +39,14 @@ unsigned int MultistageTDCR_Solver::getNumTendons()
 
 }
 
+Eigen::MatrixXd MultistageTDCR_Solver::getRobotStates(unsigned int stage_num) 
+
+{
+
+    return robotStates[stage_num];
+
+}
+
 void MultistageTDCR_Solver::convertStageTendonsIndex() 
 
 {

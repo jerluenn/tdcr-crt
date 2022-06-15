@@ -86,6 +86,24 @@ Eigen::Matrix3d MathUtils::quat2Rot(Eigen::Matrix<double, 4, 1> eta)
 
 }
 
+Eigen::Matrix<double, 7, 1> MathUtils::robotStates2Pose(Eigen::MatrixXd robotStates) 
+
+{
+
+    assertm(robotStates.rows() == 12, "robotStates must have 12 rows, 1 col."); 
+    assertm(robotStates.cols() == 1, "robotStates must have 12 rows, 1 col."); 
+
+    Eigen::Matrix<double, 7, 1> pose; 
+    Eigen::Matrix3d R; 
+    Eigen::Quaterniond eta; 
+    R << robotStates.block<9, 1>(3, 0); 
+    eta = MathUtils::rot2quat(R); 
+    pose << robotStates.block<3, 1>(0, 0), eta.w(), eta.vec(); 
+
+    return pose;
+
+}
+
 Eigen::Matrix<double, 3, 3> MathUtils::skew_v(Eigen::Vector<double, 3> v) 
 
 {

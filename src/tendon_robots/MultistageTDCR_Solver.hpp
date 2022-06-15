@@ -24,6 +24,7 @@ class MultistageTDCR_Solver {
         MultistageTDCR_Solver();
         virtual ~MultistageTDCR_Solver();
         std::vector<Eigen::MatrixXd> getRobotStates(bool print_level);
+        Eigen::MatrixXd getRobotStates(unsigned int stage_num);
         void solveForwardKinematics();
         void simulateStep(Eigen::MatrixXd tau);
         void setTau(Eigen::MatrixXd tau);
