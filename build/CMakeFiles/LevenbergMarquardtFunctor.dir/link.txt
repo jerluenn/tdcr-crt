@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../lib/static/libLevenbergMarquardtFunctor.a  CMakeFiles/LevenbergMarquardtFunctor.dir/utils/LevenbergMarquardtFunctor.cpp.o
+/usr/bin/ar qc ../lib/static/libLevenbergMarquardtFunctor.a CMakeFiles/LevenbergMarquardtFunctor.dir/utils/LevenbergMarquardtFunctor.cpp.o
 /usr/bin/ranlib ../lib/static/libLevenbergMarquardtFunctor.a

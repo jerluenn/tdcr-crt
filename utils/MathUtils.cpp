@@ -95,8 +95,11 @@ Eigen::Matrix<double, 7, 1> MathUtils::robotStates2Pose(Eigen::MatrixXd robotSta
 
     Eigen::Matrix<double, 7, 1> pose; 
     Eigen::Matrix3d R; 
+    Eigen::MatrixXd R_tmp(9, 1);
     Eigen::Quaterniond eta; 
-    R << robotStates.block<9, 1>(3, 0); 
+    R_tmp << robotStates.block<9, 1>(3, 0); 
+    R_tmp.resize(3, 3);
+    R = R_tmp; 
     eta = MathUtils::rot2quat(R); 
     pose << robotStates.block<3, 1>(0, 0), eta.w(), eta.vec(); 
 

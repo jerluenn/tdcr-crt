@@ -62,16 +62,35 @@ int main() {
 
     TDCR_Interface c(b); 
     Eigen::MatrixXd tau(6, 1); 
-    tau << 2.0, 2.0, 0.0, 3.0, 0.0, 0.0; 
+    tau << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0; 
     c.solveForwardKinematics(tau, true);
 
-    for (int i = 0; i < 100; ++i) 
+    Eigen::MatrixXi w1(2, 1), w2(6, 1);
+    Eigen::MatrixXd desiredPose(8, 1), weight_all(8, 8), controlInput; 
+    std::vector<Eigen::MatrixXi> CSM; 
+    w1 << 0, 1; 
+    w2 << 0, 1, 3, 4, 5, 6; 
+    CSM.push_back(w1); 
+    CSM.push_back(w2); 
+    c.setDimensions(8, CSM);
+
+    desiredPose << 0.01, 0.01, -0.05, 0.04, 1., 0., 0., 0.;
+
+    weight_all.setZero();
+    weight_all.diagonal() << 0.1, 0.1, 1.0, 1.0, 0.05, 0.05, 0.05, 0.05;
+
+    c.setWeightsAllStages(weight_all);
+    
+
+    for (int i = 0; i < 20; ++i) 
     
     {
 
-        b.timer.tic();
-        b.simulateStep(tau); 
-        b.timer.toc();
+        controlInput = c.getHighLevelControl(desiredPose);
+        std::cout << "controlInput: " << controlInput << "\n";
+        c.simulateStep(controlInput);
+        std::cout << c.checkBoundaryConditions() << "\n"; 
+        std::cout << "Error: " << c.getCustomPoseError() << "\n\n";
 
     }
 

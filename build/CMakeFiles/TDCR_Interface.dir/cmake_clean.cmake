@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/TDCR_Interface.dir/src/tendon_robots/TDCR_Interface.cpp.o"
-  "../lib/static/libTDCR_Interface.pdb"
   "../lib/static/libTDCR_Interface.a"
+  "../lib/static/libTDCR_Interface.pdb"
+  "CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o"
 )
 
 # Per-language clean rules from dependency scanning.

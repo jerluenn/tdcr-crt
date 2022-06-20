@@ -6,6 +6,7 @@ set (CMAKE_CXX_STANDARD 11)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
+set(CMAKE_BUILD_TYPE Debug)
 
 SET(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
@@ -19,7 +20,7 @@ SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
 SET( acados_include "${CMAKE_CURRENT_SOURCE_DIR}/../acados/include" )
 SET( acados_lib "${CMAKE_CURRENT_SOURCE_DIR}/../acados/lib")
-SET( c_functions "${SOURCE_DIR}/tendon_robots" )
+SET( c_functions "${SOURCE_DIR}/tdcr_model" )
 
 
 MACRO(SUBDIRLIST result curdir)
@@ -51,7 +52,7 @@ find_package(Boost REQUIRED COMPONENTS system log_setup log REQUIRED)
 
 include_directories(
 
-	${SOURCE_DIR}/tendon_robots
+	${SOURCE_DIR}/tdcr_model
 	${acados_include}
 	${acados_include}/blasfeo/include/
 	${acados_include}/hpipm/include/
@@ -64,7 +65,7 @@ include_directories(
 )
 
 
-FILE( GLOB SOURCES ${SOURCE_DIR}/tendon_robots/*.cpp )
+FILE( GLOB SOURCES ${SOURCE_DIR}/tdcr_model/*.cpp )
 FILE( GLOB UTIL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp )
 FILE( GLOB TEST_FILES ${TEST_DIR}/*.cpp)
 SUBDIRLIST(SUBDIRS ${c_functions})
@@ -138,6 +139,7 @@ FOREACH(TEST_FILE ${TEST_FILES})
 	PRIVATE Eigen3::Eigen 
 	${PYTHON_LIBRARIES} 
 	MultistageTDCR_Solver
+	TDCR_Interface
 	${acados_lib}/libacados.so
 	${LIBFILES}
 	${LIBS}

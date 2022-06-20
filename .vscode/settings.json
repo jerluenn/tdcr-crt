@@ -42,7 +42,23 @@
         "chrono": "cpp",
         "ctime": "cpp",
         "ratio": "cpp",
-        "list": "cpp"
-    },
-    "python.pythonPath": "/usr/bin/python3.7"
+        "list": "cpp",
+        "cstring": "cpp",
+        "strstream": "cpp",
+        "bitset": "cpp",
+        "complex": "cpp",
+        "functional": "cpp",
+        "iomanip": "cpp",
+        "numeric": "cpp",
+        "thread": "cpp",
+        "cfenv": "cpp",
+        "cinttypes": "cpp",
+        "typeindex": "cpp",
+        "iterator": "cpp",
+        "map": "cpp",
+        "random": "cpp",
+        "set": "cpp",
+        "core": "cpp",
+        "numericaldiff": "cpp"
+    }
 }
