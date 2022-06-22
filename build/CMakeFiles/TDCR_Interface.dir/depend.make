@@ -3,6 +3,7 @@
 
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/dense_qp/dense_qp_common.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_nlp/ocp_nlp_common.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_nlp/ocp_nlp_constraints_bgh.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_nlp/ocp_nlp_constraints_common.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_nlp/ocp_nlp_cost_common.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_nlp/ocp_nlp_dynamics_common.h
@@ -12,18 +13,29 @@ CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/ocp_qp/ocp_qp_xcond_solver.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_collocation_utils.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_common.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_erk_integrator.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_gnsf.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_irk_integrator.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/sim/sim_lifted_irk_integrator.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/utils/external_function_generic.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/utils/math.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/utils/print.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/utils/timing.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados/utils/types.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados_c/external_function_interface.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados_c/ocp_nlp_interface.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados_c/ocp_qp_interface.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/acados_c/sim_interface.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_block_size.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_common.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_aux.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_aux_ext_dep.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_aux_old.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_blas.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_blas_api.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_blasfeo_api.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_d_kernel.h
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_i_aux_ext_dep.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/blasfeo/include/blasfeo_target.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/hpipm/include/hpipm_common.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/hpipm/include/hpipm_d_dense_qp.h
@@ -35,6 +47,7 @@ CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/hpipm/include/hpipm_d_ocp_qp_res.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../../acados/include/hpipm/include/hpipm_d_ocp_qp_sol.h
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../src/tdcr_model/MultistageTDCR_Solver.hpp
+CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../utils/ControllerInterface.hpp
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../utils/Integrator.hpp
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../utils/IntegratorInterface.hpp
 CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o: ../utils/LevenbergMarquardtFunctor.hpp

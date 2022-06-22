@@ -75,17 +75,6 @@ CMAKE_BINARY_DIR = /home/jerluen/tdcr-crt/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -96,6 +85,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/local/bin/cmake --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -156,6 +156,58 @@ tdcr_test/fast:
 .PHONY : tdcr_test/fast
 
 #=============================================================================
+# Target rules for targets named TDCR_Interface
+
+# Build rule for target.
+TDCR_Interface: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TDCR_Interface
+.PHONY : TDCR_Interface
+
+# fast build rule for target.
+TDCR_Interface/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/TDCR_Interface.dir/build.make CMakeFiles/TDCR_Interface.dir/build
+.PHONY : TDCR_Interface/fast
+
+#=============================================================================
+# Target rules for targets named ControllerInterface
+
+# Build rule for target.
+ControllerInterface: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ControllerInterface
+.PHONY : ControllerInterface
+
+# fast build rule for target.
+ControllerInterface/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ControllerInterface.dir/build.make CMakeFiles/ControllerInterface.dir/build
+.PHONY : ControllerInterface/fast
+
+#=============================================================================
+# Target rules for targets named IntegratorInterface
+
+# Build rule for target.
+IntegratorInterface: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 IntegratorInterface
+.PHONY : IntegratorInterface
+
+# fast build rule for target.
+IntegratorInterface/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/IntegratorInterface.dir/build.make CMakeFiles/IntegratorInterface.dir/build
+.PHONY : IntegratorInterface/fast
+
+#=============================================================================
+# Target rules for targets named MultistageTDCR_Solver
+
+# Build rule for target.
+MultistageTDCR_Solver: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MultistageTDCR_Solver
+.PHONY : MultistageTDCR_Solver
+
+# fast build rule for target.
+MultistageTDCR_Solver/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MultistageTDCR_Solver.dir/build.make CMakeFiles/MultistageTDCR_Solver.dir/build
+.PHONY : MultistageTDCR_Solver/fast
+
+#=============================================================================
 # Target rules for targets named test_stage_calculator
 
 # Build rule for target.
@@ -193,45 +245,6 @@ MathUtils: cmake_check_build_system
 MathUtils/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MathUtils.dir/build.make CMakeFiles/MathUtils.dir/build
 .PHONY : MathUtils/fast
-
-#=============================================================================
-# Target rules for targets named IntegratorInterface
-
-# Build rule for target.
-IntegratorInterface: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 IntegratorInterface
-.PHONY : IntegratorInterface
-
-# fast build rule for target.
-IntegratorInterface/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/IntegratorInterface.dir/build.make CMakeFiles/IntegratorInterface.dir/build
-.PHONY : IntegratorInterface/fast
-
-#=============================================================================
-# Target rules for targets named MultistageTDCR_Solver
-
-# Build rule for target.
-MultistageTDCR_Solver: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MultistageTDCR_Solver
-.PHONY : MultistageTDCR_Solver
-
-# fast build rule for target.
-MultistageTDCR_Solver/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/MultistageTDCR_Solver.dir/build.make CMakeFiles/MultistageTDCR_Solver.dir/build
-.PHONY : MultistageTDCR_Solver/fast
-
-#=============================================================================
-# Target rules for targets named TDCR_Interface
-
-# Build rule for target.
-TDCR_Interface: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 TDCR_Interface
-.PHONY : TDCR_Interface
-
-# fast build rule for target.
-TDCR_Interface/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/TDCR_Interface.dir/build.make CMakeFiles/TDCR_Interface.dir/build
-.PHONY : TDCR_Interface/fast
 
 src/tdcr_model/MultistageTDCR_Solver.o: src/tdcr_model/MultistageTDCR_Solver.cpp.o
 
@@ -368,6 +381,33 @@ tests/test_stage_calculator.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_stage_calculator.dir/build.make CMakeFiles/test_stage_calculator.dir/tests/test_stage_calculator.cpp.s
 .PHONY : tests/test_stage_calculator.cpp.s
 
+utils/ControllerInterface.o: utils/ControllerInterface.cpp.o
+
+.PHONY : utils/ControllerInterface.o
+
+# target to build an object file
+utils/ControllerInterface.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ControllerInterface.dir/build.make CMakeFiles/ControllerInterface.dir/utils/ControllerInterface.cpp.o
+.PHONY : utils/ControllerInterface.cpp.o
+
+utils/ControllerInterface.i: utils/ControllerInterface.cpp.i
+
+.PHONY : utils/ControllerInterface.i
+
+# target to preprocess a source file
+utils/ControllerInterface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ControllerInterface.dir/build.make CMakeFiles/ControllerInterface.dir/utils/ControllerInterface.cpp.i
+.PHONY : utils/ControllerInterface.cpp.i
+
+utils/ControllerInterface.s: utils/ControllerInterface.cpp.s
+
+.PHONY : utils/ControllerInterface.s
+
+# target to generate assembly for a file
+utils/ControllerInterface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ControllerInterface.dir/build.make CMakeFiles/ControllerInterface.dir/utils/ControllerInterface.cpp.s
+.PHONY : utils/ControllerInterface.cpp.s
+
 utils/IntegratorInterface.o: utils/IntegratorInterface.cpp.o
 
 .PHONY : utils/IntegratorInterface.o
@@ -457,6 +497,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... ControllerInterface"
 	@echo "... IntegratorInterface"
 	@echo "... LevenbergMarquardtFunctor"
 	@echo "... MathUtils"
@@ -480,6 +521,9 @@ help:
 	@echo "... tests/test_stage_calculator.o"
 	@echo "... tests/test_stage_calculator.i"
 	@echo "... tests/test_stage_calculator.s"
+	@echo "... utils/ControllerInterface.o"
+	@echo "... utils/ControllerInterface.i"
+	@echo "... utils/ControllerInterface.s"
 	@echo "... utils/IntegratorInterface.o"
 	@echo "... utils/IntegratorInterface.i"
 	@echo "... utils/IntegratorInterface.s"

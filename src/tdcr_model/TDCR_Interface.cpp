@@ -2,11 +2,11 @@
 
 #define assertm(exp, msg) assert(((void)msg, exp))
 
-TDCR_Interface::TDCR_Interface(MultistageTDCR_Solver& TDCR_) 
+TDCR_Interface::TDCR_Interface(MultistageTDCR_Solver* TDCR_, ControllerInterface* MPC_) 
 
 { 
-
-    TDCR = &TDCR_;
+    MPC = MPC_;
+    TDCR = TDCR_;
     desiredTensions.resize(TDCR->getNumTendons(), 1); 
     desiredTensions.setZero();
     deltaTension.resize(TDCR->getNumTendons(), 1); 
@@ -22,6 +22,14 @@ TDCR_Interface::TDCR_Interface(MultistageTDCR_Solver& TDCR_)
 
 }
 
+Eigen::MatrixXd TDCR_Interface::getTau()
+
+{
+
+    return TDCR->getRobotStates(0).block(18, 0, TDCR->getNumTendons(), 1);
+
+}
+
 Eigen::MatrixXd TDCR_Interface::getDesiredTensions() 
 
 {
@@ -30,7 +38,15 @@ Eigen::MatrixXd TDCR_Interface::getDesiredTensions()
 
 }
 
-void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::MatrixXi> CSM) 
+std::vector<Eigen::Matrix<double, 7, 1>> TDCR_Interface::getPoseWorld() 
+
+{
+
+    return TDCR->getRobotPoseWorld();
+
+}
+
+void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::MatrixXi> CSM, Eigen::MatrixXi stagesControlled_) 
 
 {
 
@@ -54,7 +70,13 @@ void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::M
     weightPriorityCustom.resize(numControlStates, numControlStates);
     weightPriorityCustom.setIdentity();
 
+    stagesControlled = stagesControlled_;
     controlStatesMatrix = CSM;
+    unsigned int CSM_size = CSM.size();
+
+    assertm(stagesControlled.rows() == CSM_size, "stagesControlled must equal to controlStatesMatrix size, check dimensions");
+    assertm(stagesControlled.cols() == 1, "stagesControlled must equal to controlStatesMatrix size, check dimensions");
+
     dimensionsSet = true;
 
 }
@@ -67,10 +89,11 @@ bool TDCR_Interface::checkBoundaryConditions()
     
     {
 
-        if (TDCR->getBoundaryConditions(i).norm() < 1e-2) 
+        if (TDCR->getBoundaryConditions(i).norm() > 1e-2) 
         
         {
 
+            printf("Boundary Conditions are being violated, please stop the program.");
             return true; 
 
         }
@@ -79,6 +102,70 @@ bool TDCR_Interface::checkBoundaryConditions()
 
     return false;
     
+
+}
+
+Eigen::MatrixXd TDCR_Interface::getInitialCondition() 
+
+{
+
+    return TDCR->getInitialConditions();
+
+}
+
+Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired, Eigen::MatrixXd currentPose) 
+
+{
+
+    /* This method is a generalised version of the tip controller. 
+    */ 
+
+    assertm(currentPose.cols() == 1, "currentPose must be of TDCR->getNumTendons() + poseDesired.rows() by 1.");
+    assertm(currentPose.rows() == TDCR->getNumTendons() + poseDesired.rows(), "currentPose must be of TDCR->getNumTendons() + poseDesired.rows() by 1.");
+    assertm(dimensionsSet == true, "Please set the dimensions required first.");
+    assertm(poseDesired.rows() == customPose.rows(), "poseDesired must be of numControlStates by 1. ");
+    assertm(poseDesired.cols() == 1, "poseDesired must be of numControlStates by 1. "); 
+
+    unsigned int numStatesAtStage_i; 
+    unsigned int numStatesCumulative = 0; 
+    unsigned int index; 
+    Eigen::Matrix<double, 7, 1> poseAtStage_i;
+    Eigen::MatrixXd poseDesiredMPC(TDCR->getNumTendons() + poseDesired.rows(), 1);
+    Eigen::MatrixXd TendonsDesiredMPC(TDCR->getNumTendons(), 1);
+    unsigned int stage_num;
+    TendonsDesiredMPC.setZero();
+
+    for (unsigned int i = 0; i < stagesControlled.rows(); ++i) 
+    
+    {
+
+        stage_num = stagesControlled(i, 0);
+        numStatesAtStage_i = controlStatesMatrix[i].rows();
+        poseAtStage_i = TDCR->getRobotPoseWorld(stage_num);
+
+        for (unsigned int k = 0; k < numStatesAtStage_i; ++k) 
+        
+        {
+
+            index = controlStatesMatrix[i](k, 0);
+            customJacobianEta.block(numStatesCumulative + k, 0, 1, TDCR->getNumTendons()) = TDCR->getJacobiansEta()[stage_num].row(index);
+            customPose(numStatesCumulative + k, 0) = poseAtStage_i(index, 0);
+
+        }
+ 
+        numStatesCumulative += numStatesAtStage_i;
+
+    }
+
+    poseDesiredMPC << poseDesired, TendonsDesiredMPC;
+    customPoseError = poseDesired - customPose; 
+
+    deltaTension = MPC->solveOptimalControl(currentPose, customJacobianEta, poseDesiredMPC);
+
+    desiredTensions += deltaTension*TDCR->getSamplingTime();
+
+    return deltaTension;
+
 
 }
 
@@ -96,21 +183,29 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
     unsigned int numStatesAtStage_i; 
     unsigned int numStatesCumulative = 0; 
     unsigned int index; 
+    unsigned int stage_num;
     Eigen::Matrix<double, 7, 1> poseAtStage_i;
+    Eigen::MatrixXd poseDesiredMPC(TDCR->getNumTendons() + poseDesired.rows(), 1);
+    Eigen::MatrixXd TendonsDesiredMPC(TDCR->getNumTendons(), 1);
+    Eigen::MatrixXd customPoseMPC(TDCR->getNumTendons() + poseDesired.rows(), 1);
+    TendonsDesiredMPC.setZero();
 
-    for (unsigned int i = 0; i < TDCR->getNumStages(); ++i) 
+    for (unsigned int i = 0; i < stagesControlled.rows(); ++i) 
     
     {
 
+        // i is the stage number. 
+
+        stage_num = stagesControlled(i, 0);
         numStatesAtStage_i = controlStatesMatrix[i].rows();
-        poseAtStage_i = MathUtils::robotStates2Pose(TDCR->getRobotStates(i).block<12, 1>(0, 0));
+        poseAtStage_i = TDCR->getRobotPoseWorld(stage_num);
 
         for (unsigned int k = 0; k < numStatesAtStage_i; ++k) 
         
         {
 
             index = controlStatesMatrix[i](k, 0);
-            customJacobianEta.block(numStatesCumulative + k, 0, 1, TDCR->getNumTendons()) = TDCR->getJacobiansEta()[i].row(index);
+            customJacobianEta.block(numStatesCumulative + k, 0, 1, TDCR->getNumTendons()) = TDCR->getJacobiansEta()[stage_num].row(index);
             customPose(numStatesCumulative + k, 0) = poseAtStage_i(index, 0);
 
         }
@@ -119,16 +214,15 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
 
     }
 
+    poseDesiredMPC << poseDesired, TendonsDesiredMPC;
+    customPoseMPC << customPose, TDCR->getTau();
     customPoseError = poseDesired - customPose; 
 
-    deltaTension = Kp*(customJacobianEta.transpose() * weightPriorityCustom * customJacobianEta + pow(lambda, 2)*I_mxm).completeOrthogonalDecomposition().pseudoInverse() * customJacobianEta.transpose() * weightPriorityCustom * customPoseError;
-
-    std::cout << "deltaTension: " << (customJacobianEta.transpose() * weightPriorityCustom * customJacobianEta + pow(lambda, 2)*I_mxm).inverse()  << "\n\n";
-    std::cout << weightPriorityCustom << "\n\n";
+    deltaTension = MPC->solveOptimalControl(customPoseMPC, customJacobianEta, poseDesiredMPC);
 
     desiredTensions += deltaTension*TDCR->getSamplingTime();
 
-    return desiredTensions;
+    return deltaTension;
 
 }
 
@@ -182,6 +276,14 @@ Eigen::MatrixXd TDCR_Interface::getCustomPoseError()
 {
 
     return customPoseError;
+
+}
+
+Eigen::MatrixXd TDCR_Interface::getCustomPose()
+
+{
+
+    return customPose;
 
 }
 

@@ -75,7 +75,7 @@ int multistage_straight_integrator2_acados_sim_create(sim_solver_capsule * capsu
     int nz = 0;
 
     
-    double Tsim = 0.2;
+    double Tsim = 0.5;
 
     
     // explicit ode
@@ -127,7 +127,7 @@ int multistage_straight_integrator2_acados_sim_create(sim_solver_capsule * capsu
 
     tmp_int = 4;
     sim_opts_set(multistage_straight_integrator2_sim_config, multistage_straight_integrator2_sim_opts, "num_stages", &tmp_int);
-    tmp_int = 2;
+    tmp_int = 5;
     sim_opts_set(multistage_straight_integrator2_sim_config, multistage_straight_integrator2_sim_opts, "num_steps", &tmp_int);
 
     // options that are not available to AcadosOcpSolver

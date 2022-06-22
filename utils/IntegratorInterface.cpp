@@ -6,7 +6,11 @@ IntegrationInterface::IntegrationInterface(sim_solver_capsule* capsule_){
 
 } 
 
-IntegrationInterface::~IntegrationInterface() {};
+IntegrationInterface::~IntegrationInterface() {
+
+    
+
+};
 
 void IntegrationInterface::setCapsule(sim_solver_capsule* capsule_arg){
 

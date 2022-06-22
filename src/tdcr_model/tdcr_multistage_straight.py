@@ -72,16 +72,16 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
         os.chdir(os.path.expanduser("~/tdcr-crt/lib/shared"))
 
-        os.system("rm *.so")
+        os.system("rm libacados_sim_solver_multistage_straight*.so")
 
         self._dir_name = 'c_generated_code_' + self._robot_type
         os.chdir(os.path.expanduser(
-            "~/tdcr-crt/src/tendon_robots/" + self._dir_name))
+            "~/tdcr-crt/src/tdcr_model/" + self._dir_name))
 
         list_dir = [x[0] for x in os.walk(os.getcwd())]
         list_dir.pop(0)
 
-        if os.getcwd() == os.path.expanduser("~/tdcr-crt/src/tendon_robots/" + self._dir_name):
+        if os.getcwd() == os.path.expanduser("~/tdcr-crt/src/tdcr_model/" + self._dir_name):
 
             for file_name in os.listdir(os.getcwd()):
                 # construct full file path
@@ -101,11 +101,13 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
                     pass
 
+            os.chdir("..")
+
         else:
 
             raise ValueError("Removing files in the wrong folder!")
 
-        os.chdir("..")
+        
 
     def _initialiseStates(self):
 
@@ -174,11 +176,11 @@ class MultistageTDCR(Tendon_Robot_Builder):
         params = {}
         params['name'] = self._robot_type + '_integrator'
         params['num_stages'] = 4
-        params['num_steps'] = 2
+        params['num_steps'] = 5
         params_step = {}
         params_step['name'] = self._robot_type + '_step_integrator'
         params_step['num_stages'] = 4
-        params_step['num_steps'] = 10
+        params_step['num_steps'] = 2
         # params_step['num_steps'] = 20
 
         for i in range(self._num_stage):
@@ -232,7 +234,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
             replacedText2 = textToReplace2 + self._integrator_names[i]
 
             os.chdir(os.path.expanduser(
-                "~/tdcr-crt/src/tendon_robots/" + self._dir_list[i]))
+                "~/tdcr-crt/src/tdcr_model/" + self._dir_list[i]))
             fullFileName = "acados_sim_solver_" + self._integrator_names[i]
 
             # Read in the file
@@ -323,7 +325,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
     def _exportData(self):
 
-        os.chdir(os.path.expanduser("~/tdcr-crt/src/tendon_robots"))
+        os.chdir(os.path.expanduser("~/tdcr-crt/src/tdcr_model"))
         os.chdir(self._dir_list[0])
 
         for _dir in self._dir_list:
@@ -336,28 +338,30 @@ class MultistageTDCR(Tendon_Robot_Builder):
 if __name__ == "__main__":
 
     robot_dict = {}
-    robot_dict['type'] = 'hollow_rod'
-    robot_dict['outer_radius'] = 0.002
-    robot_dict['inner_radius'] = 0.0008
-    robot_dict['shear_modulus'] = 80e9
-    robot_dict['elastic_modulus'] = 3.4698e9
-    robot_dict['mass_distribution'] = 0.274
-    robot_dict['angle_spacing'] = 2 * pi / 3
+    # robot_dict['type'] = 'hollow_rod'
+    robot_dict['type'] = 'Solid Rod'
+    # robot_dict['outer_radius'] = 0.001
+    # robot_dict['inner_radius'] = 0.0008
+    robot_dict['radius'] = 0.0015
+    robot_dict['shear_modulus'] = 200e9
+    robot_dict['elastic_modulus'] = 200e9
+    robot_dict['mass_distribution'] = 0.1
     robot_dict['num_tendons'] = 6
     robot_dict['integration_steps'] = 30
     robot_dict['time_step'] = 0.01
-    robot_dict['robot_length'] = 0.2
+    robot_dict['robot_length'] = 0.4
     robot_dict['tip_weight'] = 0.0
 
     physical_builder = Robot_Parameter_Builder()
-    physical_builder.createHollowRod(robot_dict)
+    # physical_builder.createHollowRod(robot_dict)
+    physical_builder.createRod(robot_dict)
 
     robot_dict = {}
     robot_dict['num_tendons'] = 6
-    robot_dict['routing'] = transpose(SX([[0.01506, 0.0, 0], [-0.00753, 0.01304, 0], [-0.00753, -
-                                                                                      0.01304, 0], [-0.01506, -0.0, 0], [0.00753, -0.01304, 0], [0.00753, 0.01304, 0]]))
+    robot_dict['routing'] = transpose(SX([[0.0350, 0.0, 0], [-0.0175, 0.0303, 0], [-0.0175, -
+                                                                                      0.0303, 0], [-0.035, -0.0, 0], [0.0175, -0.0303, 0], [0.0175, 0.0303, 0]]))
 
-    robot_dict['stage_lengths'] = np.array([0.2, 0.2])
+    robot_dict['stage_lengths'] = np.array([0.5, 0.5])
     robot_dict['stage_tendons'] = np.array(
         [[1, 1, 1, 0, 0, 0], [0, 0, 0, 1, 1, 1]])
 

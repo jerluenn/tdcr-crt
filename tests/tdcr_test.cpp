@@ -7,7 +7,7 @@
 #include "acados_sim_solver_multistage_straight_integrator2.h"
 #include "acados_sim_solver_multistage_straight_step_integrator1.h"
 #include "acados_sim_solver_multistage_straight_step_integrator2.h"
-
+#include "acados_solver_tdcr_lmpc.h"
 
 #define PI 3.14159 
 
@@ -23,6 +23,8 @@ int main() {
     multistage_straight_step_integrator1_acados_sim_create(capsule1step);
     sim_solver_capsule *capsule2step = multistage_straight_integrator2_acados_sim_solver_create_capsule();
     multistage_straight_step_integrator2_acados_sim_create(capsule2step);
+    nlp_solver_capsule *nlpcapsule = tdcr_lmpc_acados_create_capsule();
+    tdcr_lmpc_acados_create(nlpcapsule);
 
     std::vector<IntegrationInterface> i;
     std::vector<IntegrationInterface> is;
@@ -42,7 +44,7 @@ int main() {
     routing.row(2).setZero(); 
     double angle = 0.0; 
     double angle2 = PI;
-    double radius = 0.01506;
+    double radius = 0.035;
 
     for (int i = 0; i < 3; ++i) {
 
@@ -55,44 +57,47 @@ int main() {
 
     } 
 
-    
-    std::cout << routing << "\n\n\n"; 
+    MultistageTDCR_Solver tendon_robot(6, 2, i, is, stage_tendons, routing);
+    ControllerInterface controller(nlpcapsule);
+    TDCR_Interface c(&tendon_robot, &controller); 
 
-    MultistageTDCR_Solver b(6, 2, i, is, stage_tendons, routing);
-
-    TDCR_Interface c(b); 
     Eigen::MatrixXd tau(6, 1); 
     tau << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0; 
-    c.solveForwardKinematics(tau, true);
+    c.solveForwardKinematics(tau, false);
 
     Eigen::MatrixXi w1(2, 1), w2(6, 1);
     Eigen::MatrixXd desiredPose(8, 1), weight_all(8, 8), controlInput; 
     std::vector<Eigen::MatrixXi> CSM; 
+    Eigen::MatrixXi CS(2, 1); 
+    CS << 0, 1;
     w1 << 0, 1; 
     w2 << 0, 1, 3, 4, 5, 6; 
     CSM.push_back(w1); 
     CSM.push_back(w2); 
-    c.setDimensions(8, CSM);
+    c.setDimensions(8, CSM, CS);
 
-    desiredPose << 0.01, 0.01, -0.05, 0.04, 1., 0., 0., 0.;
-
-    weight_all.setZero();
-    weight_all.diagonal() << 0.1, 0.1, 1.0, 1.0, 0.05, 0.05, 0.05, 0.05;
+    desiredPose << 0.0, 0.04, -0.2, 0.2, 1., 0., 0., 0.;
 
     c.setWeightsAllStages(weight_all);
-    
+    c.timer.tic();
 
-    for (int i = 0; i < 20; ++i) 
+    for (int i = 0; i < 500; ++i) 
     
     {
 
         controlInput = c.getHighLevelControl(desiredPose);
-        std::cout << "controlInput: " << controlInput << "\n";
+        
         c.simulateStep(controlInput);
-        std::cout << c.checkBoundaryConditions() << "\n"; 
-        std::cout << "Error: " << c.getCustomPoseError() << "\n\n";
+        // std::cout << "Checking Boundary Conditions: " << c.checkBoundaryConditions() << "\n"; 
+       
 
     }
+
+    c.timer.toc();
+
+    // std::cout << "Error: \n" << c.getCustomPoseError() << "\n\n";
+    std::cout << "customPose: " << c.getCustomPose().transpose() << std::endl;
+    std::cout << "Required Tau: \n" << c.getTau().transpose() << std::endl;
 
     free(capsule1);
     free(capsule1step);

@@ -23,14 +23,18 @@ class MultistageTDCR_Solver {
         MultistageTDCR_Solver(int numTendons, int numStages, std::vector<IntegrationInterface> integrators, std::vector<IntegrationInterface> integratorsStep, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_);
         MultistageTDCR_Solver();
         virtual ~MultistageTDCR_Solver();
-        std::vector<Eigen::MatrixXd> getRobotStates(bool print_level);
+        std::vector<Eigen::MatrixXd> getRobotStates();
         Eigen::MatrixXd getRobotStates(unsigned int stage_num);
+        void computeRobotPoseWorld();
         void simulateStep(Eigen::MatrixXd tau);
         void setTau(Eigen::MatrixXd tau);
         void setInitialConditions(unsigned int stage_num, Eigen::Matrix<double, 6, 1> ic_force_moment);
         unsigned int getNumStages(); 
         unsigned int getNumTendons();
+        Eigen::MatrixXd getInitialConditions();
         Eigen::MatrixXd getTau(); 
+        Eigen::Matrix<double, 7, 1> getRobotPoseWorld(unsigned int stage_num);
+        std::vector<Eigen::Matrix<double, 7, 1>> getRobotPoseWorld();
         void integrateStatesandUpdate(unsigned int stage_num);
         std::vector<Eigen::MatrixXd> getJacobians();
         std::vector<Eigen::MatrixXd> getJacobiansEta();
@@ -60,6 +64,7 @@ class MultistageTDCR_Solver {
         std::vector<Eigen::VectorXi> stageTendonsIndex_Jacobians;
         std::vector<Eigen::MatrixXd> J_q, E_q, B_q, B_yu, E_yu, J_b, E_yu_Nplus1, B_yu_Nplus1;
         std::vector<Eigen::MatrixXd> J_world, J_world_eta;
+        std::vector<Eigen::Matrix<double, 7, 1>> poseWorld;
 
         void solveJacobians();
 

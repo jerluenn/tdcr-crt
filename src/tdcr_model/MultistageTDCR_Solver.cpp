@@ -153,6 +153,7 @@ void MultistageTDCR_Solver::initialiseJacobianMatrices(Eigen::MatrixXd stage_ten
         tmp.resize(7,num_tendons);
         tmp.setZero();
         J_world_eta.push_back(tmp);
+        
 
     }
 
@@ -408,15 +409,17 @@ void MultistageTDCR_Solver::setNumStages(int num)
 {
 
     num_stages = num;
-    Eigen::MatrixXd states;
+    Eigen::MatrixXd states, pose;
     states.resize(num_total, 1);
     states.setZero();
     states.block<9, 1>(3, 0) << 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0;
+    pose.resize(7, 1); 
 
     for (unsigned int i = 0; i < num_stages; ++i ) {
 
         initialConditions.push_back(states);
         robotStates.push_back(states);
+        poseWorld.push_back(pose);
 
     } 
 
@@ -427,22 +430,8 @@ void MultistageTDCR_Solver::setNumStages(int num)
 }
 
 
-std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getRobotStates(bool print_level)
+std::vector<Eigen::MatrixXd> MultistageTDCR_Solver::getRobotStates()
 {
-
-
-    if (print_level == true) {
-
-        for (unsigned int i = 0; i < num_stages; ++i) {
-
-            std::cout << "Initial conditions at stage " << i << ": \n";
-            std::cout << initialConditions[i].transpose().format(OctaveFmt) << "\n";
-            std::cout << "Robot states at stage " << i << ": \n";
-            std::cout << robotStates[i].transpose().format(OctaveFmt) << "\n";
-
-        }
-
-    } 
 
     return robotStates;
 
@@ -606,10 +595,6 @@ void MultistageTDCR_Solver::solveJacobians()
             J_b[l] = -B_yu[l].completeOrthogonalDecomposition().pseudoInverse()*B_q[l];
             J_q[l] = E_q[l] + E_yu[l]*J_b[l];
 
-            // std::cout << "Debugging info at stage " << l << ": \n";
-            // std::cout << "J_b[l]: " << J_b[l].format(OctaveFmt) << "\n";
-            // std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
-
         }
 
         else 
@@ -617,15 +602,6 @@ void MultistageTDCR_Solver::solveJacobians()
 
             J_b[l] = -B_yu[l].completeOrthogonalDecomposition().pseudoInverse()*(B_q[l] + B_yu_Nplus1[l]*J_b[l + 1]);
             J_q[l] = E_q[l] + E_yu[l]*J_b[l];
-
-            // std::cout << "Debugging info at stage " << l << ": \n";
-            // std::cout << "B_yu[l+1]" << B_yu[l+1].format(OctaveFmt) << "\n";
-            // std::cout << "B_yu_Nplus1" << B_yu_Nplus1[l].format(OctaveFmt) << "\n";
-            // std::cout << "R " << R << "\n";
-            // std::cout << "B_q[l]" << B_q[l].format(OctaveFmt) << "\n";
-            // std::cout << "J_b[l+1]: " << J_b[l+1].format(OctaveFmt) << "\n";
-            // std::cout << "J_q[l]: " << J_q[l].format(OctaveFmt) << "\n\n\n";
-
         }
         
     }
@@ -728,6 +704,61 @@ double MultistageTDCR_Solver::getSamplingTime()
 
 }
 
+Eigen::Matrix<double, 7, 1> MultistageTDCR_Solver::getRobotPoseWorld(unsigned int stage_num) 
+
+{
+
+    return poseWorld[stage_num];
+
+}
+
+std::vector<Eigen::Matrix<double, 7, 1>> MultistageTDCR_Solver::getRobotPoseWorld()
+
+{
+
+    return poseWorld;
+
+}
+
+Eigen::MatrixXd MultistageTDCR_Solver::getInitialConditions() 
+
+{
+
+    return initialConditions[0]; 
+
+}
+
+void MultistageTDCR_Solver::computeRobotPoseWorld() 
+
+{
+
+    // get Rotation matrix from stage 0 to stage_num 
+
+    Eigen::Matrix<double, 7, 1> pose;
+    Eigen::Matrix3d R_0_stage_num;
+    R_0_stage_num.setIdentity();
+    Eigen::Quaterniond eta; 
+    Eigen::Matrix<double, 3, 1> position;
+    Eigen::Matrix<double, 3, 1> position_tmp;
+    position_tmp.setZero();
+
+    for (unsigned int i = 0; i < num_stages; ++i) 
+    
+    {
+
+        position = position_tmp + R_0_stage_num * robotStates[i].block<3, 1>(0, 0);
+        R.resize(9, 1);
+        R = robotStates[i].block<9, 1>(3, 0);
+        R.resize(3, 3);
+        R_0_stage_num *= R; 
+        eta = MathUtils::rot2quat(R_0_stage_num);
+        pose << position, eta.w(), eta.vec();
+        poseWorld[i] = pose;
+        position_tmp = position;
+
+    }
+
+}
 
 void MultistageTDCR_Solver::simulateStep(Eigen::MatrixXd tau)
 {
@@ -752,7 +783,8 @@ void MultistageTDCR_Solver::simulateStep(Eigen::MatrixXd tau)
 
     }
 
-    
+    computeRobotPoseWorld();
+
 
 }
 

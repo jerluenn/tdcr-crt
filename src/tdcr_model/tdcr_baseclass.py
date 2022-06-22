@@ -231,7 +231,6 @@ class Robot_Parameter_Builder:
                             self._shear_mod * self._area, self._E * self._area])
             self.Kbt = diag([self._E * self._I, self._E *
                             self._I, self._shear_mod * self._J])
-            self.mass_distribution = self._rho * self._area
             self.physical_type = 'Solid Rod'
             self.params['physical_type'] = self.physical_type
             self.params['Kse'] = self.Kse

@@ -4,6 +4,7 @@
 CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o
  ../../acados/include/acados/dense_qp/dense_qp_common.h
  ../../acados/include/acados/ocp_nlp/ocp_nlp_common.h
+ ../../acados/include/acados/ocp_nlp/ocp_nlp_constraints_bgh.h
  ../../acados/include/acados/ocp_nlp/ocp_nlp_constraints_common.h
  ../../acados/include/acados/ocp_nlp/ocp_nlp_cost_common.h
  ../../acados/include/acados/ocp_nlp/ocp_nlp_dynamics_common.h
@@ -13,18 +14,29 @@ CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o
  ../../acados/include/acados/ocp_qp/ocp_qp_xcond_solver.h
  ../../acados/include/acados/sim/sim_collocation_utils.h
  ../../acados/include/acados/sim/sim_common.h
+ ../../acados/include/acados/sim/sim_erk_integrator.h
+ ../../acados/include/acados/sim/sim_gnsf.h
+ ../../acados/include/acados/sim/sim_irk_integrator.h
+ ../../acados/include/acados/sim/sim_lifted_irk_integrator.h
  ../../acados/include/acados/utils/external_function_generic.h
  ../../acados/include/acados/utils/math.h
  ../../acados/include/acados/utils/print.h
  ../../acados/include/acados/utils/timing.h
  ../../acados/include/acados/utils/types.h
  ../../acados/include/acados_c/external_function_interface.h
+ ../../acados/include/acados_c/ocp_nlp_interface.h
+ ../../acados/include/acados_c/ocp_qp_interface.h
  ../../acados/include/acados_c/sim_interface.h
  ../../acados/include/blasfeo/include/blasfeo_block_size.h
  ../../acados/include/blasfeo/include/blasfeo_common.h
  ../../acados/include/blasfeo/include/blasfeo_d_aux.h
  ../../acados/include/blasfeo/include/blasfeo_d_aux_ext_dep.h
  ../../acados/include/blasfeo/include/blasfeo_d_aux_old.h
+ ../../acados/include/blasfeo/include/blasfeo_d_blas.h
+ ../../acados/include/blasfeo/include/blasfeo_d_blas_api.h
+ ../../acados/include/blasfeo/include/blasfeo_d_blasfeo_api.h
+ ../../acados/include/blasfeo/include/blasfeo_d_kernel.h
+ ../../acados/include/blasfeo/include/blasfeo_i_aux_ext_dep.h
  ../../acados/include/blasfeo/include/blasfeo_target.h
  ../../acados/include/hpipm/include/hpipm_common.h
  ../../acados/include/hpipm/include/hpipm_d_dense_qp.h
@@ -35,12 +47,14 @@ CMakeFiles/tdcr_test.dir/tests/tdcr_test.cpp.o
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_dim.h
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_res.h
  ../../acados/include/hpipm/include/hpipm_d_ocp_qp_sol.h
+ ../src/tdcr_controller/c_generated_code_tdcr_lmpc/tdcr_lmpc/acados_solver_tdcr_lmpc.h
  ../src/tdcr_model/MultistageTDCR_Solver.hpp
  ../src/tdcr_model/TDCR_Interface.hpp
  ../src/tdcr_model/c_generated_code_multistage_straight/multistage_straight_integrator1/acados_sim_solver_multistage_straight_integrator1.h
  ../src/tdcr_model/c_generated_code_multistage_straight/multistage_straight_integrator2/acados_sim_solver_multistage_straight_integrator2.h
  ../src/tdcr_model/c_generated_code_multistage_straight/multistage_straight_step_integrator1/acados_sim_solver_multistage_straight_step_integrator1.h
  ../src/tdcr_model/c_generated_code_multistage_straight/multistage_straight_step_integrator2/acados_sim_solver_multistage_straight_step_integrator2.h
+ ../utils/ControllerInterface.hpp
  ../utils/Integrator.hpp
  ../utils/IntegratorInterface.hpp
  ../utils/LevenbergMarquardtFunctor.hpp

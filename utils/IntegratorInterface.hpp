@@ -63,6 +63,7 @@ class IntegrationInterface {
         int status;
         void setCapsule(sim_solver_capsule* capsule_arg);
         sim_solver_capsule* capsule;
+        
 
 } ;
 
