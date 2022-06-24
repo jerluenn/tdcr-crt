@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/static/libMultistageTDCR_Solver.a CMakeFiles/MultistageTDCR_Solver.dir/src/tdcr_model/MultistageTDCR_Solver.cpp.o
-/usr/bin/ranlib ../lib/static/libMultistageTDCR_Solver.a

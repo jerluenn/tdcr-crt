@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/static/libTDCR_Interface.a CMakeFiles/TDCR_Interface.dir/src/tdcr_model/TDCR_Interface.cpp.o
-/usr/bin/ranlib ../lib/static/libTDCR_Interface.a

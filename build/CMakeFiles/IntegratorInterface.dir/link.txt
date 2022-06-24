@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../lib/static/libIntegratorInterface.a CMakeFiles/IntegratorInterface.dir/utils/IntegratorInterface.cpp.o
-/usr/bin/ranlib ../lib/static/libIntegratorInterface.a
