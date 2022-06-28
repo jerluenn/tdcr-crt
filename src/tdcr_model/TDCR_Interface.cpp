@@ -38,6 +38,16 @@ Eigen::MatrixXd TDCR_Interface::getDesiredTensions()
 
 }
 
+Eigen::MatrixXd TDCR_Interface::saveFullStates(std::string fileName) 
+
+{
+
+    TDCR->saveData(fileName, TDCR->integrateFullStates());
+
+    return TDCR->getFullStates();
+
+}
+
 std::vector<Eigen::Matrix<double, 7, 1>> TDCR_Interface::getPoseWorld() 
 
 {

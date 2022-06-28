@@ -2,12 +2,13 @@
 
 Eigen::IOFormat OctaveFmt(Eigen::StreamPrecision, 0, ", ", ";\n", "", "", "[", "]");
 
-MultistageTDCR_Solver::MultistageTDCR_Solver(int numTendons, int numStages, std::vector<IntegrationInterface> integrators_, std::vector<IntegrationInterface> integratorsStep_, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_)
+MultistageTDCR_Solver::MultistageTDCR_Solver(int numIntegrationSteps_ , int numTendons, int numStages, std::vector<IntegrationInterface> integrators_, std::vector<IntegrationInterface> integratorsStep_, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_)
 {               
 
     v << 0.0, 0.0, 1.0;
     integrators = integrators_;
     integratorsStep = integratorsStep_; 
+    numIntegrationSteps = numIntegrationSteps_;
     setNumTendons(numTendons, routing_);
     setNumStages(numStages);
     initialiseJacobianMatrices(stage_tendons);
@@ -121,6 +122,7 @@ void MultistageTDCR_Solver::initialiseJacobianMatrices(Eigen::MatrixXd stage_ten
 
     convertStageTendonsIndex();
     eta_dot.resize(4, num_tendons);
+    fullStates.resize((numIntegrationSteps*num_stages) + 1, num_total);
     I_3x3.setIdentity();
     AdjointMatrix.setIdentity();
 
@@ -158,7 +160,6 @@ void MultistageTDCR_Solver::initialiseJacobianMatrices(Eigen::MatrixXd stage_ten
     }
 
 }
-
 
 Eigen::MatrixXd MultistageTDCR_Solver::integrateWithIncrement(unsigned int index, unsigned int stage_num) {
 
@@ -222,6 +223,82 @@ Eigen::Matrix<double, 6, 1> MultistageTDCR_Solver::getBoundaryConditions(unsigne
     return boundaryConditions;
 
 } 
+
+void MultistageTDCR_Solver::saveData(std::string fileName, Eigen::MatrixXd matrix)
+{
+    //https://eigen.tuxfamily.org/dox/structEigen_1_1IOFormat.html
+    const static Eigen::IOFormat CSVFormat(Eigen::FullPrecision, Eigen::DontAlignCols, ", ", "\n");
+ 
+    std::fstream file(fileName, std::ios::app);
+    file << matrix.format(CSVFormat);
+    file.close();
+
+}
+
+Eigen::MatrixXd MultistageTDCR_Solver::getFullStates()  
+
+{
+
+    return fullStates;
+
+}
+
+Eigen::MatrixXd MultistageTDCR_Solver::integrateFullStates() 
+
+{
+
+    Eigen::Matrix3d R_0_stage_num;
+    Eigen::MatrixXd tmp(num_total, 1);
+    R_0_stage_num.setIdentity();
+    Eigen::Matrix<double, 3, 1> position_tmp;
+    position_tmp.setZero();
+    R.resize(3, 3);
+    R << R_0_stage_num;
+    R.resize(9, 1);
+
+    for (unsigned int i = 0; i < num_stages; ++i) 
+    
+    {
+
+        x = initialConditions[i];
+        x.block<3, 1>(0, 0) = position_tmp + R_0_stage_num * x.block<3, 1>(0, 0);
+        x.block<9, 1>(3, 0) = R;
+
+        fullStates.block((numIntegrationSteps) * i, 0, 1, num_total) = x.transpose();
+
+        tmp = initialConditions[i];
+
+        for (unsigned int k = 0; k < numIntegrationSteps; ++k) 
+        
+        {
+            tmp = integratorsStep[i].integrate(tmp);
+            R.resize(9, 1);
+            R = tmp.block<9, 1>(3, 0); 
+            R.resize(3, 3);
+            x.block<3, 1>(0, 0) = position_tmp + R_0_stage_num * tmp.block<3, 1>(0, 0);
+            R = R_0_stage_num * R;
+            R.resize(9, 1);
+            x.block<9, 1>(3, 0) = R;
+            x.block<3, 1>(12, 0) = R_0_stage_num * tmp.block<3, 1>(12, 0);
+            x.block<3, 1>(15, 0) = R_0_stage_num * tmp.block<3, 1>(15, 0);
+            fullStates.block((numIntegrationSteps + 1) * i + k, 0, 1, num_total) = x.transpose();
+
+        }
+
+        position_tmp += x.block<3, 1>(0, 0);
+        R.resize(9, 1);
+        R = x.block<9, 1>(3, 0); 
+        R.resize(3, 3);
+        R_0_stage_num *= R;
+        R << R_0_stage_num;
+        R.resize(9, 1);
+
+    }
+
+    return fullStates;
+
+}
+
 
 Eigen::Matrix<double, 6, 1> MultistageTDCR_Solver::getBoundaryConditions(unsigned int stage_num) 
 

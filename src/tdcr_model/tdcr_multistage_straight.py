@@ -45,6 +45,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
         self._stage_tendons = self._type_params['stage_tendons']
         # total number of stages.
         self._num_stage = np.size(self._stage_lengths)
+        self._N = self._type_params['integration_steps']
 
         ### Attritubes for export. ###
 
@@ -177,10 +178,12 @@ class MultistageTDCR(Tendon_Robot_Builder):
         params['name'] = self._robot_type + '_integrator'
         params['num_stages'] = 4
         params['num_steps'] = 5
+        params['step_bool'] = False
         params_step = {}
         params_step['name'] = self._robot_type + '_step_integrator'
         params_step['num_stages'] = 4
         params_step['num_steps'] = 2
+        params_step['step_bool'] = True
         # params_step['num_steps'] = 20
 
         for i in range(self._num_stage):
@@ -214,7 +217,14 @@ class MultistageTDCR(Tendon_Robot_Builder):
         self._dir_list.append(sim.code_export_directory)
         self._integrator_names.append(model_name)
 
-        sim.solver_options.T = Sf
+        if params['step_bool'] == True:
+
+            sim.solver_options.T = Sf/self._N
+        
+        else: 
+
+            sim.solver_options.T = Sf
+        
         sim.solver_options.integrator_type = 'ERK'
         sim.solver_options.num_stages = params['num_stages']
         sim.solver_options.num_steps = params['num_steps']
@@ -347,7 +357,7 @@ if __name__ == "__main__":
     robot_dict['elastic_modulus'] = 200e9
     robot_dict['mass_distribution'] = 0.1
     robot_dict['num_tendons'] = 6
-    robot_dict['integration_steps'] = 30
+    
     robot_dict['time_step'] = 0.01
     robot_dict['robot_length'] = 0.4
     robot_dict['tip_weight'] = 0.0
@@ -364,6 +374,7 @@ if __name__ == "__main__":
     robot_dict['stage_lengths'] = np.array([0.5, 0.5])
     robot_dict['stage_tendons'] = np.array(
         [[1, 1, 1, 0, 0, 0], [0, 0, 0, 1, 1, 1]])
+    robot_dict['integration_steps'] = 20
 
     type_builder = Robot_Type_Builder()
     type_builder.createMultiStageStraight(robot_dict)

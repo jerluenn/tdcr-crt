@@ -57,7 +57,7 @@ int main() {
 
     } 
 
-    MultistageTDCR_Solver tendon_robot(6, 2, i, is, stage_tendons, routing);
+    MultistageTDCR_Solver tendon_robot(20, 6, 2, i, is, stage_tendons, routing);
     ControllerInterface controller(nlpcapsule);
     TDCR_Interface c(&tendon_robot, &controller); 
 
@@ -94,6 +94,9 @@ int main() {
     }
 
     c.timer.toc();
+
+    c.saveFullStates("test.csv");
+    c.saveFullStates("test.csv");
 
     // std::cout << "Error: \n" << c.getCustomPoseError() << "\n\n";
     std::cout << "customPose: " << c.getCustomPose().transpose() << std::endl;

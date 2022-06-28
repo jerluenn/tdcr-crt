@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <fstream>
 #include <cmath>
 #include <Eigen/Dense>
 #include <Eigen/Core>
@@ -20,7 +21,7 @@ class MultistageTDCR_Solver {
 
     public: 
 
-        MultistageTDCR_Solver(int numTendons, int numStages, std::vector<IntegrationInterface> integrators, std::vector<IntegrationInterface> integratorsStep, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_);
+        MultistageTDCR_Solver(int numIntegrationSteps, int numTendons, int numStages, std::vector<IntegrationInterface> integrators, std::vector<IntegrationInterface> integratorsStep, Eigen::MatrixXd stage_tendons, Eigen::MatrixXd routing_);
         MultistageTDCR_Solver();
         virtual ~MultistageTDCR_Solver();
         std::vector<Eigen::MatrixXd> getRobotStates();
@@ -39,6 +40,9 @@ class MultistageTDCR_Solver {
         std::vector<Eigen::MatrixXd> getJacobians();
         std::vector<Eigen::MatrixXd> getJacobiansEta();
         double getSamplingTime();
+        Eigen::MatrixXd integrateFullStates();
+        Eigen::MatrixXd getFullStates();
+        void saveData(std::string fileName, Eigen::MatrixXd matrix);
         Eigen::MatrixXd integrateStates(unsigned int stage_num);
         Eigen::MatrixXd integrateStep(unsigned int stage_num); 
         Eigen::Matrix<double, 6, 1> getBoundaryConditions(unsigned int stage_num, Eigen::MatrixXd robotStates_, Eigen::MatrixXd initialConditions_);
@@ -85,10 +89,12 @@ class MultistageTDCR_Solver {
         Eigen::MatrixXd x; // dummy variable to hold all the states at initial condition.
         Eigen::MatrixXd routing; 
         Eigen::VectorXd stageLengths;
+        Eigen::MatrixXd fullStates;
         const static int num_p = 3; 
         const static int num_R = 9; 
         const static int num_m = 3; 
         const static int num_n = 3; 
+        unsigned int numIntegrationSteps;
         unsigned int num_tendons; 
         constexpr static double EPS = 1.0e-9;
         double dt = 0.005;

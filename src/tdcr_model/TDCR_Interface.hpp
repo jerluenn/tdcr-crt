@@ -24,6 +24,7 @@ class TDCR_Interface
         Eigen::MatrixXd getCustomPoseError();
         Eigen::MatrixXd getCustomPose();
         Eigen::MatrixXd getTau();
+        Eigen::MatrixXd saveFullStates(std::string fileName);
         Eigen::MatrixXd getInitialCondition();
         std::vector<Eigen::Matrix<double, 7, 1>> getPoseWorld();
         Eigen::Matrix<double, 7, 1> getPoseError();
