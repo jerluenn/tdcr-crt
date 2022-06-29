@@ -6,8 +6,7 @@ set (CMAKE_CXX_STANDARD 11)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
-set(CMAKE_BUILD_TYPE Debug)
-
+# set(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
@@ -22,7 +21,6 @@ SET( acados_include "~/acados/include" )
 SET( acados_lib "~/acados/lib")
 SET( c_functions_controller "${SOURCE_DIR}/tdcr_controller/c_generated_code_tdcr_lmpc")
 SET( c_functions_integration "${SOURCE_DIR}/tdcr_model/c_generated_code_multistage_straight")
-SET( c_functions "${SOURCE_DIR}" )
 
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -100,24 +98,21 @@ ADD_LIBRARY(MathUtils ${CMAKE_CURRENT_SOURCE_DIR}/utils/MathUtils.cpp)
 TARGET_LINK_LIBRARIES(MathUtils 
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
 ADD_LIBRARY(ControllerInterface ${CMAKE_CURRENT_SOURCE_DIR}/utils/ControllerInterface.cpp)
 TARGET_LINK_LIBRARIES(ControllerInterface 
 PUBLIC MathUtils
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
 ADD_LIBRARY(IntegratorInterface ${CMAKE_CURRENT_SOURCE_DIR}/utils/IntegratorInterface.cpp)
 TARGET_LINK_LIBRARIES(IntegratorInterface 
 PUBLIC MathUtils
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
 ADD_LIBRARY(MultistageTDCR_Solver ${CMAKE_CURRENT_SOURCE_DIR}/src/tdcr_model/MultistageTDCR_Solver.cpp)
 TARGET_LINK_LIBRARIES(MultistageTDCR_Solver 
@@ -126,16 +121,14 @@ PUBLIC IntegratorInterface
 PUBLIC ControllerInterface 
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
 ADD_LIBRARY(LevenbergMarquardtFunctor ${CMAKE_CURRENT_SOURCE_DIR}/utils/LevenbergMarquardtFunctor.cpp)
 TARGET_LINK_LIBRARIES(LevenbergMarquardtFunctor
 PUBLIC MultistageTDCR_Solver 
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
 ADD_LIBRARY(TDCR_Interface ${CMAKE_CURRENT_SOURCE_DIR}/src/tdcr_model/TDCR_Interface.cpp)
 TARGET_LINK_LIBRARIES(TDCR_Interface
@@ -143,10 +136,8 @@ PUBLIC LevenbergMarquardtFunctor
 PUBLIC MultistageTDCR_Solver 
 PRIVATE Eigen3::Eigen 
 ${PYTHON_LIBRARIES} 
-${acados_lib}/libacados.so
-${LIBFILES})
+${acados_lib}/libacados.so)
 
-MESSAGE(STATUS ${LIBFILES})
 
 FOREACH(TEST_FILE ${TEST_FILES})
 
