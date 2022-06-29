@@ -13,15 +13,16 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
-SET( LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib )
+SET( LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/shared )
 SET( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
 SET( TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests )
 SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
 SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
-SET( acados_include "${CMAKE_CURRENT_SOURCE_DIR}/../acados/include" )
-SET( acados_lib "${CMAKE_CURRENT_SOURCE_DIR}/../acados/lib")
+SET( acados_include "~/acados/include" )
+SET( acados_lib "~/acados/lib")
+SET( c_functions_controller "${SOURCE_DIR}/tdcr_controller/c_generated_code_tdcr_lmpc")
+SET( c_functions_integration "${SOURCE_DIR}/tdcr_model/c_generated_code_multistage_straight")
 SET( c_functions "${SOURCE_DIR}" )
-
 
 MACRO(SUBDIRLIST result curdir)
   FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
@@ -45,12 +46,13 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 find_package(PythonLibs REQUIRED)
-
+find_package(catkin REQUIRED)
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system log_setup log REQUIRED)
 
 include_directories(
 
+  ${catkin_INCLUDE_DIRS}
 	${SOURCE_DIR}/tdcr_model
 	${acados_include}
 	${acados_include}/blasfeo/include/
@@ -64,95 +66,110 @@ include_directories(
 )
 
 
-FILE( GLOB SOURCES ${SOURCE_DIR}/tdcr_model/*.cpp )
-FILE( GLOB UTIL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp )
+SUBDIRLIST(C_FUNC_INT_LIST ${c_functions_integration})
+SUBDIRLIST(C_FUNC_CON_LIST ${c_functions_controller})
 FILE( GLOB TEST_FILES ${TEST_DIR}/*.cpp)
-SUBDIRLIST(SUBDIRS ${c_functions})
 
-FOREACH(SUBDIR ${SUBDIRS})
+FOREACH(SUBDIR ${C_FUNC_INT_LIST})
 
-	SUBDIRLIST(SUBSUBDIRS ${c_functions}/${SUBDIR})
-	
-	FOREACH(SUBSUBDIR ${SUBSUBDIRS})
+  SUBDIRLIST(SUBSUBDIRS ${c_functions_integration}/${SUBDIR})
 
-		SUBDIRLIST(SUBSUBSUBDIRS ${c_functions}/${SUBDIR}/${SUBSUBDIR})
-	
-		include_directories(${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR})		
+  FOREACH(SUBSUBDIR ${SUBSUBDIRS})
 
-		FOREACH(SUBSUBSUBDIR ${SUBSUBSUBDIRS})
+    INCLUDE_DIRECTORIES(${c_functions_integration}/${SUBDIR}/${SUBSUBDIR})
+    INCLUDE_DIRECTORIES(${c_functions_integration}/${SUBDIR})
 
-			SUBDIRLIST(SUBSUBSUBSUBDIRS ${c_functions}/${SUBDIR}/${SUBSUBDIR})
-			include_directories(${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR})
+  ENDFOREACH()
 
-			FOREACH (SUBSUBSUBSUBDIR ${SUBSUBSUBSUBDIRS})
+ENDFOREACH()
 
-				include_directories(${c_functions}/${SUBDIR}/${SUBSUBDIR}/${SUBSUBSUBDIR}/${SUBSUBSUBSUBDIR})
+FOREACH(SUBDIR ${C_FUNC_CON_LIST})
 
-			ENDFOREACH()
+  SUBDIRLIST(SUBSUBDIRS ${c_functions_controller}/${SUBDIR})
 
-		ENDFOREACH()
+  FOREACH(SUBSUBDIR ${SUBSUBDIRS})
 
-	ENDFOREACH()
+    INCLUDE_DIRECTORIES(${c_functions_controller}/${SUBDIR}/${SUBSUBDIR})
+    INCLUDE_DIRECTORIES(${c_functions_controller}/${SUBDIR})
 
-ENDFOREACH(SUBDIR ${c_functions})
+  ENDFOREACH()
 
-# Compiling executables
+ENDFOREACH()
 
-FOREACH(UTIL_SRC ${UTIL_SOURCES})
+ADD_LIBRARY(MathUtils ${CMAKE_CURRENT_SOURCE_DIR}/utils/MathUtils.cpp)
+TARGET_LINK_LIBRARIES(MathUtils 
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
-	FILE( GLOB LIBS ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/*.a )
-	GET_FILENAME_COMPONENT( EXEC_NAME ${UTIL_SRC} NAME_WE )
-	ADD_LIBRARY(${EXEC_NAME} ${UTIL_SRC})	
-	TARGET_LINK_LIBRARIES(	${EXEC_NAME} 
-	PRIVATE Eigen3::Eigen 
-	${PYTHON_LIBRARIES} 
-	${acados_lib}/libacados.so
-	${LIBFILES}
-	${LIBS}
+ADD_LIBRARY(ControllerInterface ${CMAKE_CURRENT_SOURCE_DIR}/utils/ControllerInterface.cpp)
+TARGET_LINK_LIBRARIES(ControllerInterface 
+PUBLIC MathUtils
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-)
+ADD_LIBRARY(IntegratorInterface ${CMAKE_CURRENT_SOURCE_DIR}/utils/IntegratorInterface.cpp)
+TARGET_LINK_LIBRARIES(IntegratorInterface 
+PUBLIC MathUtils
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-ENDFOREACH(UTIL_SRC ${UTIL_SOURCES})
+ADD_LIBRARY(MultistageTDCR_Solver ${CMAKE_CURRENT_SOURCE_DIR}/src/tdcr_model/MultistageTDCR_Solver.cpp)
+TARGET_LINK_LIBRARIES(MultistageTDCR_Solver 
+PUBLIC MathUtils
+PUBLIC IntegratorInterface 
+PUBLIC ControllerInterface 
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-FOREACH(SRC ${SOURCES})
+ADD_LIBRARY(LevenbergMarquardtFunctor ${CMAKE_CURRENT_SOURCE_DIR}/utils/LevenbergMarquardtFunctor.cpp)
+TARGET_LINK_LIBRARIES(LevenbergMarquardtFunctor
+PUBLIC MultistageTDCR_Solver 
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
-	GET_FILENAME_COMPONENT( EXEC_NAME ${SRC} NAME_WE )
-	FILE( GLOB LIBS ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/*.a )
-	ADD_LIBRARY(${EXEC_NAME} ${SRC})	
-	TARGET_LINK_LIBRARIES(${EXEC_NAME} 
-	PRIVATE Eigen3::Eigen 
-	${PYTHON_LIBRARIES} 
-	${acados_lib}/libacados.so
-	${LIBFILES}
-	${LIBS}
+ADD_LIBRARY(TDCR_Interface ${CMAKE_CURRENT_SOURCE_DIR}/src/tdcr_model/TDCR_Interface.cpp)
+TARGET_LINK_LIBRARIES(TDCR_Interface
+PUBLIC LevenbergMarquardtFunctor
+PUBLIC MultistageTDCR_Solver 
+PRIVATE Eigen3::Eigen 
+${PYTHON_LIBRARIES} 
+${acados_lib}/libacados.so
+${LIBFILES})
 
-)
-
-ENDFOREACH(SRC ${SOURCES})
+MESSAGE(STATUS ${LIBFILES})
 
 FOREACH(TEST_FILE ${TEST_FILES})
 
-	FILE( GLOB LIBFILES ${LIB_PATH}/shared/*.so)
-	message(STATUS ${LIBFILES})
-	FILE( GLOB LIBS ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/*.a )
+  FILE( GLOB LIBFILES ${LIB_PATH}/*.so)
 	GET_FILENAME_COMPONENT( EXEC_NAME ${TEST_FILE} NAME_WE)
 	ADD_EXECUTABLE(${EXEC_NAME} ${TEST_FILE})
 	TARGET_LINK_LIBRARIES(${EXEC_NAME} 
-	PRIVATE Eigen3::Eigen 
-	${PYTHON_LIBRARIES} 
-	MultistageTDCR_Solver
-	TDCR_Interface
-	ControllerInterface
-	${acados_lib}/libacados.so
-	${LIBFILES}
-	${LIBS}
-	Boost::log 
-	Boost::log_setup
- 
+  PUBLIC TDCR_Interface
+  PUBLIC LevenbergMarquardtFunctor
+  PUBLIC IntegratorInterface 
+  PUBLIC ControllerInterface 
+  PUBLIC MultistageTDCR_Solver 
+  PRIVATE Eigen3::Eigen 
+  ${PYTHON_LIBRARIES} 
+  ${acados_lib}/libacados.so
+  ${LIBFILES}
 )
 
 ENDFOREACH(TEST_FILE ${TEST_FILES})
 
-
+## Mark executables and/or libraries for installation
+INSTALL(TARGETS tdcr_test MathUtils TDCR_Interface LevenbergMarquardtFunctor IntegratorInterface ControllerInterface MultistageTDCR_Solver
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)

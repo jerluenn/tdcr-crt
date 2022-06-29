@@ -17,7 +17,7 @@ This script provides a vanilla type of LMPC controller.
 
 class TDCR_MPC_builder: 
 
-    def __init__(self, options): 
+    def __init__(self, options, workspace = None): 
 
         """
         Parameters
@@ -51,6 +51,11 @@ class TDCR_MPC_builder:
         self._qdot_max = options['qdot_max']
         self._name = options['name']
         self._dir_name = 'c_generated_code_' + self._name
+
+        if workspace is not None: 
+            self._workspace = workspace
+        else: 
+            self._workspace = "~"
 
         self._removeOldData()
         self._create_controller()
@@ -155,7 +160,7 @@ class TDCR_MPC_builder:
         replacedText2 = textToReplace2 + "_" +  self._name
 
         os.chdir(os.path.expanduser(
-            "~/tdcr-crt/src/tdcr_controller/" + self._dir_name + "/" + self._name))
+            self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name + "/" + self._name))
         fullFileName = "acados_solver_" + self._name
 
         # Read in the file
@@ -172,18 +177,18 @@ class TDCR_MPC_builder:
 
     def _removeOldData(self):
 
-        os.chdir(os.path.expanduser("~/tdcr-crt/lib/shared"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/lib/shared"))
         try: 
             os.chdir(os.path.expanduser(
-            "~/tdcr-crt/src/tdcr_controller/" + self._dir_name))
+            self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name))
         except: 
             print("No such directory as ~/tdcr-crt/src/tdcr_controller/ + self._dir_name, changing directory to ~/tdcr-crt/src/tdcr_controller/.")
             os.chdir(os.path.expanduser(
-            "~/tdcr-crt/src/tdcr_controller/"))
+            self._workspace + "/tdcr-crt/src/tdcr_controller/"))
         
         list_dir = [x[0] for x in os.walk(os.getcwd())]
 
-        if os.getcwd() == os.path.expanduser("~/tdcr-crt/src/tdcr_controller/" + self._dir_name):
+        if os.getcwd() == os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name):
 
             for file_name in os.listdir(os.getcwd()):
                 # construct full file path
@@ -213,7 +218,7 @@ class TDCR_MPC_builder:
 
     def _exportData(self): 
 
-        os.chdir(os.path.expanduser("~/tdcr-crt/src/tdcr_controller"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_controller"))
         os.chdir(self._dir_name)
         os.chdir(self._name)
         os.system("mv *.so ../../../../lib/shared")
@@ -235,4 +240,4 @@ if __name__ == "__main__":
     options['qdot_max'] = 30.0
     options['name'] = 'tdcr_lmpc'
 
-    TDCR_MPC_builder(options)
+    TDCR_MPC_builder(options, sys.argv[1])
