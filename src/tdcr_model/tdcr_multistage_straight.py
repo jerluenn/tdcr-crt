@@ -385,7 +385,7 @@ if __name__ == "__main__":
     type_builder = Robot_Type_Builder()
     type_builder.createMultiStageStraight(robot_dict)
 
-    c = MultistageTDCR(type_builder, physical_builder)
-    # c = MultistageTDCR(type_builder, physical_builder, sys.argv[1])
+    # c = MultistageTDCR(type_builder, physical_builder)
+    c = MultistageTDCR(type_builder, physical_builder, sys.argv[1])
 
 

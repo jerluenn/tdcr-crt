@@ -17,6 +17,8 @@
   <depend>eigen</depend>
   <depend>roscpp</depend>
   <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>diagnostic_msgs</depend>
   
   <!-- The following tags are recommended by REP-136 -->
   <exec_depend condition="$ROS_VERSION == 1">catkin</exec_depend>

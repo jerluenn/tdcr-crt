@@ -44,9 +44,20 @@ if(NOT EIGEN3_FOUND)
   set(EIGEN3_LIBRARIES ${EIGEN_LIBRARIES})
 endif()
 find_package(PythonLibs REQUIRED)
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS message_generation std_msgs sensor_msgs geometry_msgs roscpp)
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system log_setup log REQUIRED)
+
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+# catkin_package() 
 
 include_directories(
 
@@ -158,9 +169,7 @@ FOREACH(TEST_FILE ${TEST_FILES})
 
 ENDFOREACH(TEST_FILE ${TEST_FILES})
 
+MESSAGE (STATUS ${LIB_PATH})
+
 ## Mark executables and/or libraries for installation
-INSTALL(TARGETS tdcr_test MathUtils TDCR_Interface LevenbergMarquardtFunctor IntegratorInterface ControllerInterface MultistageTDCR_Solver
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+

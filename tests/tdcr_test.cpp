@@ -8,6 +8,7 @@
 #include "acados_sim_solver_multistage_straight_step_integrator1.h"
 #include "acados_sim_solver_multistage_straight_step_integrator2.h"
 #include "acados_solver_tdcr_lmpc.h"
+#include "ros/ros.h"
 
 #define PI 3.14159 
 
