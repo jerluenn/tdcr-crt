@@ -75,18 +75,18 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
     def _removeOldData(self):
 
-        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/lib/shared"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr_crt/lib/shared"))
 
         os.system("rm libacados_sim_solver_multistage_straight*.so")
 
         self._dir_name = 'c_generated_code_' + self._robot_type
         os.chdir(os.path.expanduser(
-            self._workspace + "/tdcr-crt/src/tdcr_model/" + self._dir_name))
+            self._workspace + "/tdcr_crt/src/tdcr_model/" + self._dir_name))
 
         list_dir = [x[0] for x in os.walk(os.getcwd())]
         list_dir.pop(0)
 
-        if os.getcwd() == os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_model/" + self._dir_name):
+        if os.getcwd() == os.path.expanduser(self._workspace + "/tdcr_crt/src/tdcr_model/" + self._dir_name):
 
             for file_name in os.listdir(os.getcwd()):
                 # construct full file path
@@ -219,7 +219,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
         # for exporting data to library folder afterwards.
         os.chdir(os.path.expanduser(
-            self._workspace + "/tdcr-crt/src/tdcr_model/"))
+            self._workspace + "/tdcr_crt/src/tdcr_model/"))
         self._dir_list.append(sim.code_export_directory)
         self._integrator_names.append(model_name)
 
@@ -250,7 +250,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
             replacedText2 = textToReplace2 + self._integrator_names[i]
 
             os.chdir(os.path.expanduser(
-                self._workspace + "/tdcr-crt/src/tdcr_model/" + self._dir_list[i]))
+                self._workspace + "/tdcr_crt/src/tdcr_model/" + self._dir_list[i]))
             fullFileName = "acados_sim_solver_" + self._integrator_names[i]
 
             # Read in the file
@@ -341,7 +341,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
     def _exportData(self):
 
-        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_model"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr_crt/src/tdcr_model"))
         os.chdir(self._dir_list[0])
 
         for _dir in self._dir_list:

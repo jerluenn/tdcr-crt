@@ -67,7 +67,7 @@ int main() {
     c.solveForwardKinematics(tau, false);
 
     Eigen::MatrixXi w1(2, 1), w2(6, 1);
-    Eigen::MatrixXd desiredPose(8, 1), weight_all(8, 8), controlInput; 
+    Eigen::MatrixXd desiredPose(8, 1), controlInput; 
     std::vector<Eigen::MatrixXi> CSM; 
     Eigen::MatrixXi CS(2, 1); 
     CS << 0, 1;
@@ -79,7 +79,6 @@ int main() {
 
     desiredPose << 0.0, 0.04, -0.2, 0.2, 1., 0., 0., 0.;
 
-    c.setWeightsAllStages(weight_all);
     c.timer.tic();
 
     for (int i = 0; i < 500; ++i) 

@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 3.0.2)
-project(tdcr_crt)
+cmake_minimum_required(VERSION 3.10)
+project(tdcr-crt)
 
 set (CMAKE_CXX_STANDARD 11)
 
@@ -11,12 +11,12 @@ SET(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-# SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
+SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
 SET( LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/shared )
 SET( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
 SET( TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests )
-# SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
-# SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
+SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
+SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
 SET( acados_include "~/acados/include" )
 SET( acados_lib "~/acados/lib")
 SET( c_functions_controller "${SOURCE_DIR}/tdcr_controller/c_generated_code_tdcr_lmpc")
@@ -48,12 +48,21 @@ find_package(catkin REQUIRED COMPONENTS dynamic_reconfigure message_generation s
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system log_setup log REQUIRED)
 
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+# catkin_package() 
+
 generate_dynamic_reconfigure_options(
   cfg/SimulationParams.cfg
   #...
 )
-
-catkin_package() 
 
 include_directories(
 
@@ -151,13 +160,12 @@ FOREACH(TEST_FILE ${TEST_FILES})
   FILE( GLOB LIBFILES ${LIB_PATH}/*.so)
 	GET_FILENAME_COMPONENT( EXEC_NAME ${TEST_FILE} NAME_WE)
 	ADD_EXECUTABLE(${EXEC_NAME} ${TEST_FILE})
-  MESSAGE(STATUS ${EXEC_NAME})
 	TARGET_LINK_LIBRARIES(${EXEC_NAME} 
-  # PUBLIC TDCR_Interface
-  # PUBLIC LevenbergMarquardtFunctor
-  # PUBLIC IntegratorInterface 
-  # PUBLIC ControllerInterface 
-  # PUBLIC MultistageTDCR_Solver 
+  PUBLIC TDCR_Interface
+  PUBLIC LevenbergMarquardtFunctor
+  PUBLIC IntegratorInterface 
+  PUBLIC ControllerInterface 
+  PUBLIC MultistageTDCR_Solver 
   PRIVATE Eigen3::Eigen 
   ${catkin_LIBRARIES}
   ${PYTHON_LIBRARIES} 
@@ -167,4 +175,3 @@ FOREACH(TEST_FILE ${TEST_FILES})
 
 ENDFOREACH(TEST_FILE ${TEST_FILES})
 
-add_dependencies(SimulationNodeTwoStageExample ${PROJECT_NAME}_gencfg)

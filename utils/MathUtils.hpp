@@ -19,7 +19,10 @@ namespace MathUtils {
     Eigen::Matrix<double, 3, 3> skew_v(Eigen::Vector<double, 3> v);
     Eigen::Matrix3d quat2Rot(Eigen::Matrix<double, 4, 1> eta);
     Eigen::Quaterniond rot2quat(Eigen::Matrix3d rot);
+    Eigen::Quaterniond eul2quat_rad(Eigen::Matrix<double, 3, 1> euler_angles_zyx);
+    Eigen::Quaterniond eul2quat_deg(Eigen::Matrix<double, 3, 1> euler_angles_zyx);
     Eigen::Matrix<double, 7, 1> robotStates2Pose(Eigen::MatrixXd robotStates);
+    double deg2rad(double deg);
 
     class Timer{
 

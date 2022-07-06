@@ -11,13 +11,9 @@ TDCR_Interface::TDCR_Interface(MultistageTDCR_Solver* TDCR_, ControllerInterface
     desiredTensions.setZero();
     deltaTension.resize(TDCR->getNumTendons(), 1); 
     deltaTension.setZero();
-    weightPriorityTip.resize(7, 7);
-    weightPriorityTip.setIdentity();
     JacobianEta.resize(7, TDCR->getNumTendons());
     I_mxm.resize(TDCR->getNumTendons(), TDCR->getNumTendons()); 
     I_mxm.setZero();
-    lambda = 0.1; 
-    Kp = 1.; 
     scaleLoadCell = 1e-3; 
 
 }
@@ -77,8 +73,6 @@ void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::M
     customJacobianEta.resize(numControlStates, TDCR->getNumTendons());
     customPose.resize(numControlStates, 1);
     customPoseError.resize(numControlStates, 1);
-    weightPriorityCustom.resize(numControlStates, numControlStates);
-    weightPriorityCustom.setIdentity();
 
     stagesControlled = stagesControlled_;
     controlStatesMatrix = CSM;
@@ -236,48 +230,11 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
 
 }
 
-Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::Matrix<double, 7, 1> poseDesired) 
-
-{
-
-    JacobianEta = TDCR->getJacobiansEta()[TDCR->getNumStages()];
-
-    poseTip = MathUtils::robotStates2Pose(TDCR->getRobotStates(TDCR->getNumStages()));
-    poseTipError = poseDesired - poseTip;
-
-    deltaTension = Kp*(JacobianEta.transpose() * weightPriorityTip * JacobianEta + pow(lambda, 2)*I_mxm).inverse() * JacobianEta.transpose() * weightPriorityTip * poseTipError ;
-
-    desiredTensions += deltaTension*TDCR->getSamplingTime();
-
-    return desiredTensions;
-
-}
-
 void TDCR_Interface::setScaleLoadCell(double value)
 
 {
 
     scaleLoadCell = value; 
-
-}
-
-void TDCR_Interface::setWeightsAllStages(Eigen::MatrixXd W_custom)
-
-{
-
-    assertm(W_custom.rows() == weightPriorityCustom.rows(), "W_custom must be of size 7 by num_tendons");
-    assertm(W_custom.cols() == weightPriorityCustom.cols(), "W_custom must be of size 7 by num_tendons");
-    weightPriorityCustom = W_custom;
-
-}
-
-void TDCR_Interface::setWeightsTip(Eigen::MatrixXd W) 
-
-{
-
-    assertm(W.rows() == weightPriorityTip.rows(), "W must be of size 7 by num_tendons");
-    assertm(W.cols() == weightPriorityTip.cols(), "W must be of size 7 by num_tendons");
-    weightPriorityTip = W; 
 
 }
 

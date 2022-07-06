@@ -160,7 +160,7 @@ class TDCR_MPC_builder:
         replacedText2 = textToReplace2 + "_" +  self._name
 
         os.chdir(os.path.expanduser(
-            self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name + "/" + self._name))
+            self._workspace + "/tdcr_crt/src/tdcr_controller/" + self._dir_name + "/" + self._name))
         fullFileName = "acados_solver_" + self._name
 
         # Read in the file
@@ -177,18 +177,18 @@ class TDCR_MPC_builder:
 
     def _removeOldData(self):
 
-        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/lib/shared"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr_crt/lib/shared"))
         try: 
             os.chdir(os.path.expanduser(
-            self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name))
+            self._workspace + "/tdcr_crt/src/tdcr_controller/" + self._dir_name))
         except: 
-            print("No such directory as ~/tdcr-crt/src/tdcr_controller/ + self._dir_name, changing directory to ~/tdcr-crt/src/tdcr_controller/.")
+            print("No such directory as ~/tdcr_crt/src/tdcr_controller/ + self._dir_name, changing directory to ~/tdcr_crt/src/tdcr_controller/.")
             os.chdir(os.path.expanduser(
-            self._workspace + "/tdcr-crt/src/tdcr_controller/"))
+            self._workspace + "/tdcr_crt/src/tdcr_controller/"))
         
         list_dir = [x[0] for x in os.walk(os.getcwd())]
 
-        if os.getcwd() == os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_controller/" + self._dir_name):
+        if os.getcwd() == os.path.expanduser(self._workspace + "/tdcr_crt/src/tdcr_controller/" + self._dir_name):
 
             for file_name in os.listdir(os.getcwd()):
                 # construct full file path
@@ -218,7 +218,7 @@ class TDCR_MPC_builder:
 
     def _exportData(self): 
 
-        os.chdir(os.path.expanduser(self._workspace + "/tdcr-crt/src/tdcr_controller"))
+        os.chdir(os.path.expanduser(self._workspace + "/tdcr_crt/src/tdcr_controller"))
         os.chdir(self._dir_name)
         os.chdir(self._name)
         os.system("mv *.so ../../../../lib/shared")
@@ -227,12 +227,12 @@ if __name__ == "__main__":
 
 
     options = {} 
-    options['Tf'] = 0.5
-    options['N'] = 30
+    options['Tf'] = 1.0
+    options['N'] = 100
     options['n_tendons'] = 6
     options['n_states'] = 8
     options['Q_weight'] = linalg.block_diag(0.001 * np.eye(2), 500e3 * np.eye(2), 1e3 * np.eye(4))
-    options['Q_weight_'] = linalg.block_diag(0.5e1 * np.eye(3), 0.5e1 * np.eye(3))
+    options['Q_weight_'] = linalg.block_diag(0.05e1 * np.eye(3), 0.05e1 * np.eye(3))
     options['R_weight'] = 1e-2 * np.eye(6)
     options['Q_weight_t'] = 30 * linalg.block_diag(0.001 * np.eye(2), 500e3 * np.eye(2), 1e3 * np.eye(4))
     options['Q_weight_t_'] = 0.5e1 * np.eye(6)

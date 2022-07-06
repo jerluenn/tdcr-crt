@@ -86,6 +86,40 @@ Eigen::Matrix3d MathUtils::quat2Rot(Eigen::Matrix<double, 4, 1> eta)
 
 }
 
+Eigen::Quaterniond MathUtils::eul2quat_rad(Eigen::Matrix<double, 3, 1> euler_angles_zyx)
+
+{
+
+    Eigen::Quaterniond q; 
+    q = Eigen::AngleAxisd(euler_angles_zyx(2, 0), Eigen::Vector3d::UnitZ())
+        * Eigen::AngleAxisd(euler_angles_zyx(1, 0), Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(euler_angles_zyx(0, 0), Eigen::Vector3d::UnitX());
+    
+    return q; 
+
+}
+
+Eigen::Quaterniond MathUtils::eul2quat_deg(Eigen::Matrix<double, 3, 1> euler_angles_zyx)
+
+{
+
+    Eigen::Quaterniond q; 
+    q = Eigen::AngleAxisd(deg2rad(euler_angles_zyx(2, 0)), Eigen::Vector3d::UnitZ())
+        * Eigen::AngleAxisd(deg2rad(euler_angles_zyx(1, 0)), Eigen::Vector3d::UnitY())
+        * Eigen::AngleAxisd(deg2rad(euler_angles_zyx(0, 0)), Eigen::Vector3d::UnitX());
+    
+    return q; 
+
+}
+
+double MathUtils::deg2rad(double deg) 
+
+{
+
+    return deg * M_PI / 180;
+
+} 
+
 Eigen::Matrix<double, 7, 1> MathUtils::robotStates2Pose(Eigen::MatrixXd robotStates) 
 
 {

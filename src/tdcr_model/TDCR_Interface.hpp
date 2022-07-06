@@ -30,8 +30,6 @@ class TDCR_Interface
         Eigen::Matrix<double, 7, 1> getPoseError();
         bool checkBoundaryConditions();
         void simulateStep(Eigen::MatrixXd);
-        void setWeightsAllStages(Eigen::MatrixXd W_all);
-        void setWeightsTip(Eigen::MatrixXd W);
         void trackMeasuredTension(Eigen::MatrixXd tau);
         void setDimensions(double numControlStates, std::vector<Eigen::MatrixXi> CSM, Eigen::MatrixXi stagesControlled_);
         virtual ~TDCR_Interface(); 
@@ -46,12 +44,10 @@ class TDCR_Interface
         ControllerInterface* MPC;
         MultistageTDCR_Solver* TDCR;
         LevenbergMarquardtFunctor LMFunctor;
-        double lambda, Kp, scaleLoadCell;
+        double scaleLoadCell;
         Eigen::MatrixXd I_mxm;
         Eigen::Matrix<double, 7, 1> poseTip;
         Eigen::Matrix<double, 7, 1> poseTipError;
-        Eigen::MatrixXd weightPriorityTip;
-        Eigen::MatrixXd weightPriorityCustom;
         Eigen::MatrixXd customJacobianEta; 
         Eigen::MatrixXd customPose;
         Eigen::MatrixXd JacobianEta; 
