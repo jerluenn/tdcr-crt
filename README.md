@@ -4,13 +4,15 @@
 
 ## **Installation**
 
+## **Terminology**
+
 ## **Minimal Example**
 
-### Some Python and C++ skills will be required in order to create a custom continuum robot model.
+#### Some Python and C++ skills will be required in order to create a custom continuum robot model.
 
-### 1. Define continuum robot's parameters.
+#### 1. Define continuum robot's parameters.
 
-### The minimum parameters required are: 
+#### The minimum parameters required are: 
 
     a. Backbone material properties such as Young's Modulus, Shear Modulus.
     b. Length of backbone, and the length of each section/stage.
@@ -18,9 +20,9 @@
     d. Number of tendons/cables and the positions of each routing in 3D cartesian space. 
     e. Geometry of the backbone, i.e. hollow rod, solid rod. If no geometry is found, then the bending and shear matrix must be provided. 
 
-### 2. Generated c code using Python script, found under src. 
+#### 2. Generated c code using Python script, found under src. 
 
-### The steps can be broken down into: 
+#### The steps can be broken down into: 
 
     a. Create a "robot_dict" that requires:
         - Type of rod used, 
@@ -36,9 +38,9 @@
     c. Then, we can use the "Robot_Parameter_Builder" and "Robot_Type_Builder" templates to create the c generated code required for the C++ TDCR_Interface.
 
 
-### 3. Create the MPC controller object. 
+#### 3. Create the MPC controller object. 
 
-### 4. As of this version, we need to create `TDCR_Interface`, which requires both `MultistageTDCR_Solver` and `ControllerInterface`.
+#### 4. As of this version, we need to create `TDCR_Interface`, which requires both `MultistageTDCR_Solver` and `ControllerInterface`.
 
     a. We first start by including the required header files for the integrators.
     b. Next, we create IntegrationInterface objects for the MultistageTDCR_Solver. 
