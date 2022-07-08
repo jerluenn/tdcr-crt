@@ -353,14 +353,57 @@ class MultistageTDCR(Tendon_Robot_Builder):
 
 if __name__ == "__main__":
 
+    ########################################
+    ########## TWO STAGE ROBOT #############
+    ########################################
+
+    # robot_dict = {}
+    # # robot_dict['type'] = 'hollow_rod'
+    # robot_dict['type'] = 'Solid Rod'
+    # # robot_dict['outer_radius'] = 0.001
+    # # robot_dict['inner_radius'] = 0.0008
+    # robot_dict['radius'] = 0.0015
+    # robot_dict['shear_modulus'] = 200e9
+    # robot_dict['elastic_modulus'] = 200e9
+    # robot_dict['mass_distribution'] = 0.1
+    # robot_dict['num_tendons'] = 6
+    
+    # robot_dict['time_step'] = 0.01
+    # robot_dict['robot_length'] = 0.4
+    # robot_dict['tip_weight'] = 0.0
+
+    # physical_builder = Robot_Parameter_Builder()
+    # # physical_builder.createHollowRod(robot_dict)
+    # physical_builder.createRod(robot_dict)
+
+    # robot_dict = {}
+    # robot_dict['num_tendons'] = 6
+    # robot_dict['routing'] = transpose(SX([[0.0350, 0.0, 0], [-0.0175, 0.0303, 0], [-0.0175, -
+    #                                                                                   0.0303, 0], [-0.035, -0.0, 0], [0.0175, -0.0303, 0], [0.0175, 0.0303, 0]]))
+
+    # robot_dict['stage_lengths'] = np.array([0.5, 0.5])
+    # robot_dict['stage_tendons'] = np.array(
+    #     [[1, 1, 1, 0, 0, 0], [0, 0, 0, 1, 1, 1]])
+    # robot_dict['integration_steps'] = 20
+
+    # type_builder = Robot_Type_Builder()
+    # type_builder.createMultiStageStraight(robot_dict)
+
+    # # c = MultistageTDCR(type_builder, physical_builder)
+    # c = MultistageTDCR(type_builder, physical_builder, sys.argv[1])
+
+    ##########################################
+    ########## THREE STAGE ROBOT #############
+    ##########################################
+
     robot_dict = {}
-    # robot_dict['type'] = 'hollow_rod'
-    robot_dict['type'] = 'Solid Rod'
-    # robot_dict['outer_radius'] = 0.001
-    # robot_dict['inner_radius'] = 0.0008
-    robot_dict['radius'] = 0.0015
+    robot_dict['type'] = 'hollow_rod'
+    # robot_dict['type'] = 'Solid Rod'
+    robot_dict['outer_radius'] = 0.0015
+    robot_dict['inner_radius'] = 0.0013
+    # robot_dict['radius'] = 0.0015
     robot_dict['shear_modulus'] = 200e9
-    robot_dict['elastic_modulus'] = 200e9
+    robot_dict['elastic_modulus'] = 60e9
     robot_dict['mass_distribution'] = 0.1
     robot_dict['num_tendons'] = 6
     
@@ -369,17 +412,18 @@ if __name__ == "__main__":
     robot_dict['tip_weight'] = 0.0
 
     physical_builder = Robot_Parameter_Builder()
-    # physical_builder.createHollowRod(robot_dict)
-    physical_builder.createRod(robot_dict)
+    physical_builder.createHollowRod(robot_dict)
+    # physical_builder.createRod(robot_dict)
 
     robot_dict = {}
     robot_dict['num_tendons'] = 6
-    robot_dict['routing'] = transpose(SX([[0.0350, 0.0, 0], [-0.0175, 0.0303, 0], [-0.0175, -
-                                                                                      0.0303, 0], [-0.035, -0.0, 0], [0.0175, -0.0303, 0], [0.0175, 0.0303, 0]]))
+    robot_dict['routing'] = transpose(SX([[0.0303, 0.0175, 0], [0.0303, 0.0175, 0], [-0.0193, 0.0230, 0], [-0.0193, -0.0230, 0], [0.0, 0.025, 0], [0.0, -0.025, 0]]))
 
-    robot_dict['stage_lengths'] = np.array([0.5, 0.5])
+    stage_length = 0.8/3
+
+    robot_dict['stage_lengths'] = np.array([stage_length, stage_length, stage_length])
     robot_dict['stage_tendons'] = np.array(
-        [[1, 1, 1, 0, 0, 0], [0, 0, 0, 1, 1, 1]])
+        [[1, 1, 0, 0, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 1, 1]])
     robot_dict['integration_steps'] = 20
 
     type_builder = Robot_Type_Builder()
@@ -387,5 +431,3 @@ if __name__ == "__main__":
 
     # c = MultistageTDCR(type_builder, physical_builder)
     c = MultistageTDCR(type_builder, physical_builder, sys.argv[1])
-
-
