@@ -153,11 +153,11 @@ FOREACH(TEST_FILE ${TEST_FILES})
 	ADD_EXECUTABLE(${EXEC_NAME} ${TEST_FILE})
   MESSAGE(STATUS ${EXEC_NAME})
 	TARGET_LINK_LIBRARIES(${EXEC_NAME} 
-  # PUBLIC TDCR_Interface
-  # PUBLIC LevenbergMarquardtFunctor
-  # PUBLIC IntegratorInterface 
-  # PUBLIC ControllerInterface 
-  # PUBLIC MultistageTDCR_Solver 
+  PUBLIC TDCR_Interface
+  PUBLIC LevenbergMarquardtFunctor
+  PUBLIC IntegratorInterface 
+  PUBLIC ControllerInterface 
+  PUBLIC MultistageTDCR_Solver 
   PRIVATE Eigen3::Eigen 
   ${catkin_LIBRARIES}
   ${PYTHON_LIBRARIES} 
@@ -167,4 +167,4 @@ FOREACH(TEST_FILE ${TEST_FILES})
 
 ENDFOREACH(TEST_FILE ${TEST_FILES})
 
-add_dependencies(SimulationNodeTwoStageExample ${PROJECT_NAME}_gencfg)
+# add_dependencies(SimulationNodeTwoStageExample ${PROJECT_NAME}_gencfg)

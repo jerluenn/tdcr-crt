@@ -198,7 +198,7 @@ int main(int argc, char **argv)
     c.solveForwardKinematics(tau, false);
     c.simulateStep(tau);
 
-    Eigen::MatrixXi w2(6, 1);
+    Eigen::MatrixXi w1(6, 1);
     Eigen::MatrixXd controlInput; 
     std::vector<Eigen::MatrixXi> CSM; 
     Eigen::MatrixXi CS(1, 1); 

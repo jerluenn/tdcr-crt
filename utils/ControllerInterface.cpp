@@ -1,6 +1,6 @@
 #include <ControllerInterface.hpp>
 
-ControllerInterface::ControllerInterface(nlp_solver_capsule* capsule_) 
+ControllerInterface::ControllerInterface(tdcr_lmpc_solver_capsule* capsule_) 
 
 {
 
@@ -10,7 +10,7 @@ ControllerInterface::ControllerInterface(nlp_solver_capsule* capsule_)
 
 ControllerInterface::~ControllerInterface() {};
 
-void ControllerInterface::setCapsule(nlp_solver_capsule* capsule_arg) 
+void ControllerInterface::setCapsule(tdcr_lmpc_solver_capsule* capsule_arg) 
 
 {
 

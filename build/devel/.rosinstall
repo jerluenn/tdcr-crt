@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jerluen/ros_catkin_ws/src/tdcr_crt/build/devel/setup.sh

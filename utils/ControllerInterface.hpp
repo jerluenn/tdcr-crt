@@ -23,7 +23,7 @@
 
 #define assertm(exp, msg) assert(((void)msg, exp))
 
-typedef struct nlp_solver_capsule
+typedef struct tdcr_lmpc_solver_capsule
 {
     // acados objects
     ocp_nlp_in *nlp_in;
@@ -95,7 +95,7 @@ class ControllerInterface
 
     public: 
 
-        ControllerInterface(nlp_solver_capsule* capsule_); 
+        ControllerInterface(tdcr_lmpc_solver_capsule* capsule_); 
         virtual ~ControllerInterface();
         Eigen::MatrixXd solveOptimalControl(Eigen::MatrixXd currentPose, Eigen::MatrixXd J, Eigen::MatrixXd y); 
         MathUtils::Timer timer;
@@ -105,8 +105,8 @@ class ControllerInterface
         int status; 
         Eigen::MatrixXd J;
         Eigen::MatrixXd y;
-        nlp_solver_capsule* capsule;
-        void setCapsule(nlp_solver_capsule* capsule_arg);
+        tdcr_lmpc_solver_capsule* capsule;
+        void setCapsule(tdcr_lmpc_solver_capsule* capsule_arg);
         int setJacobians(Eigen::MatrixXd J);
         void setPose(Eigen::MatrixXd currentPose);
         void setReference(Eigen::MatrixXd y);

@@ -153,11 +153,11 @@ class TDCR_MPC_builder:
 
     def _replaceData(self): 
 
-        textToReplace = "struct nlp_solver_capsule"
-        textToReplace2 = "} nlp_solver_capsule"
+        textToReplace = "struct " + self._name + "_solver_capsule"
+        textToReplace2 = "} " + self._name + "_solver_capsule"
 
-        replacedText = textToReplace + "_" +self._name
-        replacedText2 = textToReplace2 + "_" +  self._name
+        replacedText = textToReplace + "_replaced"
+        replacedText2 = textToReplace2 + "_replaced"
 
         os.chdir(os.path.expanduser(
             self._workspace + "/tdcr_crt/src/tdcr_controller/" + self._dir_name + "/" + self._name))
@@ -240,4 +240,5 @@ if __name__ == "__main__":
     options['qdot_max'] = 30.0
     options['name'] = 'tdcr_lmpc'
 
+    # TDCR_MPC_builder(options)
     TDCR_MPC_builder(options, sys.argv[1])

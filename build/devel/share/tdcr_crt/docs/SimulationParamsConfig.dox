@@ -1,0 +1,15 @@
+\subsubsection parameters ROS parameters
+
+Reads and maintains the following parameters on the ROS server
+
+- \b "~phi" : \b [double] A double parameter min: -89.9, default: 0.0, max: 89.9
+- \b "~theta" : \b [double] A double parameter min: -89.9, default: 0.0, max: 89.9
+- \b "~psi" : \b [double] A double parameter min: -20.0, default: 0.0, max: 20.0
+- \b "~px1" : \b [double] A double parameter min: -0.2, default: 0.0, max: 0.2
+- \b "~py1" : \b [double] A double parameter min: -0.2, default: 0.0, max: 0.2
+- \b "~px2" : \b [double] A double parameter min: -0.4, default: 0.0, max: 0.4
+- \b "~py2" : \b [double] A double parameter min: -0.4, default: 0.0, max: 0.4
+- \b "~r" : \b [double] radius min: 0.0, default: 0.0, max: 0.25
+- \b "~omega" : \b [double] frequency min: 0.05, default: 0.0, max: 1.0
+- \b "~reference_type" : \b [int] A size parameter which is edited via an enum min: 0, default: 0, max: 3
+
