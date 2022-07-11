@@ -1,8 +1,0 @@
-prefix=/home/jerluen/ros_catkin_ws/src/tdcr_crt/build/devel
-
-Name: tdcr_crt
-Description: Description of tdcr_crt
-Version: 0.0.0
-Cflags: -I/home/jerluen/ros_catkin_ws/src/tdcr_crt/build/devel/include
-Libs: -L${prefix}/lib 
-Requires: 
