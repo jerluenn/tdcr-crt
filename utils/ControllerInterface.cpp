@@ -27,7 +27,7 @@ Eigen::MatrixXd ControllerInterface::solveOptimalControl(Eigen::MatrixXd current
 
     Eigen::MatrixXd optimalControl; 
     optimalControl.resize(NU, 1);
-    Eigen::MatrixXd states(14, 1);
+    Eigen::MatrixXd states(*capsule->nlp_dims->nx, 1);
     states.setZero();
 
     setJacobians(J);

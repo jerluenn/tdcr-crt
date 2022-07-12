@@ -60,7 +60,7 @@ void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::M
 
     int num_elements = 0; 
 
-    for (unsigned int i = 0; i < TDCR->getNumStages(); ++i) 
+    for (unsigned int i = 0; i < CSM.size(); ++i) 
     
     {
 
@@ -161,10 +161,13 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired,
 
     }
 
+    
+
     poseDesiredMPC << poseDesired, TendonsDesiredMPC;
     customPoseError = poseDesired - customPose; 
 
     deltaTension = MPC->solveOptimalControl(currentPose, customJacobianEta, poseDesiredMPC);
+
 
     desiredTensions += deltaTension*TDCR->getSamplingTime();
 
@@ -221,6 +224,10 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
     poseDesiredMPC << poseDesired, TendonsDesiredMPC;
     customPoseMPC << customPose, TDCR->getTau();
     customPoseError = poseDesired - customPose; 
+
+    std::cout << poseDesiredMPC << "\n\n";
+    std::cout << customPoseError << "\n\n";
+    std::cout << " " << "\n\n";
 
     deltaTension = MPC->solveOptimalControl(customPoseMPC, customJacobianEta, poseDesiredMPC);
 

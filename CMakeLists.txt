@@ -6,17 +6,17 @@ set (CMAKE_CXX_STANDARD 11)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
-# set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS "-Wall -Wextra -fPIC -fopenmp  -DBOOST_LOG_DYN_LINK")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
-# SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
+SET( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin )
 SET( LIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/shared )
 SET( SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src )
 SET( TEST_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tests )
-# SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
-# SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
+SET( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib/static)
+SET( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${LIB_PATH} ) 
 SET( acados_include "~/acados/include" )
 SET( acados_lib "~/acados/lib")
 SET( c_functions_controller "${SOURCE_DIR}/tdcr_controller/c_generated_code_tdcr_lmpc")
@@ -53,7 +53,11 @@ generate_dynamic_reconfigure_options(
   #...
 )
 
-catkin_package() 
+catkin_package(
+
+  LIBRARIES tdcr_crt
+
+) 
 
 include_directories(
 
@@ -69,7 +73,6 @@ include_directories(
 	${PYTHON_INCLUDE_DIRS}
 
 )
-
 
 SUBDIRLIST(C_FUNC_INT_LIST ${c_functions_integration})
 SUBDIRLIST(C_FUNC_CON_LIST ${c_functions_controller})
@@ -145,7 +148,6 @@ PRIVATE Eigen3::Eigen
 ${PYTHON_LIBRARIES} 
 ${acados_lib}/libacados.so)
 
-
 FOREACH(TEST_FILE ${TEST_FILES})
 
   FILE( GLOB LIBFILES ${LIB_PATH}/*.so)
@@ -156,7 +158,7 @@ FOREACH(TEST_FILE ${TEST_FILES})
   PUBLIC TDCR_Interface
   PUBLIC LevenbergMarquardtFunctor
   PUBLIC IntegratorInterface 
-  PUBLIC ControllerInterface 
+  PRIVATE ControllerInterface 
   PUBLIC MultistageTDCR_Solver 
   PRIVATE Eigen3::Eigen 
   ${catkin_LIBRARIES}
@@ -167,4 +169,4 @@ FOREACH(TEST_FILE ${TEST_FILES})
 
 ENDFOREACH(TEST_FILE ${TEST_FILES})
 
-# add_dependencies(SimulationNodeTwoStageExample ${PROJECT_NAME}_gencfg)
+add_dependencies(SimulationNodeTwoStageExample ${PROJECT_NAME}_gencfg)

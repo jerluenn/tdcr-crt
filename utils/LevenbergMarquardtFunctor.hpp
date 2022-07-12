@@ -32,6 +32,13 @@ class LevenbergMarquardtFunctor
         // Returns 'n', the number of inputs.
         int inputs() const ;
 
+        // Denotes which stage you are solving.
+        int stage_num; 
+
+        // Internal forces at distal end of stage N.
+        Eigen::VectorXd w_distal; 
+
+
     private: 
 
         MultistageTDCR_Solver* TDCR; 

@@ -9,6 +9,11 @@ LevenbergMarquardtFunctor::LevenbergMarquardtFunctor(MultistageTDCR_Solver& TDCR
     TDCR = &TDCR_;
     m = TDCR->getNumStages()*6; 
     n = TDCR->getNumStages()*6;
+    
+    // Insert stage_num.
+    // Insert vector x at the distal end of N. 
+    // Update boundary conditions.
+
 
 }
 

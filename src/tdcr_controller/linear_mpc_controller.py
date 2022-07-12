@@ -230,11 +230,11 @@ if __name__ == "__main__":
     options['Tf'] = 1.0
     options['N'] = 100
     options['n_tendons'] = 6
-    options['n_states'] = 8
-    options['Q_weight'] = linalg.block_diag(0.001 * np.eye(2), 500e3 * np.eye(2), 1e3 * np.eye(4))
+    options['n_states'] = 6
+    options['Q_weight'] = linalg.block_diag(500e3 * np.eye(2), 1e3 * np.eye(4))
     options['Q_weight_'] = linalg.block_diag(0.05e1 * np.eye(3), 0.05e1 * np.eye(3))
     options['R_weight'] = 1e-2 * np.eye(6)
-    options['Q_weight_t'] = 30 * linalg.block_diag(0.001 * np.eye(2), 500e3 * np.eye(2), 1e3 * np.eye(4))
+    options['Q_weight_t'] = 30 * linalg.block_diag(500e3 * np.eye(2), 1e3 * np.eye(4))
     options['Q_weight_t_'] = 0.5e1 * np.eye(6)
     options['q_max'] = 30.0
     options['qdot_max'] = 30.0

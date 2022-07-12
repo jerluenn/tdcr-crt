@@ -155,7 +155,7 @@ int main(int argc, char **argv)
     multistage_straight_step_integrator1_acados_sim_create(capsule1step);
     sim_solver_capsule *capsule2step = multistage_straight_integrator2_acados_sim_solver_create_capsule();
     multistage_straight_step_integrator2_acados_sim_create(capsule2step);
-    nlp_solver_capsule *nlpcapsule = tdcr_lmpc_acados_create_capsule();
+    tdcr_lmpc_solver_capsule *nlpcapsule = tdcr_lmpc_acados_create_capsule();
     tdcr_lmpc_acados_create(nlpcapsule);
 
     std::vector<IntegrationInterface> i;

@@ -1,8 +1,10 @@
 #include <TDCR_Interface.hpp>
 #include "acados_sim_solver_multistage_straight_integrator1.h"
 #include "acados_sim_solver_multistage_straight_integrator2.h"
+#include "acados_sim_solver_multistage_straight_integrator3.h"
 #include "acados_sim_solver_multistage_straight_step_integrator1.h"
 #include "acados_sim_solver_multistage_straight_step_integrator2.h"
+#include "acados_sim_solver_multistage_straight_step_integrator3.h"
 #include "acados_solver_tdcr_lmpc.h"
 #include "ros/ros.h"
 #include <boost/thread.hpp>
@@ -46,7 +48,7 @@ class tendon_robot_simulator
             pub_pose = nh->advertise<geometry_msgs::PoseStamped>("/tdcr_pose", 10);
             tendonRobot = tendonRobot_;
             desiredPose.resize(tendonRobot->getCustomPose().rows(), tendonRobot->getCustomPose().cols());
-            desiredPose << 0.0, 0.0, -0.15, 0.04, 1.0, 0.0, 0.0, 0.0;
+            desiredPose << 0.0, 0.0, 1.0, 0.0, 0.0, 0.0;
             simulatedTime = 0.0; 
             simulationLoop();  
             thread.join();         
@@ -135,7 +137,7 @@ class tendon_robot_simulator
             Eigen::Quaterniond eta; 
             Eigen::Matrix<double, 3, 1> eulerAngles(msg.phi, msg.theta, msg.psi);
             eta = MathUtils::eul2quat_deg(eulerAngles);
-            desiredPose << msg.px1, msg.py1, msg.px2, msg.py2, eta.w(), eta.vec(); 
+            desiredPose << msg.px3, msg.py3, eta.w(), eta.vec(); 
 
         }
 
@@ -152,21 +154,27 @@ int main(int argc, char **argv)
     multistage_straight_integrator1_acados_sim_create(capsule1);
     sim_solver_capsule *capsule2 = multistage_straight_integrator2_acados_sim_solver_create_capsule();
     multistage_straight_integrator2_acados_sim_create(capsule2);
+    sim_solver_capsule *capsule3 = multistage_straight_integrator2_acados_sim_solver_create_capsule();
+    multistage_straight_integrator3_acados_sim_create(capsule3);
     sim_solver_capsule *capsule1step = multistage_straight_integrator1_acados_sim_solver_create_capsule();
     multistage_straight_step_integrator1_acados_sim_create(capsule1step);
     sim_solver_capsule *capsule2step = multistage_straight_integrator2_acados_sim_solver_create_capsule();
     multistage_straight_step_integrator2_acados_sim_create(capsule2step);
-    nlp_solver_capsule *nlpcapsule = tdcr_lmpc_acados_create_capsule();
+    sim_solver_capsule *capsule3step = multistage_straight_integrator2_acados_sim_solver_create_capsule();
+    multistage_straight_step_integrator3_acados_sim_create(capsule3step);
+    tdcr_lmpc_solver_capsule *nlpcapsule = tdcr_lmpc_acados_create_capsule();
     tdcr_lmpc_acados_create(nlpcapsule);
 
     std::vector<IntegrationInterface> i;
     std::vector<IntegrationInterface> is;
 
-    IntegrationInterface i1(capsule1), i2(capsule2), ii1(capsule1step), ii2(capsule2step); 
+    IntegrationInterface i1(capsule1), i2(capsule2), ii1(capsule1step), ii2(capsule2step), i3(capsule3), ii3(capsule3step); 
     i.push_back(i1);
     i.push_back(i2);
+    i.push_back(i3);
     is.push_back(ii1);
     is.push_back(ii2);
+    is.push_back(ii3);
 
     // Set routing here.
 
@@ -180,22 +188,29 @@ int main(int argc, char **argv)
     routing.resize(3, 6);
     routing.row(2).setZero(); 
 
-    routing(0, 0) = 0;
-    routing(0, 1) = 0;
-    routing(1, 2) = 0;
-    routing(1, 3) = 0;
-    routing(2, 4) = 0;
-    routing(2, 5) = 0;
+    routing(0, 0) = 0.0303;
+    routing(1, 0) = 0.0175;
+    routing(0, 1) = 0.0303;
+    routing(1, 1) = -0.0175;
+    routing(0, 2) = -0.0193;
+    routing(1, 2) = 0.0230;
+    routing(0, 3) = -0.0193;
+    routing(1, 3) = -0.230;
+    routing(0, 4) = 0;
+    routing(1, 4) = 0.025;
+    routing(0, 5) = 0;
+    routing(1, 5) = -0.025;
+
 
     // Create solver and interfaces.
 
-    MultistageTDCR_Solver tendon_robot(20, 6, 2, i, is, stage_tendons, routing);
+    MultistageTDCR_Solver tendon_robot(20, 6, 3, i, is, stage_tendons, routing);
     ControllerInterface controller(nlpcapsule);
     TDCR_Interface c(&tendon_robot, &controller); 
 
     Eigen::MatrixXd tau(6, 1); 
     tau << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0; 
-    c.solveForwardKinematics(tau, false);
+    c.solveForwardKinematics(tau, true);
     c.simulateStep(tau);
 
     Eigen::MatrixXi w1(6, 1);
