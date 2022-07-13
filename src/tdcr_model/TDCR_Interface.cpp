@@ -97,7 +97,8 @@ bool TDCR_Interface::checkBoundaryConditions()
         
         {
 
-            printf("Boundary Conditions are being violated, please stop the program.");
+            printf("WARNING: Boundary Conditions are being violated, please stop the program.\n");
+            std::cout << "Boundary conditions are at stage " << i << ": \n" << TDCR->getBoundaryConditions(i).norm() << "\n"; 
             return true; 
 
         }
@@ -225,10 +226,6 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
     customPoseMPC << customPose, TDCR->getTau();
     customPoseError = poseDesired - customPose; 
 
-    std::cout << poseDesiredMPC << "\n\n";
-    std::cout << customPoseError << "\n\n";
-    std::cout << " " << "\n\n";
-
     deltaTension = MPC->solveOptimalControl(customPoseMPC, customJacobianEta, poseDesiredMPC);
 
     desiredTensions += deltaTension*TDCR->getSamplingTime();
@@ -307,20 +304,37 @@ void TDCR_Interface::solveForwardKinematics(Eigen::MatrixXd tau, bool print_leve
     assertm(tau.cols() == 1, "tau must be a vector!");
     TDCR->setTau(tau);
 
-    LevenbergMarquardtFunctor LMFunctor(*TDCR);
-    Eigen::VectorXd x(TDCR->getNumStages()*6);
+    Eigen::VectorXd x(6);
+    Eigen::VectorXd solutions(6*TDCR->getNumStages());
     x.setZero();
 
-	Eigen::LevenbergMarquardt<LevenbergMarquardtFunctor, double> lm(LMFunctor);
-    lm.minimizeInit(x);
-	int status = lm.minimize(x);
-
-    for (unsigned int i = 0; i < TDCR->getNumStages(); ++i) 
+    for (int k = TDCR->getNumStages() - 1; k >= 0; --k) 
     
     {
 
-        TDCR->setInitialConditions(i, x.segment<6>(i*6));
-        TDCR->integrateStatesandUpdate(i);
+        LevenbergMarquardtFunctor LMFunctor(*TDCR, k);
+        Eigen::LevenbergMarquardt<LevenbergMarquardtFunctor, double> lm(LMFunctor);
+        lm.minimizeInit(x);
+        int status = lm.minimize(x);
+        solutions.segment<6>(k*6) = x;
+
+        if (print_level == true) 
+
+            {
+
+                std::cout << "---------- Solution for stage " << k << " ----------" << "\n"; 
+                std::cout << "status: " << status << "\n";
+                std::cout << "fnorm: " << lm.fnorm << "\n";
+                std::cout << "Sol: " << x.transpose() << "\n";
+                std::cout << "------------------------------------------\n";
+
+            }
+
+        TDCR->setInitialConditions(k, x);
+        TDCR->integrateStatesandUpdate(k);
+
+        x.setZero();
+
 
     }
 
@@ -328,14 +342,22 @@ void TDCR_Interface::solveForwardKinematics(Eigen::MatrixXd tau, bool print_leve
     TDCR->simulateStep(tau);
 
     if (print_level == true) 
-
+    
     {
 
-        std::cout << "status: " << status << "\n\n";
-        std::cout << "fnorm: " << lm.fnorm << "\n\n";
-        std::cout << "Sol: " << x << std::endl;
+        for (unsigned int i = 0; i < TDCR->getNumStages(); ++i) 
+        
+        {
+
+            std::cout << "---------- Checking Boundary Conditions for stage " << i << "----------\n"; 
+            std::cout << "Boundary conditions:\n " << TDCR->getBoundaryConditions(i) << "\n";
+            std::cout << "Robot Pose:\n " << TDCR->getRobotPoseWorld(i) << "\n";
+            std::cout << "-------------------------------------------------------------\n";
+
+        }
 
     }
+
 
 
 }

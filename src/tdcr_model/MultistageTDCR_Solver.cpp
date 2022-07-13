@@ -851,12 +851,10 @@ void MultistageTDCR_Solver::simulateStep(Eigen::MatrixXd tau)
     
     {
 
-
         db = J_b[i]*tau;
         initialConditions[i].block<6, 1>(num_p + num_R, 0) += db*dt; 
         initialConditions[i].block(num_p + num_R + num_m + num_n, 0, num_tendons, 1) += tau*dt;
         robotStates[i] = integrateStates(i);
-
 
     }
 

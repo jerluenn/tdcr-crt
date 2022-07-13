@@ -73,13 +73,13 @@ class tendon_robot_simulator
         
         {
 
-            poseMsg.pose.position.x = tendonRobot->getPoseWorld()[1](0, 0);
-            poseMsg.pose.position.y = tendonRobot->getPoseWorld()[1](1, 0);
-            poseMsg.pose.position.z = tendonRobot->getPoseWorld()[1](2, 0);
-            poseMsg.pose.orientation.w = tendonRobot->getPoseWorld()[1](3, 0);
-            poseMsg.pose.orientation.x = tendonRobot->getPoseWorld()[1](4, 0);
-            poseMsg.pose.orientation.y = tendonRobot->getPoseWorld()[1](5, 0);
-            poseMsg.pose.orientation.z = tendonRobot->getPoseWorld()[1](6, 0);
+            poseMsg.pose.position.x = tendonRobot->getPoseWorld()[2](0, 0);
+            poseMsg.pose.position.y = tendonRobot->getPoseWorld()[2](1, 0);
+            poseMsg.pose.position.z = tendonRobot->getPoseWorld()[2](2, 0);
+            poseMsg.pose.orientation.w = tendonRobot->getPoseWorld()[2](3, 0);
+            poseMsg.pose.orientation.x = tendonRobot->getPoseWorld()[2](4, 0);
+            poseMsg.pose.orientation.y = tendonRobot->getPoseWorld()[2](5, 0);
+            poseMsg.pose.orientation.z = tendonRobot->getPoseWorld()[2](6, 0);
 
             pub_pose.publish(poseMsg);
 
@@ -195,7 +195,7 @@ int main(int argc, char **argv)
     routing(0, 2) = -0.0193;
     routing(1, 2) = 0.0230;
     routing(0, 3) = -0.0193;
-    routing(1, 3) = -0.230;
+    routing(1, 3) = -0.0230;
     routing(0, 4) = 0;
     routing(1, 4) = 0.025;
     routing(0, 5) = 0;
@@ -217,7 +217,7 @@ int main(int argc, char **argv)
     Eigen::MatrixXd controlInput; 
     std::vector<Eigen::MatrixXi> CSM; 
     Eigen::MatrixXi CS(1, 1); 
-    CS << 1;
+    CS << 2;
     w1 << 0, 1, 3, 4, 5, 6; 
     CSM.push_back(w1); 
     c.setDimensions(6, CSM, CS);

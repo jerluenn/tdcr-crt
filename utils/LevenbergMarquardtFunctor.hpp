@@ -9,10 +9,9 @@ class LevenbergMarquardtFunctor
 
     public: 
 
-        LevenbergMarquardtFunctor(MultistageTDCR_Solver& TDCR_);
+        LevenbergMarquardtFunctor(MultistageTDCR_Solver& TDCR_, unsigned int stage_num_);
         LevenbergMarquardtFunctor();
         virtual ~LevenbergMarquardtFunctor();
-        void solveForwardKinematics();
 
         // Compute 'm' errors, one for each data point, for the given parameter values in 'x'
         int operator()(const Eigen::VectorXd &x, Eigen::VectorXd &fvec) const;
@@ -32,16 +31,10 @@ class LevenbergMarquardtFunctor
         // Returns 'n', the number of inputs.
         int inputs() const ;
 
-        // Denotes which stage you are solving.
-        int stage_num; 
-
-        // Internal forces at distal end of stage N.
-        Eigen::VectorXd w_distal; 
-
-
     private: 
 
         MultistageTDCR_Solver* TDCR; 
+        unsigned int stage_num;
         static constexpr double EPS = 1e-9;
 
 };

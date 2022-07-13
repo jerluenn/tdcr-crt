@@ -404,7 +404,7 @@ if __name__ == "__main__":
     # robot_dict['radius'] = 0.0015
     robot_dict['shear_modulus'] = 200e9
     robot_dict['elastic_modulus'] = 60e9
-    robot_dict['mass_distribution'] = 0.1
+    robot_dict['mass_distribution'] = 0.065
     robot_dict['num_tendons'] = 6
     
     robot_dict['time_step'] = 0.01
