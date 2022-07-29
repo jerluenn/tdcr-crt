@@ -234,6 +234,7 @@ class MultistageTDCR(Tendon_Robot_Builder):
         sim.solver_options.integrator_type = 'ERK'
         sim.solver_options.num_stages = params['num_stages']
         sim.solver_options.num_steps = params['num_steps']
+        sim.solver_options.sens_forw = False 
 
         acados_integrator = AcadosSimSolver(sim)
 

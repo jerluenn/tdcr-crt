@@ -103,8 +103,10 @@ class tendon_robot_simulator
             
             {
 
+                tendonRobot->timer.tic();
                 controlInput = tendonRobot->getHighLevelControl(desiredPose);
                 tendonRobot->simulateStep(controlInput);
+                tendonRobot->timer.toc();
                 tendonRobot->checkBoundaryConditions();
                 publishPose();
                 publishDesiredTension();
