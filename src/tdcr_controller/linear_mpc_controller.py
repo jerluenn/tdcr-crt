@@ -226,19 +226,51 @@ class TDCR_MPC_builder:
 if __name__ == "__main__":
 
 
+    # options = {} 
+    # options['Tf'] = 1.0
+    # options['N'] = 100
+    # options['n_tendons'] = 6
+    # options['n_states'] = 10
+    # options['Q_weight'] = linalg.block_diag(100e3 * np.eye(2), 500e3 * np.eye(2) , 1000e3 * np.eye(2), 1e-3 * np.eye(4))
+    # options['Q_weight_'] = linalg.block_diag(0.1e1 * np.eye(3), 0.1e1 * np.eye(3))
+    # options['R_weight'] = 1e-2 * np.eye(6)
+    # options['Q_weight_t'] = 30 * linalg.block_diag(100e3 * np.eye(2), 1000e3 * np.eye(4), 1e3 * np.eye(4))
+    # options['Q_weight_t_'] = 0.5e1 * np.eye(6)
+    # options['q_max'] = 40.0
+    # options['qdot_max'] = 30.0
+    # options['name'] = 'tdcr_lmpc'
+
+
+    # ENDEFFECTOR CONTROL
+
     options = {} 
     options['Tf'] = 1.0
     options['N'] = 100
     options['n_tendons'] = 6
-    options['n_states'] = 6
-    options['Q_weight'] = linalg.block_diag(500e3 * np.eye(2), 1e3 * np.eye(4))
-    options['Q_weight_'] = linalg.block_diag(0.05e1 * np.eye(3), 0.05e1 * np.eye(3))
+    options['n_states'] = 10
+    options['Q_weight'] = linalg.block_diag(1e-5 * np.eye(2), 1e-5 * np.eye(2) , 1000e3 * np.eye(2), 100e3 * np.eye(4))
+    options['Q_weight_'] = linalg.block_diag(0.1e1 * np.eye(3), 0.1e1 * np.eye(3))
     options['R_weight'] = 1e-2 * np.eye(6)
-    options['Q_weight_t'] = 30 * linalg.block_diag(500e3 * np.eye(2), 1e3 * np.eye(4))
+    options['Q_weight_t'] = 30 * linalg.block_diag(1e-5 * np.eye(4), 1000e3 * np.eye(2), 100e3 * np.eye(4))
     options['Q_weight_t_'] = 0.5e1 * np.eye(6)
-    options['q_max'] = 30.0
+    options['q_max'] = 40.0
     options['qdot_max'] = 30.0
     options['name'] = 'tdcr_lmpc'
+
+
+    # options = {} 
+    # options['Tf'] = 1.0
+    # options['N'] = 100
+    # options['n_tendons'] = 6
+    # options['n_states'] = 6
+    # options['Q_weight'] = linalg.block_diag(100e4 * np.eye(2), 100e2 * np.eye(4))
+    # options['Q_weight_'] = linalg.block_diag(0.1e1 * np.eye(1), 0.3e1 * np.eye(1), 0.1e1 * np.eye(1), 0.3e1 * np.eye(1), 1e1 * np.eye(1), 0.1e1 * np.eye(1))
+    # options['R_weight'] = 1e-5 * np.eye(6)
+    # options['Q_weight_t'] = 30 * linalg.block_diag(100e4 * np.eye(2), 100e2 * np.eye(4))
+    # options['Q_weight_t_'] = 0.5e1 * np.eye(6)
+    # options['q_max'] = 40.0
+    # options['qdot_max'] = 30.0
+    # options['name'] = 'tdcr_lmpc'
 
     # TDCR_MPC_builder(options)
     TDCR_MPC_builder(options, sys.argv[1])

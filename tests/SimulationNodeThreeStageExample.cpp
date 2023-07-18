@@ -25,7 +25,7 @@ class tendon_robot_simulator
 
         ros::Publisher pub_tensions;
         ros::Publisher pub_pose; 
-
+        
         double simulatedTime;
         TDCR_Interface* tendonRobot;
         Eigen::MatrixXd desiredPose;
@@ -42,13 +42,13 @@ class tendon_robot_simulator
         
         {
 
-            
             boost::thread thread(&tendon_robot_simulator::runDynamicReconfigure, this);
             pub_tensions = nh->advertise<std_msgs::Float64MultiArray>("/desired_tensions", 10);
             pub_pose = nh->advertise<geometry_msgs::PoseStamped>("/tdcr_pose", 10);
             tendonRobot = tendonRobot_;
-            desiredPose.resize(tendonRobot->getCustomPose().rows(), tendonRobot->getCustomPose().cols());
-            desiredPose << 0.0, 0.0, 1.0, 0.0, 0.0, 0.0;
+            desiredPose.resize(tendonRobot->getCustomPose().rows(), tendonRobot->getCustomPose().cols()); 
+            // desiredPose << 0.0, 0.0, 1.0, 0.0, 0.0, 0.0;
+            desiredPose << 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0;
             simulatedTime = 0.0; 
             simulationLoop();  
             thread.join();         
@@ -76,7 +76,7 @@ class tendon_robot_simulator
             poseMsg.pose.position.x = tendonRobot->getPoseWorld()[2](0, 0);
             poseMsg.pose.position.y = tendonRobot->getPoseWorld()[2](1, 0);
             poseMsg.pose.position.z = tendonRobot->getPoseWorld()[2](2, 0);
-            poseMsg.pose.orientation.w = tendonRobot->getPoseWorld()[2](3, 0);
+            poseMsg.pose.orientation.w = tendonRobot->getPoseWorld()[2](3, 0);  
             poseMsg.pose.orientation.x = tendonRobot->getPoseWorld()[2](4, 0);
             poseMsg.pose.orientation.y = tendonRobot->getPoseWorld()[2](5, 0);
             poseMsg.pose.orientation.z = tendonRobot->getPoseWorld()[2](6, 0);
@@ -139,7 +139,8 @@ class tendon_robot_simulator
             Eigen::Quaterniond eta; 
             Eigen::Matrix<double, 3, 1> eulerAngles(msg.phi, msg.theta, msg.psi);
             eta = MathUtils::eul2quat_deg(eulerAngles);
-            desiredPose << msg.px3, msg.py3, eta.w(), eta.vec(); 
+            desiredPose << msg.px1, msg.py1, msg.px2, msg.py2, msg.px3, msg.py3, eta.w(), eta.vec();
+            // desiredPose << msg.px3, msg.py3, eta.w(), eta.vec(); 
 
         }
 
@@ -182,27 +183,28 @@ int main(int argc, char **argv)
 
     Eigen::MatrixXd stage_tendons;
     stage_tendons.resize(3, 6);
-    stage_tendons << 1, 1, 0, 0, 0, 0,
-                     0, 0, 1, 1, 0, 0,
-                     0, 0, 0, 0, 1, 1;
+    stage_tendons << 0, 0, 1, 0, 0, 1,
+                     0, 1, 0, 0, 1, 0,
+                     1, 0, 0, 1, 0, 0;
 
     Eigen::MatrixXd routing; 
     routing.resize(3, 6);
     routing.row(2).setZero(); 
 
-    routing(0, 0) = 0.0303;
-    routing(1, 0) = 0.0175;
-    routing(0, 1) = 0.0303;
-    routing(1, 1) = -0.0175;
-    routing(0, 2) = -0.0193;
-    routing(1, 2) = 0.0230;
-    routing(0, 3) = -0.0193;
-    routing(1, 3) = -0.0230;
-    routing(0, 4) = 0;
-    routing(1, 4) = 0.025;
-    routing(0, 5) = 0;
-    routing(1, 5) = -0.025;
+    routing(0, 0) = 0.0189;
+    routing(1, 0) = 0.012164;
+    routing(0, 1) = -0.003202;
+    routing(1, 1) = 0.0223;
+    routing(0, 2) = -0.0189;
+    routing(1, 2) = 0.012164;
+    routing(0, 3) = 0.0189;
+    routing(1, 3) = -0.012164;
+    routing(0, 4) = -0.003202;
+    routing(1, 4) = -0.0223;
+    routing(0, 5) = -0.0189;
+    routing(1, 5) = -0.012164;
 
+    // [[0.01351, 0.0210331, 0], [0.0035578, 0.024745, 0], [-0.016375, 0.0188937, 0], [0.01351, -0.0210331, 0], [0.0035578, -0.024745, 0], [-0.016375, -0.0188937, 0]]
 
     // Create solver and interfaces.
 
@@ -215,14 +217,27 @@ int main(int argc, char **argv)
     c.solveForwardKinematics(tau, true);
     c.simulateStep(tau);
 
-    Eigen::MatrixXi w1(6, 1);
+    Eigen::MatrixXi w1(2, 1), w2(2, 1), w3(6, 1);
     Eigen::MatrixXd controlInput; 
     std::vector<Eigen::MatrixXi> CSM; 
-    Eigen::MatrixXi CS(1, 1); 
-    CS << 2;
-    w1 << 0, 1, 3, 4, 5, 6; 
+    Eigen::MatrixXi CS(3, 1); 
+    CS << 0, 1, 2;
+    w1 << 0, 1;
+    w2 << 0, 1;
+    w3 << 0, 1, 3, 4, 5, 6; 
     CSM.push_back(w1); 
-    c.setDimensions(6, CSM, CS);
+    CSM.push_back(w2); 
+    CSM.push_back(w3); 
+    c.setDimensions(10, CSM, CS);
+
+    // Eigen::MatrixXi w3(6, 1);
+    // Eigen::MatrixXd controlInput; 
+    // std::vector<Eigen::MatrixXi> CSM; 
+    // Eigen::MatrixXi CS(1, 1); 
+    // CS << 2;
+    // w3 << 0, 1, 3, 4, 5, 6; 
+    // CSM.push_back(w3); 
+    // c.setDimensions(6, CSM, CS);
 
     ros::init(argc, argv, "tdcr_crt");    
     ros::NodeHandle n;

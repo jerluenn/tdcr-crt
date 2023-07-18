@@ -68,6 +68,9 @@ void TDCR_Interface::setDimensions(double numControlStates, std::vector<Eigen::M
 
     }
 
+    std::cout << "num_elements: " << num_elements << "\n\n";
+    std::cout << "numControlStates: " << numControlStates << "\n\n";
+
     assertm(num_elements == numControlStates, "Number of elements in CSM must be the same as numControlStates.");
 
     customJacobianEta.resize(numControlStates, TDCR->getNumTendons());
@@ -137,8 +140,10 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired,
     Eigen::Matrix<double, 7, 1> poseAtStage_i;
     Eigen::MatrixXd poseDesiredMPC(TDCR->getNumTendons() + poseDesired.rows(), 1);
     Eigen::MatrixXd TendonsDesiredMPC(TDCR->getNumTendons(), 1);
+    Eigen::MatrixXd currentTension(TDCR->getNumTendons(), 1);
     unsigned int stage_num;
     TendonsDesiredMPC.setZero();
+    currentTension.setZero();
 
     for (unsigned int i = 0; i < stagesControlled.rows(); ++i) 
     
@@ -157,23 +162,31 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired,
             customPose(numStatesCumulative + k, 0) = poseAtStage_i(index, 0);
 
         }
- 
+
         numStatesCumulative += numStatesAtStage_i;
 
     }
 
     
-
     poseDesiredMPC << poseDesired, TendonsDesiredMPC;
     customPoseError = poseDesired - customPose; 
 
     deltaTension = MPC->solveOptimalControl(currentPose, customJacobianEta, poseDesiredMPC);
+    currentTension = currentPose.block(poseDesired.rows(), 0, TDCR->getNumTendons(), 1);
 
+    desiredTensions = currentTension + deltaTension*TDCR->getSamplingTime();
 
-    desiredTensions += deltaTension*TDCR->getSamplingTime();
 
     return deltaTension;
 
+
+}
+
+unsigned int TDCR_Interface::getNumTendons() 
+
+{
+
+    return TDCR->getNumTendons();
 
 }
 
@@ -234,6 +247,7 @@ Eigen::MatrixXd TDCR_Interface::getHighLevelControl(Eigen::MatrixXd poseDesired)
 
 }
 
+
 void TDCR_Interface::setScaleLoadCell(double value)
 
 {
@@ -288,7 +302,8 @@ void TDCR_Interface::trackMeasuredTension(Eigen::MatrixXd tauTrack)
     Eigen::MatrixXd inputStep(TDCR->getNumTendons(), 1); 
 
     tauError = tauTrack - TDCR->getTau();
-    inputStep = tauError * 9.81 * scaleLoadCell / TDCR->getSamplingTime();
+    // inputStep = tauError * 9.81 * scaleLoadCell / TDCR->getSamplingTime();
+    inputStep = tauError / TDCR->getSamplingTime();
 
 
     TDCR->simulateStep(inputStep);
